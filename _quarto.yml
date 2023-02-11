@@ -1,0 +1,60 @@
+project:
+  type: book
+  output-dir: Statistik_Aufbau
+
+Version: "[Version 1.5 vom \\today]"
+
+date: "9.1.2023"
+
+book:
+  title: "Statistik Aufbau"
+  author:
+  - given-names: Benjamin
+    surname: Fretwurst
+
+  chapters:
+    - index.qmd
+    # - shiny.qmd
+    # - quiz.qmd
+    - 01_Wiederholung.qmd
+    - 02_GLM.qmd
+    - 03_Regression_in_R.qmd
+    - 04_Gruppenvergleiche.qmd
+    - 05_Dimensionsreduktion.qmd
+    - 07_ML.qmd
+    - 09_Clusteranalyse.qmd
+    - 80_Glossar.qmd
+    - 90_Literatur.qmd
+
+  downloads: [pdf]
+  output-file: "Statistik Aufbau - Fretwurst"
+
+
+format:
+  html:
+    # toc: true
+    # toc-location: left
+    theme: cosmo
+    toc-title: "Seiteninhalt"
+    toc-location: right
+    max-width: 4500px
+    lang: de-CH
+    css:
+    - www/style.css
+    - www/webex.css
+    - www/index.css
+    include-after-body: www/webex.js
+    filters: [files/pandoc-quotes.lua]
+
+  pdf:
+    documentclass: scrreporty
+    template: files/TeX_Vorlage.tex
+    number-sections: TRUE
+    fig-width: 2
+    keep-tex: false
+  #  csquotes: true
+
+prefer-html: true
+
+editor:
+  render-on-save: true

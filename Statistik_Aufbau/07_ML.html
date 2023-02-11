@@ -1,0 +1,2236 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de-CH" xml:lang="de-CH"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.313">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Statistik Aufbau - 6&nbsp; Machine Learning</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./09_Clusteranalyse.html" rel="next">
+<link href="./05_Dimensionsreduktion.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "Keine Treffer",
+    "search-matching-documents-text": "Treffer",
+    "search-copy-link-title": "Link in die Suche kopieren",
+    "search-hide-matches-text": "Zusätzliche Treffer verbergen",
+    "search-more-match-text": "weitere Treffer in diesem Dokument",
+    "search-more-matches-text": "weitere Treffer in diesem Dokument",
+    "search-clear-button-title": "Zurücksetzen",
+    "search-detached-cancel-button-title": "Abbrechen",
+    "search-submit-button-title": "Abschicken"
+  }
+}</script>
+
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.1/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="www/style.css">
+<link rel="stylesheet" href="www/webex.css">
+<link rel="stylesheet" href="www/index.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Machine Learning</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistik Aufbau</a> 
+        <div class="sidebar-tools-main">
+    <a href="./Statistik-Aufbau---Fretwurst.pdf" title="Download PDF" class="sidebar-tool px-1"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Einleitung</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Wiederholung.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Was bisher geschah</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_GLM.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Das lineare Modell</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_Regression_in_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Regression in R</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Gruppenvergleiche.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Gruppenvergleiche (ANCOVA)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_Dimensionsreduktion.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Faktorenanalyse</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_ML.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Machine Learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_Clusteranalyse.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Clusteranalyse</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./80_Glossar.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Glossar</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./90_Literatur.html" class="sidebar-item-text sidebar-link">Literatur</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Seiteninhalt</h2>
+   
+  <ul>
+  <li><a href="#daten-einlesen" id="toc-daten-einlesen" class="nav-link active" data-scroll-target="#daten-einlesen"><span class="toc-section-number">6.1</span>  Daten einlesen</a></li>
+  <li><a href="#daten-in-trainings--und-testdaten-aufteilen" id="toc-daten-in-trainings--und-testdaten-aufteilen" class="nav-link" data-scroll-target="#daten-in-trainings--und-testdaten-aufteilen"><span class="toc-section-number">6.2</span>  Daten in Trainings- und Testdaten aufteilen</a>
+  <ul class="collapse">
+  <li><a href="#datenvisualisierung" id="toc-datenvisualisierung" class="nav-link" data-scroll-target="#datenvisualisierung"><span class="toc-section-number">6.2.1</span>  Datenvisualisierung</a></li>
+  </ul></li>
+  <li><a href="#modellbildung-für-den-fahrpreis" id="toc-modellbildung-für-den-fahrpreis" class="nav-link" data-scroll-target="#modellbildung-für-den-fahrpreis"><span class="toc-section-number">6.3</span>  Modellbildung für den Fahrpreis</a>
+  <ul class="collapse">
+  <li><a href="#regressionsoutput" id="toc-regressionsoutput" class="nav-link" data-scroll-target="#regressionsoutput"><span class="toc-section-number">6.3.1</span>  Regressionsoutput</a></li>
+  <li><a href="#voraussetzungschecks" id="toc-voraussetzungschecks" class="nav-link" data-scroll-target="#voraussetzungschecks"><span class="toc-section-number">6.3.2</span>  Voraussetzungschecks</a></li>
+  <li><a href="#algorithmus-für-den-fahrpreis" id="toc-algorithmus-für-den-fahrpreis" class="nav-link" data-scroll-target="#algorithmus-für-den-fahrpreis"><span class="toc-section-number">6.3.3</span>  Algorithmus für den Fahrpreis</a></li>
+  </ul></li>
+  <li><a href="#überlebensprognose" id="toc-überlebensprognose" class="nav-link" data-scroll-target="#überlebensprognose"><span class="toc-section-number">6.4</span>  Überlebensprognose</a></li>
+  <li><a href="#logistische-regression" id="toc-logistische-regression" class="nav-link" data-scroll-target="#logistische-regression"><span class="toc-section-number">6.5</span>  Logistische Regression</a></li>
+  <li><a href="#voraussetzungschecks-1" id="toc-voraussetzungschecks-1" class="nav-link" data-scroll-target="#voraussetzungschecks-1"><span class="toc-section-number">6.6</span>  Voraussetzungschecks</a>
+  <ul class="collapse">
+  <li><a href="#residualplot-1" id="toc-residualplot-1" class="nav-link" data-scroll-target="#residualplot-1"><span class="toc-section-number">6.6.1</span>  Residualplot</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Machine Learning</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Veröffentlichungsdatum</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">1. September 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<p>In diesem Kapitel beschäftigen wir uns mit Daten des Untergangs der Titanic.</p>
+<section id="daten-einlesen" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="daten-einlesen"><span class="header-section-number">6.1</span> Daten einlesen</h2>
+<p>Hier können Sie den Datensatz und die Beschreibung der Daten finden. Suchen und speichern Sie den Datensatz «train.csv».</p>
+<p>Downlaod der Daten: https://www.kaggle.com/competitions/titanic/data</p>
+<div class="cell">
+<pre><code>##   PassengerId       Survived          Pclass          Name               Sex           
+##  Min.   :  1.0   Min.   :0.0000   Min.   :1.000   Length:891         Length:891        
+##  1st Qu.:223.5   1st Qu.:0.0000   1st Qu.:2.000   Class :character   Class :character  
+##  Median :446.0   Median :0.0000   Median :3.000   Mode  :character   Mode  :character  
+##  Mean   :446.0   Mean   :0.3838   Mean   :2.309                                        
+##  3rd Qu.:668.5   3rd Qu.:1.0000   3rd Qu.:3.000                                        
+##  Max.   :891.0   Max.   :1.0000   Max.   :3.000                                        
+##                                                                                        
+##       Age            SibSp           Parch           Ticket               Fare       
+##  Min.   : 0.42   Min.   :0.000   Min.   :0.0000   Length:891         Min.   :  0.00  
+##  1st Qu.:20.12   1st Qu.:0.000   1st Qu.:0.0000   Class :character   1st Qu.:  7.91  
+##  Median :28.00   Median :0.000   Median :0.0000   Mode  :character   Median : 14.45  
+##  Mean   :29.70   Mean   :0.523   Mean   :0.3816                      Mean   : 32.20  
+##  3rd Qu.:38.00   3rd Qu.:1.000   3rd Qu.:0.0000                      3rd Qu.: 31.00  
+##  Max.   :80.00   Max.   :8.000   Max.   :6.0000                      Max.   :512.33  
+##  NA's   :177                                                                         
+##     Cabin           Embarked     Kinder            Age_z         Pclass_f    Cabin_D     
+##  Length:891         S   :644   Mode :logical   Min.   :-29.279   3:491    Min.   :0.000  
+##  Class :character   C   :168   FALSE:643       1st Qu.: -9.574   2:184    1st Qu.:0.000  
+##  Mode  :character   Q   : 77   TRUE :71        Median : -1.699   1:216    Median :0.000  
+##                     NA's:  2   NA's :177       Mean   :  0.000            Mean   :0.229  
+##                                                3rd Qu.:  8.301            3rd Qu.:0.000  
+##                                                Max.   : 50.301            Max.   :1.000  
+##                                                NA's   :177</code></pre>
+</div>
+<p>Die PassengerId ist einefach eine Identifikationsnummer. Es gibt dann eine Variable, die «Survived» heisst, die ein Minimum von 0 hat und ein Maximum von 1. Das deutet sehr auf eine Dummy hin. Da der Durchschnitt («Mean») = 0.38 ist, wissen wir jetzt schon, dass 38 Prozent der Passagiere überlebt haben (der Mittelwert einer Dummy ist immer der Prozentsatz der 1er-Gruppe). Dann kommt noch der Name als Zeichenvariable, das Alter, das von 0.42 bis 80 geht. Von 177 Personen fehlen die Altersangaben. Bei den übrigen Variablen muss man nochmal nachschauen auf «kaggle». Dort steht:</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Variable </th>
+   <th style="text-align:left;"> Definition </th>
+   <th style="text-align:left;"> Key </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> survival </td>
+   <td style="text-align:left;"> Survival </td>
+   <td style="text-align:left;"> 0 = No, 1 = Yes </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> pclass </td>
+   <td style="text-align:left;"> Ticket class </td>
+   <td style="text-align:left;"> 1 = 1st, 2 = 2nd, 3 = 3rd </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> sex </td>
+   <td style="text-align:left;"> Sex </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age </td>
+   <td style="text-align:left;"> Age in years </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> sibsp </td>
+   <td style="text-align:left;"> # of siblings / spouses aboard the Titanic </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> parch </td>
+   <td style="text-align:left;"> # of parents / children aboard the Titanic </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ticket </td>
+   <td style="text-align:left;"> Ticket number </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> fare </td>
+   <td style="text-align:left;"> Passenger fare </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> cabin </td>
+   <td style="text-align:left;"> Cabin number </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> embarked </td>
+   <td style="text-align:left;"> Port of Embarkation </td>
+   <td style="text-align:left;"> C = Cherbourg, Q = Queenstown, S = Southampton </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="daten-in-trainings--und-testdaten-aufteilen" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="daten-in-trainings--und-testdaten-aufteilen"><span class="header-section-number">6.2</span> Daten in Trainings- und Testdaten aufteilen</h2>
+<p>Wenn von Machine Learning (ML) die Rede ist, dann wird (wenn es um supervised learning geht) zunächst ein Modell an Trainingsdaten trainiert bzw. angelernt und später an Testdaten getestet. Darum nehmen wir den vorliegenden Datensatz mal auseinander und teilen die Fälle (Passagiere) zufällig den Trainingsdaten zu und später zu verwendenden Testdaten. In der Regel wird der Trainingsdatensatz grösser gewählt: Ich habe ihn auf 75% des Ursprungsdatensatzes festgelegt. Der Rest (#anti_join) wird für später als Testdatensatz aufbewahrt.</p>
+<div class="cell">
+
+</div>
+<p>Sehen kann man nach diesem r-Chunk übrigens nichts, weil nur Datensätze im Hintergrund aufgeteilt wurden. Also suchen wir mal nach guten Datenvisualisierungen.</p>
+<section id="datenvisualisierung" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="datenvisualisierung"><span class="header-section-number">6.2.1</span> Datenvisualisierung</h3>
+<p>Eine einfache Darstellungsmöglichkeit ist ein sogenannter «Scatterplot» der die Lage von Fällen in ein Koordinatensystem einteilt, das durch zwei Variablen gebildet wird. Im Beispiel (Abbildung @ref(titanic-Datenvisualisierungen)) ist es das Alter der Passagiere «Age» und der Fahrpreis «Fare». Als Zweites haben wir ein Balkendiagramm für die Passagierklassen. Im letzten sehr aufwendigen Plotgrafik werden die Zweierbeziehungen aller Variablen dargestellt, also wie sie miteinander korrelieren (obere Nebendiagonalen), wie ihre Verteilung ist (auf der Diagonale mit Namen) und wie ihre gemeinsame Streuung ist, also ein Scatterplot in der unteren Nebendiagonalen. Mehr zu diesen SPLOM finden Sie hier: https://cran.r-project.org/web/packages/psych/vignettes/intro.pdf.</p>
+<div class="cell">
+<pre><code>## Warning: Removed 177 rows containing missing values (`geom_point()`).
+## Warning in cor(x, y, use = "pairwise", method = method): the standard deviation is zero
+
+## Warning in cor(x, y, use = "pairwise", method = method): the standard deviation is zero</code></pre>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07_ML_files/figure-html/titanic-Datenvisualisierungen-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p></p><figcaption class="figure-caption">Datenvisualisierungen</figcaption><p></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07_ML_files/figure-html/titanic-Datenvisualisierungen-2.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p></p><figcaption class="figure-caption">Datenvisualisierungen</figcaption><p></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07_ML_files/figure-html/titanic-Datenvisualisierungen-3.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p></p><figcaption class="figure-caption">Datenvisualisierungen</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="modellbildung-für-den-fahrpreis" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="modellbildung-für-den-fahrpreis"><span class="header-section-number">6.3</span> Modellbildung für den Fahrpreis</h2>
+<p>Jetzt kommt das erste Modell. Wenn Sie mit diesem Syntax experimentieren, dann kopieren Sie sich mal die Zeile für das Modell, löschen aus von «Age_z» … bis «Kinder» heraus und schätzen Sie mal das mit den summarys. Schauen Sie sich die gut an und achten Sie darauf, was passiert, wenn Sie die Summanden für I(Age_z^2) usw. wieder in das Modell tun. Am Ende können Sie versuchen das Modell durch weitere Variablen ergänzen und verbessern oder andere Teile wieder herausnehmen. <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>In der Summary des fits_titanic sehen wir zunächst ganz oben die Formel. Da der Preis schnell hoch ging, wird für den Preis mit «log» der natürliche Logarithmus gebildet (Es wird Fare + 1 gerechnet, weil der log für 0 nicht definiert ist und für einige Passagiere angegeben ist, dass ihr Fahrpreis 0 war.) Das Geschlecht ist eine Dummyvariable mit 1 für männlich. Das Alter ist eine zentrierte Variante der Variable Age. Die Zentrierung machen wir, weil die resultierende zentrierte Variable nicht mehr sehr stark mit ihrer quadrierten Version. Den Befehl für die Zentrierung finden Sie in der «Datenaufbereitung.Rmd». Dann folgt der etwas komische Ausdruck für die quadrierte Version der Altersvariable «I(Age_z^2)». Die Quadrierung machen wir, weil die Beziehung zwischen Alter und Fahrpreis vermutlich nicht linear ist, sondern kurvilinear quadratisch (Alter hat oft einen quadratischen Einfluss, weil in der Regel Ältere und Jüngere etwas weniger Geld haben als die mittlere Altersgruppe). Wenn nur das Alter als quadratische Funktion in der Gleichung wäre, dann müsste die quadratische Funktion einer um 0 zentrierten Variable immer wie eine summetrische Schüssel aussehen, die um 0 liegt. In der Regel ist die Schüssel aber gekippt. Dafür wird noch gebraucht, dass die Altersvariable «Age_z» auch noch in ihrer nichttransformierten Form Teil der Gleichung ist.</p>
+<p>Wir lesen nun in der Tabelle die b, die in der Spalte «Estimate» stehen. Der Intercept hat ein <span class="math inline">\(b_1\)</span> von 2.66 und keiner weiss, wie man das interpretieren soll. Ist aber auch nicht wichtig. Dann kommt schon die Variable «Sex» für das Geschlecht mit 1 für «männlich». Wir können hier sehen, dass männliche Mitreisende einen tieferen Fahrpreis gezahlt haben und zwar das auch signifikant, da der Pr(&gt;|t|) bzw. einfach der p-Wert kleiner ist als .05 (Die «wissenschaftliche» Schreibweise ist etwas mühsam zu lesen. Der p-Wert für Sexmale ist 0.00000763). Der Einfluss des linearen Alters ist klein, negativ und nicht signifikant. In der Stichprobe findet es sich also, dass die Regressionsgerade für das Alter leicht nach unten schräg ist. Die «Schüssel», die vom nachfolgenden quadrierten Alter gebildet wird, neigt also leicht nach rechts. Da das quadrierte Alter auch negativ ist, sieht es aus als wäre die Beziehung zwischen Alter und Fahrpreis ein umgekehrter Bogen einer quadratischen Funktion, die sehr flach ist und rechts ein bischen stärker nach unten gebogen als links. Allerdings ist auch der Einfluss des quadrierten Alters nicht signifikant. Probieren Sie es mal ohne das quadrierte Alter, was dann passiert.</p>
+<p>Dann folgt die Variable «Survived», die anscheinend angibt, dass Passagiere, die überlebt haben, etwas weniger zahlen mussten. Das ist intuitiv und theoretisch natürlich Quatsch, da hier die Kausalität zeitlich auf den Kopf gestellt wird. Die Varialbe müsste aus einem seriösen Modell wieder raus. Gut also, dass Sie das hier gelesen haben.</p>
+<p>Dann kommen noch zwei Varialben für die Passagierklasse «Pclass». Hier hat R automatisch die Variable Pclass, die drei Ausprägungengen hatte in drei Dummys aufgeteilt, wobei die Ausprägung die im Level des Faktors an erster Stelle steht, als Referenzkategorie genommen wird, was im Titanicmodell die Klasse 3 ist. Wäre die auch im Modell, hätten wir perfekte Multikollinearität, weil wir immer schon wüssten, in welcher Klasse jemand eingecheckt sein musste, wenn es nicht die «first class» oder «second class» war. Wir sehen nun, dass die Passagiere der zweiten Klasse mit einem b von 0.49 einen signifikant höheren Preis bezahlt haben als die Personen der 3. Klasse. Der Unterschied ist vergleichsweise stark, was man daran erkennen kann, dass der t-Wert vergleichsweise hoch ist bei 6.859. Allerdings ist der t-Wert für den Unterschied zwischen 3. Klasse und 1. Klasse noch viel grösser. Für die «first class» musste also noch deutlich mehr gezahlt werden. Interessanterweise haben auch Kinder etwas mehr bezahlt als Erwachsene, obwohl die Zugehörigkeit der Klasse schon rausgerechnet ist. Offenbar waren Kinder auf dem Schiff eher besser untergebracht als der Schnitt oder wie würden Sie sich das erklären?</p>
+<p>Der Summary-Befehl gibt keinen sehr guten Output raus und lässt sich auch nicht gut anpassen. Für einen Abdruck in einem Forschungsbericht eignet sich das noch weniger. Daher versuchen wir hier eine schönere Ausgaben hinzubekommen</p>
+<section id="regressionsoutput" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="regressionsoutput"><span class="header-section-number">6.3.1</span> Regressionsoutput</h3>
+<p>Mit der Funktion von sjPlot::tab_model können wir die standardisierten Regressionkoeffizienten rausgeben lassen (und sie auch als std. b bezeichnen). Zudem werden uns ein Konfidenzintervall «CI» für die b rausgegeben und eine «standardized CI» für die standardisierten Regressionskoeffizienten. Speziell ist, dass einfach p rausgegeben werden und standardisierte p.&nbsp;R gibt dazu als Hinweis, dass die p-Werte hier unteschiedlich sein können, weil in der Formel logarithmen und quadrierte Beziehungen drin sind. Im Zweifel interpretieren Sie besser die einfachen p und nicht die standardisierten «std. p».</p>
+<div class="cell">
+<pre><code>## Formula contains log- or sqrt-terms.
+##   See help("standardize") for how such terms are standardized.</code></pre>
+<div class="cell-output-display">
+
+<table style="border-collapse:collapse; border:none;">
+<tbody><tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="6" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">log(Fare+1)</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">b</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. b</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">standardized CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col7">std. p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">2.66</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.83</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">2.51&nbsp;–&nbsp;2.81</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.80&nbsp;–&nbsp;0.87</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Sex [male]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.32</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.06</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.45&nbsp;–&nbsp;-0.18</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.10&nbsp;–&nbsp;-0.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"><strong>0.003</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Age z</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.01&nbsp;–&nbsp;0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.05&nbsp;–&nbsp;0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.314</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">0.063</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Age z^2</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.00&nbsp;–&nbsp;0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.02&nbsp;–&nbsp;0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.685</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">0.639</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Survived</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.08</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.22&nbsp;–&nbsp;0.07</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.02&nbsp;–&nbsp;0.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.294</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">0.914</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Pclass f [2]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.49</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.06</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.35&nbsp;–&nbsp;0.63</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.02&nbsp;–&nbsp;0.10</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"><strong>0.004</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Pclass f [1]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.78</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.44</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.63&nbsp;–&nbsp;1.93</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.39&nbsp;–&nbsp;0.48</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">KinderTRUE</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.61</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.05</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.27&nbsp;–&nbsp;0.95</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.04&nbsp;–&nbsp;0.15</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">0.272</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="6">536</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="6">0.578 / 0.572</td>
+</tr>
+
+</tbody></table>
+
+</div>
+</div>
+<p>Als auch nicht ganz schlechte Alternative kann gtsummary::tbl_regression benutzt werden, was durch weitere gepipte Befehle angepasst und ergänzt werden kann. Hier sind die b zu sehen und deren CI, sowie die p-Werte und gleich noch zwei Varianzinflationswerte. Wenn Sie schauen wollen, ob es ein Problem gibt, helfen die «Adjusted GVIF» schon, weil sie für grössere Stichproben kleiner sind als die VIF und damit die Probleme durch Multikollinearität angemessener abbilden <span class="citation" data-cites="Fox1992">[@Fox1992]</span>. Ein Adjusted GVIF wird unangenehm, wenn es über 2 ist, also der VIF etwa bei 4. Schön an der Tabelle @ref(tab:gtsummary-tabelle) ist auch, dass immer auch die Referenzkategorie mit ausgewiesen wird, auch wenn sie immer die Ausstriche für die Tabellen aufweisen, wie zB bei Sex:female. Unter der Tabelle stehen noch einige Gütemasse für das Modell, wie <span class="math inline">\(R^2\)</span> (.578) und die zugehörige F-Statistik als p-Wert (schön als &lt;0.001, wobei ich die führende 0 weglassen würde, wenn die Werte praktisch immer etwas mit nach dem Komma sind).</p>
+<p>Recht blöd finde ich an gtsummary, dass die <em>unstandardisierten</em> Regressionskoeffizienten als «beta» bezeichnet werden und die <em>standardisierten</em> Regressionskoeffizienten (die hin und wieder auch als «BETA» bezeichnet werden) garnicht in die Ausgabe gepackt werden können.</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<div id="rjmiohcjxw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+:where(#rjmiohcjxw) .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+:where(#rjmiohcjxw) .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#rjmiohcjxw) .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+:where(#rjmiohcjxw) .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+:where(#rjmiohcjxw) .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+:where(#rjmiohcjxw) .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#rjmiohcjxw) .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#rjmiohcjxw) .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+:where(#rjmiohcjxw) .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+:where(#rjmiohcjxw) .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+:where(#rjmiohcjxw) .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+:where(#rjmiohcjxw) .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+:where(#rjmiohcjxw) .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+:where(#rjmiohcjxw) .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+:where(#rjmiohcjxw) .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+:where(#rjmiohcjxw) .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+:where(#rjmiohcjxw) .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+:where(#rjmiohcjxw) .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#rjmiohcjxw) .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+:where(#rjmiohcjxw) .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+:where(#rjmiohcjxw) .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#rjmiohcjxw) .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+:where(#rjmiohcjxw) .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+:where(#rjmiohcjxw) .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#rjmiohcjxw) .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#rjmiohcjxw) .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+:where(#rjmiohcjxw) .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+:where(#rjmiohcjxw) .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#rjmiohcjxw) .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#rjmiohcjxw) .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#rjmiohcjxw) .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#rjmiohcjxw) .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#rjmiohcjxw) .gt_left {
+  text-align: left;
+}
+
+:where(#rjmiohcjxw) .gt_center {
+  text-align: center;
+}
+
+:where(#rjmiohcjxw) .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+:where(#rjmiohcjxw) .gt_font_normal {
+  font-weight: normal;
+}
+
+:where(#rjmiohcjxw) .gt_font_bold {
+  font-weight: bold;
+}
+
+:where(#rjmiohcjxw) .gt_font_italic {
+  font-style: italic;
+}
+
+:where(#rjmiohcjxw) .gt_super {
+  font-size: 65%;
+}
+
+:where(#rjmiohcjxw) .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+:where(#rjmiohcjxw) .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+:where(#rjmiohcjxw) .gt_indent_1 {
+  text-indent: 5px;
+}
+
+:where(#rjmiohcjxw) .gt_indent_2 {
+  text-indent: 10px;
+}
+
+:where(#rjmiohcjxw) .gt_indent_3 {
+  text-indent: 15px;
+}
+
+:where(#rjmiohcjxw) .gt_indent_4 {
+  text-indent: 20px;
+}
+
+:where(#rjmiohcjxw) .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="<strong>Characteristic</strong>"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="<strong>b</strong>"><strong>b</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="<strong>95% CI</strong><sup class=&quot;gt_footnote_marks&quot;>1</sup>"><strong>95% CI</strong><sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="<strong>p-value</strong>"><strong>p-value</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="<strong>GVIF</strong><sup class=&quot;gt_footnote_marks&quot;>1</sup>"><strong>GVIF</strong><sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="<strong>Adjusted GVIF</strong><sup class=&quot;gt_footnote_marks&quot;>2,1</sup>"><strong>Adjusted GVIF</strong><sup class="gt_footnote_marks">2,1</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left">Sex</td>
+<td headers="estimate" class="gt_row gt_center"></td>
+<td headers="ci" class="gt_row gt_center"></td>
+<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="GVIF" class="gt_row gt_center">1.5</td>
+<td headers="aGVIF" class="gt_row gt_center">1.2</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;female</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="ci" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="GVIF" class="gt_row gt_center"></td>
+<td headers="aGVIF" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;male</td>
+<td headers="estimate" class="gt_row gt_center">-0.32</td>
+<td headers="ci" class="gt_row gt_center">-0.45, -0.18</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td>
+<td headers="GVIF" class="gt_row gt_center"></td>
+<td headers="aGVIF" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Age_z</td>
+<td headers="estimate" class="gt_row gt_center">0.00</td>
+<td headers="ci" class="gt_row gt_center">-0.01, 0.00</td>
+<td headers="p.value" class="gt_row gt_center">0.3</td>
+<td headers="GVIF" class="gt_row gt_center">3.1</td>
+<td headers="aGVIF" class="gt_row gt_center">1.8</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">I(Age_z^2)</td>
+<td headers="estimate" class="gt_row gt_center">0.00</td>
+<td headers="ci" class="gt_row gt_center">0.00, 0.00</td>
+<td headers="p.value" class="gt_row gt_center">0.7</td>
+<td headers="GVIF" class="gt_row gt_center">2.5</td>
+<td headers="aGVIF" class="gt_row gt_center">1.6</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Survived</td>
+<td headers="estimate" class="gt_row gt_center">-0.08</td>
+<td headers="ci" class="gt_row gt_center">-0.22, 0.07</td>
+<td headers="p.value" class="gt_row gt_center">0.3</td>
+<td headers="GVIF" class="gt_row gt_center">1.7</td>
+<td headers="aGVIF" class="gt_row gt_center">1.3</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Pclass_f</td>
+<td headers="estimate" class="gt_row gt_center"></td>
+<td headers="ci" class="gt_row gt_center"></td>
+<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="GVIF" class="gt_row gt_center">1.4</td>
+<td headers="aGVIF" class="gt_row gt_center">1.1</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;3</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="ci" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="GVIF" class="gt_row gt_center"></td>
+<td headers="aGVIF" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;2</td>
+<td headers="estimate" class="gt_row gt_center">0.49</td>
+<td headers="ci" class="gt_row gt_center">0.35, 0.63</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td>
+<td headers="GVIF" class="gt_row gt_center"></td>
+<td headers="aGVIF" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+<td headers="estimate" class="gt_row gt_center">1.8</td>
+<td headers="ci" class="gt_row gt_center">1.6, 1.9</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td>
+<td headers="GVIF" class="gt_row gt_center"></td>
+<td headers="aGVIF" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Kinder</td>
+<td headers="estimate" class="gt_row gt_center"></td>
+<td headers="ci" class="gt_row gt_center"></td>
+<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="GVIF" class="gt_row gt_center">3.5</td>
+<td headers="aGVIF" class="gt_row gt_center">1.9</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;FALSE</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="ci" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="GVIF" class="gt_row gt_center"></td>
+<td headers="aGVIF" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;TRUE</td>
+<td headers="estimate" class="gt_row gt_center">0.61</td>
+<td headers="ci" class="gt_row gt_center">0.27, 0.95</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td>
+<td headers="GVIF" class="gt_row gt_center"></td>
+<td headers="aGVIF" class="gt_row gt_center"></td></tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="6">R² = 0.578; Adjusted R² = 0.572; Sigma = 0.641; Statistic = 103; p-value = &lt;0.001; df = 7; Log-likelihood = -518; AIC = 1,054; BIC = 1,092; Deviance = 217; Residual df = 528; No. Obs. = 536</td>
+    </tr>
+  </tfoot>
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="6"><sup class="gt_footnote_marks">1</sup> CI = Confidence Interval, GVIF = Generalized Variance Inflation Factor</td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="6"><sup class="gt_footnote_marks">2</sup> GVIF^[1/(2*df)]</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+</div>
+<p>Bevor wir unsere Therie anhand unserer Ergebnisse auf den Prüfstand stellen können, müssen wir die Voraussetzungen für die Regressionsmodelle überprüfen.</p>
+</section>
+<section id="voraussetzungschecks" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="voraussetzungschecks"><span class="header-section-number">6.3.2</span> Voraussetzungschecks</h3>
+<p>Die möglichen Verletzungen der Voraussetzungen sind:</p>
+<ul>
+<li>Multikollinearität</li>
+<li>Deutliche Abweichung von der Normalverteilung in den Fehlern</li>
+<li>Heteroskedastizität</li>
+<li></li>
+</ul>
+<section id="multikollinearität" class="level4" data-number="6.3.2.1">
+<h4 data-number="6.3.2.1" class="anchored" data-anchor-id="multikollinearität"><span class="header-section-number">6.3.2.1</span> Multikollinearität</h4>
+<p>Die Toleranzen bei Age_z und I(Age_z^2) sind nur knapp über .3 und knapp .4, also schon recht klein, auch wenn die VIF noch nicht zu sehr quietschen. Da aber beide Altersvariablen keine signifikanten Werte gezeigt haben, würde ich eine der beiden eliminieren und zwar das quadrierte Alter «I(Age_z^2)». Dann sollte sich auch der sehr kleine Toleranzwert bei «KinderTRUE» erledigt haben bzw. kleiner sein - vielleicht auch nicht. Schauen Sie sich das mal an! Wenn Age_z auch ohne die quadrierte Altersvariable nicht signifikant ist, würde ich nur «KinderTRUE» im Modell lassen. Könnte man eine Faktorenanalyse für die zwei aufgrund der Altersvariablen gebildeten Variablen machen? Neeeee! Was soll da für ein latenter Faktor rauskommen? Wieder das Alter? Das macht keinen Sinn. Die Variable «Kinder» ist ja direkt aus dem Alter bestimmt worden. Da brauchen wir nicht nach latenten Faktoren zu suchen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Es gibt ein Paket "olsrr" für die Prüfung der OLS-Voraussetzungen, </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="do">## wo man sich den VIF und die Toleranz rauslassen kann:s</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>olsrr<span class="sc">::</span><span class="fu">ols_vif_tol</span>(fit_titanic) </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="do">##    Variables Tolerance      VIF</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="do">## 1    Sexmale 0.6817534 1.466806</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 2      Age_z 0.3252169 3.074871</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 I(Age_z^2) 0.3995618 2.502742</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 4   Survived 0.5967148 1.675842</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="do">## 5  Pclass_f2 0.8292064 1.205972</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="do">## 6  Pclass_f1 0.6550188 1.526674</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 7 KinderTRUE 0.2878347 3.474217</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="residualplot" class="level4" data-number="6.3.2.2">
+<h4 data-number="6.3.2.2" class="anchored" data-anchor-id="residualplot"><span class="header-section-number">6.3.2.2</span> Residualplot</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Mache mal ein Histogramm der Residuen. Die sollten annähernd normalverteilt sein. </span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>olsrr<span class="sc">::</span><span class="fu">ols_plot_resid_hist</span>(fit_titanic)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07_ML_files/figure-html/Hist-Res-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p></p><figcaption class="figure-caption">Histogramm der Residuen</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Im Residualplot ohne den Logarithmus für die AV «Fare» war schon ganz schön schief. Hier sieht es etwas besser aus mit der Verteilung. Das ist ja schon fast normalverteilt, auch wenn die mittlere Kategorie wie ein Stinkefinger in der Landschaft steht. Schauen wir mal den N-Q-Q-Plot an, wie der aussieht …</p>
+</section>
+<section id="n-q-q" class="level4" data-number="6.3.2.3">
+<h4 data-number="6.3.2.3" class="anchored" data-anchor-id="n-q-q"><span class="header-section-number">6.3.2.3</span> N-Q-Q</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Führe einen Normal-Q-Q-Plot aus</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>olsrr<span class="sc">::</span><span class="fu">ols_plot_resid_qq</span>(fit_titanic)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07_ML_files/figure-html/N-Q-Q-Survived-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p></p><figcaption class="figure-caption">Normal-Q-Q-Plot</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>OK, es gibt rechts eine paar Werte über der Referenzlinie, die für die Normalverteilung steht und links ein paar unter der Referenzlinie. Das heisst, die Normalverteilung ist nicht perfekt getroffen. Wir sollten also zunächst die Resultate unseres Modells nicht überinterpretieren. Es gibt noch viele Anpassungen, mit denen man diese kleineren Verletzungen der Voraussetzungen für die Regression auflösen kann. Das geht aber für die Flughöhe dieser Veranstaltung zu hoch bzw. zu tief, wie Sie wollen.</p>
+</section>
+<section id="heteroskedastizität" class="level4" data-number="6.3.2.4">
+<h4 data-number="6.3.2.4" class="anchored" data-anchor-id="heteroskedastizität"><span class="header-section-number">6.3.2.4</span> Heteroskedastizität</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotte die geschätzten Werte auf der Regressionsgeraden (Y-Hut) </span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># auf der X-Achse und die Residuen auf der Y-Achse</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>olsrr<span class="sc">::</span><span class="fu">ols_plot_resid_fit</span>(fit_titanic)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07_ML_files/figure-html/Homosk-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p></p><figcaption class="figure-caption">Plot für Fit und Residuen</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Es gibt auch hier eine gewisse Heteroskedastizität, aber eigentlich sind die Werte schon relativ gleichmässig um 0 verteilt. Wir können das ja mal testen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Führe einen Breusch-Pagan-Test aus </span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>olsrr<span class="sc">::</span><span class="fu">ols_test_breusch_pagan</span>(fit_titanic)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  Breusch Pagan Test for Heteroskedasticity</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="do">##  -----------------------------------------</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="do">##  Ho: the variance is constant            </span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  Ha: the variance is not constant        </span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="do">##                   Data                    </span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  -----------------------------------------</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  Response : log(Fare + 1) </span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  Variables: fitted values of log(Fare + 1) </span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="do">##          Test Summary           </span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="do">##  -------------------------------</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="do">##  DF            =    1 </span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="do">##  Chi2          =    51.25669 </span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="do">##  Prob &gt; Chi2   =    8.104396e-13</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Oha, Breusch und Pagan finden, dass unsere Varianz der Residuen heftig heterogen ist. Der p-Wert des Chi2 ist sehr weit von 0 entfernt. Das ist allerdings schnell so, wenn die Stichprobe recht gross ist. Dann wird irgendwann jedes Chi2 signifikant. Also auch hier: Wir gehen vorsichtig mit den Ergebnissen um, interpretieren nicht exakt die Nachkommastellen von bs und sagen auch bei einem p-Wert von .03, dass die Signifikanz hier nicht ganz klar ist (vor dem Hintergrund, dass einige Voraussetzungen verletzt sind).</p>
+</section>
+</section>
+<section id="algorithmus-für-den-fahrpreis" class="level3" data-number="6.3.3">
+<h3 data-number="6.3.3" class="anchored" data-anchor-id="algorithmus-für-den-fahrpreis"><span class="header-section-number">6.3.3</span> Algorithmus für den Fahrpreis</h3>
+<p>Wir haben jetzt also ein Modell und festegstellt, dass unsere Regression mit der log-Transformation für die AV und einer quadrierten UV nicht super durch die Prüfung der Voraussetzungen kommt. Also sind wir vorsichtig, lassen aber trotzdem mal einen Schätzalgorithmus für den Fahrpreis raus. Der Algorithmus ist schon da: Es ist der Fit des Modells. Dieses gefittete Modell können wir jetzt auf den Testdatensatz ansetzen und mal schauen, wie gut das Modell zu den Testdaten passt, anhand derer es nicht gebaut wurde, die aber auch die Outcomes enthalten, also den Fahrpreis.</p>
+<p>Wir berechnen als vorhergesagte Werte die «preds» mit <code>predict(fit_titanic, test)</code>. Dann Binden wir die an den Test-Datensatz «test», wobei wir dort auch noch schnell den natürlichen Logarithmus für «Fare» bilden, indem wir <code>log(test$Fare)</code> einsetzen, mit cbind (Spalten zusammenbinden) zusammenfassen und als tibble (tidydatentabelle) speichern. In der Grafik sieht man, das die Prognosen nicht perfekt sind, aber ok. Wenn Sie es mal ohne den schwieriger zu interpretierenden log machen, dann sehen Sie spätestens hier die Probleme, weil die hohen Fahrpreise schwer kalkuliert werden können.</p>
+<div class="cell">
+<pre><code>## Warning: The `x` argument of `as_tibble.matrix()` must have unique column names if `.name_repair`
+## is omitted as of tibble 2.0.0.
+## ℹ Using compatibility `.name_repair`.
+## Warning: Removed 45 rows containing missing values (`geom_point()`).</code></pre>
+<div class="cell-output-display">
+<p><img src="07_ML_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+<p>Jetzt hätten Sie also einen Algorithmus, den Sie nicht nur auf Test-Daten anlegen könnten, sondern an jede andere Konstellation von Daten, die die UVs enthält. Sie könnten also mit neuen Daten über <code>predict(fit_titanic, neudaten)</code> festlegen, was jede Person im Datensatz schätzungsweise für einen Preis für die Titanicüberfahrt gezahlt hätte. Das Modell ist nicht perfekt, aber Sie könnten es mit etwas Nachsteuern fair gestalten und jedem sagen, dass das die beste Anlehnung an die damalige (sicher eher analogen) Preisgestaltung ist.</p>
+<p>Das ist zwar nicht völlkommen überflüssig, aber wenn wir an «Titanic» denken, denken wir an Leonardo DiCaprio und an das Überleben und Sterben vor dem Fernseher und natürlich damals auf der Titanic. Damit haben wir nicht gleich angefangen, weil das «Überleben» eine dichotome Variable ist und damit eine Dummy als AV. Das macht das Ganze schon etwas komplizierter, aber klar, schauen wir uns das an.</p>
+</section>
+</section>
+<section id="überlebensprognose" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="überlebensprognose"><span class="header-section-number">6.4</span> Überlebensprognose</h2>
+<p>Wenn man an die Titanic denkt, grübelt man in der Regel nicht lange, wie wohl die Preise auf der Titanic waren. Viel mehr ist «Titanic» mit dem Schiffsunglück verbunden (ok und mehr oder weniger guten Verfilmungen). Wenn wir von dem Unglück etwas lernen wollen («Learning from Desaster»), dann ist es sinnvoll, Prognosemodelle für die Überlebenswahrscheinlichkeit zu machen. Die Überlebenschancen für verschiedene Personengruppen auf der Titanic ergeben sich daraus, wie viele Personen der Gruppen überlebt haben. Ein Erklärungsmodell hat also zur abhängigen Variable (AV), ob eine Person überlebt hat (1) oder nicht (0). Die AV ist also eine Dummyvariable. Wenn die AV eine Dummyvariable ist, dann verweigert es R nicht, eine lineare Regression zu rechnen (das macht es ein bischen «gefährlich», weil viele Kolleg:innen und Reviewer:innen normale lineare Regressionen bei Dummys in der AV als grossen Spezifikations-Fehler betrachten).</p>
+<div class="cell">
+<pre><code>## 
+## Call:
+## lm(formula = Survived ~ Pclass_f + Sex + Age_z + I(Age_z^2) + 
+##     Kinder, data = train)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.96849 -0.25350 -0.06132  0.22493  0.97743 
+## 
+## Coefficients:
+##                Estimate  Std. Error t value  Pr(&gt;|t|)    
+## (Intercept)  0.57899126  0.03753055  15.427   &lt; 2e-16 ***
+## Pclass_f2    0.17998008  0.04200296   4.285 0.0000217 ***
+## Pclass_f1    0.37609658  0.04287552   8.772   &lt; 2e-16 ***
+## Sexmale     -0.50783615  0.03528671 -14.392   &lt; 2e-16 ***
+## Age_z       -0.00292748  0.00200019  -1.464     0.144    
+## I(Age_z^2)  -0.00001618  0.00008790  -0.184     0.854    
+## KinderTRUE   0.12521089  0.10287435   1.217     0.224    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.382 on 529 degrees of freedom
+##   (132 observations deleted due to missingness)
+## Multiple R-squared:  0.4033, Adjusted R-squared:  0.3965 
+## F-statistic: 59.59 on 6 and 529 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<p>Die Werte sind jedenfalls nicht intuitiv interpretierbar, weil die AV nur 0 und 1 annehmen kann und keine Zwischenwerte. Zudem streuen die Fehler stark um die Normalverteilungskurve (N-Q-Q-Plot), sind also stark heteroskedastisch.</p>
+</section>
+<section id="logistische-regression" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="logistische-regression"><span class="header-section-number">6.5</span> Logistische Regression</h2>
+<p>Da eine lineare Regression b-Werte zur Folge hätte, die für reale Werte in den UVs Werte unter 0 und über 1 für die AV vorhersagen würde, wird eine logistische Regression gerechnet. Werte unter 0 und über 1 können nicht existieren, weil die AV eben eine Dummy ist und nur die Werte 0 und 1 kennt.</p>
+<p>Die Formel einer logistischen Regression sieht eigentlich so aus:</p>
+<span class="math display">\[\begin{align}
+P(y = 1)  = &amp; \frac{1}{1+e^{-z}} \text{der Logit z ist die Regressionsgleichung}\\
+       Y_i=&amp;b_1 + b_2X_{i2} + b_3X_{i3}+e_i\\
+P(Y_i) = &amp; \frac{1}{1+e^{-(b_1+b_2X_{2i})}}\\
+P(Y_i) = &amp; \frac{1}{1+e^{-(b_1+b_2X_{2i}+b_3X_{3i}+ \text{\dots} +  b_nX_{ni})}}
+\end{align}\]</span>
+<p>Die Gerade ist keine Gerade mehr, sondern eine S-Kurve und sieht in etwa so aus:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-5f3de6209f599cbaf383" style="width:100%;height:433px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5f3de6209f599cbaf383">{"x":{"visdat":{"1120b63038aa1":["function () ","plotlyVisDat"]},"cur_data":"1120b63038aa1","attrs":{"1120b63038aa1":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":[-5,-4.94974874371859,-4.89949748743719,-4.84924623115578,-4.79899497487437,-4.74874371859296,-4.69849246231156,-4.64824120603015,-4.59798994974874,-4.54773869346734,-4.49748743718593,-4.44723618090452,-4.39698492462312,-4.34673366834171,-4.2964824120603,-4.24623115577889,-4.19597989949749,-4.14572864321608,-4.09547738693467,-4.04522613065327,-3.99497487437186,-3.94472361809045,-3.89447236180905,-3.84422110552764,-3.79396984924623,-3.74371859296482,-3.69346733668342,-3.64321608040201,-3.5929648241206,-3.5427135678392,-3.49246231155779,-3.44221105527638,-3.39195979899498,-3.34170854271357,-3.29145728643216,-3.24120603015075,-3.19095477386935,-3.14070351758794,-3.09045226130653,-3.04020100502513,-2.98994974874372,-2.93969849246231,-2.8894472361809,-2.8391959798995,-2.78894472361809,-2.73869346733668,-2.68844221105528,-2.63819095477387,-2.58793969849246,-2.53768844221106,-2.48743718592965,-2.43718592964824,-2.38693467336683,-2.33668341708543,-2.28643216080402,-2.23618090452261,-2.18592964824121,-2.1356783919598,-2.08542713567839,-2.03517587939698,-1.98492462311558,-1.93467336683417,-1.88442211055276,-1.83417085427136,-1.78391959798995,-1.73366834170854,-1.68341708542714,-1.63316582914573,-1.58291457286432,-1.53266331658291,-1.48241206030151,-1.4321608040201,-1.38190954773869,-1.33165829145729,-1.28140703517588,-1.23115577889447,-1.18090452261307,-1.13065326633166,-1.08040201005025,-1.03015075376884,-0.979899497487437,-0.92964824120603,-0.879396984924623,-0.829145728643216,-0.778894472361809,-0.728643216080402,-0.678391959798994,-0.628140703517587,-0.57788944723618,-0.527638190954773,-0.477386934673366,-0.427135678391959,-0.376884422110552,-0.326633165829145,-0.276381909547738,-0.226130653266331,-0.175879396984924,-0.125628140703517,-0.0753768844221101,-0.0251256281407031,0.025125628140704,0.075376884422111,0.125628140703518,0.175879396984925,0.226130653266332,0.276381909547739,0.326633165829146,0.376884422110553,0.42713567839196,0.477386934673367,0.527638190954774,0.577889447236181,0.628140703517588,0.678391959798995,0.728643216080402,0.778894472361809,0.829145728643216,0.879396984924623,0.929648241206031,0.979899497487438,1.03015075376884,1.08040201005025,1.13065326633166,1.18090452261307,1.23115577889447,1.28140703517588,1.33165829145729,1.38190954773869,1.4321608040201,1.48241206030151,1.53266331658291,1.58291457286432,1.63316582914573,1.68341708542714,1.73366834170854,1.78391959798995,1.83417085427136,1.88442211055276,1.93467336683417,1.98492462311558,2.03517587939699,2.08542713567839,2.1356783919598,2.18592964824121,2.23618090452261,2.28643216080402,2.33668341708543,2.38693467336683,2.43718592964824,2.48743718592965,2.53768844221106,2.58793969849246,2.63819095477387,2.68844221105528,2.73869346733668,2.78894472361809,2.8391959798995,2.8894472361809,2.93969849246231,2.98994974874372,3.04020100502513,3.09045226130653,3.14070351758794,3.19095477386935,3.24120603015075,3.29145728643216,3.34170854271357,3.39195979899498,3.44221105527638,3.49246231155779,3.5427135678392,3.5929648241206,3.64321608040201,3.69346733668342,3.74371859296483,3.79396984924623,3.84422110552764,3.89447236180905,3.94472361809045,3.99497487437186,4.04522613065327,4.09547738693467,4.14572864321608,4.19597989949749,4.2462311557789,4.2964824120603,4.34673366834171,4.39698492462312,4.44723618090452,4.49748743718593,4.54773869346734,4.59798994974874,4.64824120603015,4.69849246231156,4.74874371859297,4.79899497487437,4.84924623115578,4.89949748743719,4.94974874371859,5],"y":[0.00671529793215853,0.00706014812718991,0.00742264113044278,0.00780367256753556,0.00820418279084967,0.00862515903476735,0.00906763766636798,0.00953270653488736,0.0100215074232511,0.01053523860498,0.0110751575097383,0.0116425835007431,0.0122389007671793,0.0128655613346593,0.013524088196636,0.0142160785695032,0.0149432072739132,0.0157072302445806,0.0165099881705445,0.0173534102674905,0.0182395181833193,0.0191704300376497,0.0201483645953723,0.0211756455737145,0.0222547060815227,0.023388093188607,0.0245784726220201,0.0258286335850341,0.0271414936933351,0.0285201040215509,0.0299676542516559,0.031487477913038,0.0330830577020467,0.0347580308666602,0.0365161946394784,0.0383615116995601,0.0402981156406498,0.0423303164200564,0.0444626057588358,0.046699662459958,0.0490463576067915,0.0515077595994775,0.0540891389815766,0.0567959730037144,0.0596339498648123,0.0626089725648402,0.0657271622958352,0.0689948612901882,0.0724186350368772,0.0760052737674173,0.0797617931037835,0.0836954337504577,0.0878136601020386,0.0921241576265724,0.0966348288729262,0.101353787938179,0.106289353218221,0.111450038251585,0.116844540453135,0.122481727520671,0.12837062128402,0.1345203787529,0.14094027010708,0.14763965336033,0.154627945418766,0.161914589244843,0.169509016830836,0.177420607680812,0.185658642498387,0.194232251779654,0.203150359017456,0.212421618235402,0.222054345588747,0.232056444795499,0.242435326196059,0.253197819284544,0.264350078610999,0.275897483022427,0.287844528293213,0.30019471329361,0.312950419959871,0.326112787462544,0.339681581121669,0.353655056789965,0.368029821618264,0.382800692331571,0.397960552378967,0.413500209575054,0.429408256123026,0.445670933196884,0.462272002558852,0.479192627992447,0.496411269634998,0.5139035945873,0.531642407452111,0.54959760469516,0.567736156917951,0.586022123264745,0.604416702238687,0.622878323154524,0.641362782287134,0.659823427464862,0.67821139438365,0.69647589726262,0.714564575607305,0.732423897780546,0.749999620796726,0.767237304253877,0.78408287461189,0.800483234137414,0.816386906804855,0.831744711321977,0.84651044930847,0.860641594584194,0.874099967624504,0.886852377631194,0.898871213477344,0.910134964145396,0.920628649319953,0.930344141637163,0.93928036382506,0.947443346652176,0.95484613724603,0.961508551900589,0.96745677284662,0.972722794421752,0.977343730385776,0.981361000452513,0.984819420071625,0.987766222682185,0.990250047665147,0.992319929671687,0.994024325602235,0.995410214074558,0.996522298713304,0.997402341151264,0.99808864256273,0.998615684322135,0.999013929596009,0.999309779008571,0.999525665655761,0.999680268298828,0.999788817030388,0.999863463362424,0.999913686597828,0.999946710341402,0.999967906702916,0.999981170612428,0.999989252100135,0.999994039790269,0.999996793706716,0.999998329414721,0.999999158328469,0.999999590670321,0.999999808190675,0.999999913562816,0.9999999626155,0.999999984514571,0.999999993870446,0.999999997686914,0.999999999169876,0.999999999717409,0.999999999908997,0.999999999972356,0.999999999992103,0.999999999997885,0.999999999999471,0.999999999999877,0.999999999999973,0.999999999999995,0.999999999999999,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"type":"scatter","mode":"lines","name":"log_log","line":{"color":"green"},"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":[]},"yaxis":{"domain":[0,1],"automargin":true,"title":[]},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[-5,-4.94974874371859,-4.89949748743719,-4.84924623115578,-4.79899497487437,-4.74874371859296,-4.69849246231156,-4.64824120603015,-4.59798994974874,-4.54773869346734,-4.49748743718593,-4.44723618090452,-4.39698492462312,-4.34673366834171,-4.2964824120603,-4.24623115577889,-4.19597989949749,-4.14572864321608,-4.09547738693467,-4.04522613065327,-3.99497487437186,-3.94472361809045,-3.89447236180905,-3.84422110552764,-3.79396984924623,-3.74371859296482,-3.69346733668342,-3.64321608040201,-3.5929648241206,-3.5427135678392,-3.49246231155779,-3.44221105527638,-3.39195979899498,-3.34170854271357,-3.29145728643216,-3.24120603015075,-3.19095477386935,-3.14070351758794,-3.09045226130653,-3.04020100502513,-2.98994974874372,-2.93969849246231,-2.8894472361809,-2.8391959798995,-2.78894472361809,-2.73869346733668,-2.68844221105528,-2.63819095477387,-2.58793969849246,-2.53768844221106,-2.48743718592965,-2.43718592964824,-2.38693467336683,-2.33668341708543,-2.28643216080402,-2.23618090452261,-2.18592964824121,-2.1356783919598,-2.08542713567839,-2.03517587939698,-1.98492462311558,-1.93467336683417,-1.88442211055276,-1.83417085427136,-1.78391959798995,-1.73366834170854,-1.68341708542714,-1.63316582914573,-1.58291457286432,-1.53266331658291,-1.48241206030151,-1.4321608040201,-1.38190954773869,-1.33165829145729,-1.28140703517588,-1.23115577889447,-1.18090452261307,-1.13065326633166,-1.08040201005025,-1.03015075376884,-0.979899497487437,-0.92964824120603,-0.879396984924623,-0.829145728643216,-0.778894472361809,-0.728643216080402,-0.678391959798994,-0.628140703517587,-0.57788944723618,-0.527638190954773,-0.477386934673366,-0.427135678391959,-0.376884422110552,-0.326633165829145,-0.276381909547738,-0.226130653266331,-0.175879396984924,-0.125628140703517,-0.0753768844221101,-0.0251256281407031,0.025125628140704,0.075376884422111,0.125628140703518,0.175879396984925,0.226130653266332,0.276381909547739,0.326633165829146,0.376884422110553,0.42713567839196,0.477386934673367,0.527638190954774,0.577889447236181,0.628140703517588,0.678391959798995,0.728643216080402,0.778894472361809,0.829145728643216,0.879396984924623,0.929648241206031,0.979899497487438,1.03015075376884,1.08040201005025,1.13065326633166,1.18090452261307,1.23115577889447,1.28140703517588,1.33165829145729,1.38190954773869,1.4321608040201,1.48241206030151,1.53266331658291,1.58291457286432,1.63316582914573,1.68341708542714,1.73366834170854,1.78391959798995,1.83417085427136,1.88442211055276,1.93467336683417,1.98492462311558,2.03517587939699,2.08542713567839,2.1356783919598,2.18592964824121,2.23618090452261,2.28643216080402,2.33668341708543,2.38693467336683,2.43718592964824,2.48743718592965,2.53768844221106,2.58793969849246,2.63819095477387,2.68844221105528,2.73869346733668,2.78894472361809,2.8391959798995,2.8894472361809,2.93969849246231,2.98994974874372,3.04020100502513,3.09045226130653,3.14070351758794,3.19095477386935,3.24120603015075,3.29145728643216,3.34170854271357,3.39195979899498,3.44221105527638,3.49246231155779,3.5427135678392,3.5929648241206,3.64321608040201,3.69346733668342,3.74371859296483,3.79396984924623,3.84422110552764,3.89447236180905,3.94472361809045,3.99497487437186,4.04522613065327,4.09547738693467,4.14572864321608,4.19597989949749,4.2462311557789,4.2964824120603,4.34673366834171,4.39698492462312,4.44723618090452,4.49748743718593,4.54773869346734,4.59798994974874,4.64824120603015,4.69849246231156,4.74874371859297,4.79899497487437,4.84924623115578,4.89949748743719,4.94974874371859,5],"y":[0.00671529793215853,0.00706014812718991,0.00742264113044278,0.00780367256753556,0.00820418279084967,0.00862515903476735,0.00906763766636798,0.00953270653488736,0.0100215074232511,0.01053523860498,0.0110751575097383,0.0116425835007431,0.0122389007671793,0.0128655613346593,0.013524088196636,0.0142160785695032,0.0149432072739132,0.0157072302445806,0.0165099881705445,0.0173534102674905,0.0182395181833193,0.0191704300376497,0.0201483645953723,0.0211756455737145,0.0222547060815227,0.023388093188607,0.0245784726220201,0.0258286335850341,0.0271414936933351,0.0285201040215509,0.0299676542516559,0.031487477913038,0.0330830577020467,0.0347580308666602,0.0365161946394784,0.0383615116995601,0.0402981156406498,0.0423303164200564,0.0444626057588358,0.046699662459958,0.0490463576067915,0.0515077595994775,0.0540891389815766,0.0567959730037144,0.0596339498648123,0.0626089725648402,0.0657271622958352,0.0689948612901882,0.0724186350368772,0.0760052737674173,0.0797617931037835,0.0836954337504577,0.0878136601020386,0.0921241576265724,0.0966348288729262,0.101353787938179,0.106289353218221,0.111450038251585,0.116844540453135,0.122481727520671,0.12837062128402,0.1345203787529,0.14094027010708,0.14763965336033,0.154627945418766,0.161914589244843,0.169509016830836,0.177420607680812,0.185658642498387,0.194232251779654,0.203150359017456,0.212421618235402,0.222054345588747,0.232056444795499,0.242435326196059,0.253197819284544,0.264350078610999,0.275897483022427,0.287844528293213,0.30019471329361,0.312950419959871,0.326112787462544,0.339681581121669,0.353655056789965,0.368029821618264,0.382800692331571,0.397960552378967,0.413500209575054,0.429408256123026,0.445670933196884,0.462272002558852,0.479192627992447,0.496411269634998,0.5139035945873,0.531642407452111,0.54959760469516,0.567736156917951,0.586022123264745,0.604416702238687,0.622878323154524,0.641362782287134,0.659823427464862,0.67821139438365,0.69647589726262,0.714564575607305,0.732423897780546,0.749999620796726,0.767237304253877,0.78408287461189,0.800483234137414,0.816386906804855,0.831744711321977,0.84651044930847,0.860641594584194,0.874099967624504,0.886852377631194,0.898871213477344,0.910134964145396,0.920628649319953,0.930344141637163,0.93928036382506,0.947443346652176,0.95484613724603,0.961508551900589,0.96745677284662,0.972722794421752,0.977343730385776,0.981361000452513,0.984819420071625,0.987766222682185,0.990250047665147,0.992319929671687,0.994024325602235,0.995410214074558,0.996522298713304,0.997402341151264,0.99808864256273,0.998615684322135,0.999013929596009,0.999309779008571,0.999525665655761,0.999680268298828,0.999788817030388,0.999863463362424,0.999913686597828,0.999946710341402,0.999967906702916,0.999981170612428,0.999989252100135,0.999994039790269,0.999996793706716,0.999998329414721,0.999999158328469,0.999999590670321,0.999999808190675,0.999999913562816,0.9999999626155,0.999999984514571,0.999999993870446,0.999999997686914,0.999999999169876,0.999999999717409,0.999999999908997,0.999999999972356,0.999999999992103,0.999999999997885,0.999999999999471,0.999999999999877,0.999999999999973,0.999999999999995,0.999999999999999,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"type":"scatter","mode":"lines","name":"log_log","line":{"color":"green"},"marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Die berechneten b’s sind kaum inhaltlich interpretierbar. Im «summary» Output stehen in der Spalte «Estimates» die b’s. Was man sehen und sagen kann ist, dass die Mitfahrenden der 2. Klasse, im Vergleich zur 3. Klasse, eine bessere Chance hatten, zu überleben (der Estimate (b und keine OR) ist signifikant positiv). Die Mitreisenden der ersten Klasse hatten eine noch grössere Chance zu überleben (b ist positiv, grösser als bei Pclass_f2, hat auch einen grösseren z-Wert und einen kleineren p-Wert).</p>
+<div class="cell">
+<pre><code>## 
+## Call:
+## glm(formula = Survived ~ Pclass_f + Sex + Kinder, family = binomial, 
+##     data = train)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.2275  -0.6829  -0.4035   0.6743   2.2578  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)   0.2353     0.2209   1.065  0.28684    
+## Pclass_f2     1.1302     0.2864   3.946 7.94e-05 ***
+## Pclass_f1     2.1581     0.2871   7.518 5.57e-14 ***
+## Sexmale      -2.7026     0.2438 -11.087  &lt; 2e-16 ***
+## KinderTRUE    1.1727     0.3732   3.142  0.00168 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 724.29  on 535  degrees of freedom
+## Residual deviance: 483.87  on 531  degrees of freedom
+##   (132 observations deleted due to missingness)
+## AIC: 493.87
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+<p>Besser als die b’s können die exponentiellen b’s EXP(B) gelesen werden. Sie geben eine «Odds Ratio» an. Das kann so gelesen werden, wie Multiplikatoren von Wahrscheinlichkeiten. Die «Odds Ratios» in Tabelle @ref(tab:Publikationsoutput1) bwz. die «OR» in Tabelle @ref(tab:Publikationsoutput2) geben diese Werte raus, die man mit (Wett)quoten übersetzen könnte. Sie fangen bei &gt;0 an und können unendlich gross werden. Wenn eine Variable keinen Einfluss auf die Wahrscheinlichkeit des Ausgangs der AV hat, dann ist ihr b = 1. Im Beipspiel kann man ablesen, dass im Vergleich zur 3. Passagierklasse (Pclass_f ist die Referenz und darum in Tabelle @ref(tab:Publikationsoutput1) gar nicht zu sehen und in Tabelle @ref(tab:Publikationsoutput2) ausgestrichen) die 2. Passagierklasse eine 3.1-fache Überlebenschance hatte und die 1. Passagierklasse eine 8.65-fache.</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">(\#tab:Publikationsoutput1) Überlebensanalyse zum Titanicunglück mit sjPlot</caption>
+<tbody><tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Survived</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Odds Ratios</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.27</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.82&nbsp;–&nbsp;1.96</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.287</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Pclass f [2]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">3.10</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.77&nbsp;–&nbsp;5.47</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Pclass f [1]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">8.65</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">4.99&nbsp;–&nbsp;15.41</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Sex [male]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.07</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.04&nbsp;–&nbsp;0.11</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">KinderTRUE</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">3.23</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.56&nbsp;–&nbsp;6.78</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.002</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">536</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> Tjur</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">0.404</td>
+</tr>
+
+</tbody></table>
+
+</div>
+</div>
+<p>Die Modellausgabe kann auch mit <code>gtsummary</code> erfolgen (und es gibt einige weitere Pakete). Bei gtsummary werden die Spalten für die Analyse durch Befehle in der Pipe ergänzt. In der folgenden Variante werden die Odds-Ratios (OR) rausgelassen und ihre Konfidenzintervalle (CI) sowie die p-Werte und den (generalisierten) Varianzinflationsfaktor. Der kommt sogar noch mit einer Anpassung, dem «Adjusted GVIF». So lange der unter 2 liegt, wird die Analyse nicht zu sehr von Multikollinearität gestört.</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<div id="gaztdynsbu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+:where(#gaztdynsbu) .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+:where(#gaztdynsbu) .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#gaztdynsbu) .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+:where(#gaztdynsbu) .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+:where(#gaztdynsbu) .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+:where(#gaztdynsbu) .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#gaztdynsbu) .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#gaztdynsbu) .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+:where(#gaztdynsbu) .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+:where(#gaztdynsbu) .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+:where(#gaztdynsbu) .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+:where(#gaztdynsbu) .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+:where(#gaztdynsbu) .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+:where(#gaztdynsbu) .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+:where(#gaztdynsbu) .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+:where(#gaztdynsbu) .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+:where(#gaztdynsbu) .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+:where(#gaztdynsbu) .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#gaztdynsbu) .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+:where(#gaztdynsbu) .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+:where(#gaztdynsbu) .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#gaztdynsbu) .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+:where(#gaztdynsbu) .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+:where(#gaztdynsbu) .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#gaztdynsbu) .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#gaztdynsbu) .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+:where(#gaztdynsbu) .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+:where(#gaztdynsbu) .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#gaztdynsbu) .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#gaztdynsbu) .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#gaztdynsbu) .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#gaztdynsbu) .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#gaztdynsbu) .gt_left {
+  text-align: left;
+}
+
+:where(#gaztdynsbu) .gt_center {
+  text-align: center;
+}
+
+:where(#gaztdynsbu) .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+:where(#gaztdynsbu) .gt_font_normal {
+  font-weight: normal;
+}
+
+:where(#gaztdynsbu) .gt_font_bold {
+  font-weight: bold;
+}
+
+:where(#gaztdynsbu) .gt_font_italic {
+  font-style: italic;
+}
+
+:where(#gaztdynsbu) .gt_super {
+  font-size: 65%;
+}
+
+:where(#gaztdynsbu) .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+:where(#gaztdynsbu) .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+:where(#gaztdynsbu) .gt_indent_1 {
+  text-indent: 5px;
+}
+
+:where(#gaztdynsbu) .gt_indent_2 {
+  text-indent: 10px;
+}
+
+:where(#gaztdynsbu) .gt_indent_3 {
+  text-indent: 15px;
+}
+
+:where(#gaztdynsbu) .gt_indent_4 {
+  text-indent: 20px;
+}
+
+:where(#gaztdynsbu) .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table">
+  <caption><strong>Überlebensanalyse zum Titanicunglück mit gtsummary</strong></caption>
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="<strong>Characteristic</strong>"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="<strong>OR</strong><sup class=&quot;gt_footnote_marks&quot;>1</sup>"><strong>OR</strong><sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="<strong>95% CI</strong><sup class=&quot;gt_footnote_marks&quot;>1</sup>"><strong>95% CI</strong><sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="<strong>p-value</strong>"><strong>p-value</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="<strong>GVIF</strong><sup class=&quot;gt_footnote_marks&quot;>1</sup>"><strong>GVIF</strong><sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="<strong>Adjusted GVIF</strong><sup class=&quot;gt_footnote_marks&quot;>2,1</sup>"><strong>Adjusted GVIF</strong><sup class="gt_footnote_marks">2,1</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left">Pclass_f</td>
+<td headers="estimate" class="gt_row gt_center"></td>
+<td headers="ci" class="gt_row gt_center"></td>
+<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="GVIF" class="gt_row gt_center">1.2</td>
+<td headers="aGVIF" class="gt_row gt_center">1.0</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;3</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="ci" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="GVIF" class="gt_row gt_center"></td>
+<td headers="aGVIF" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;2</td>
+<td headers="estimate" class="gt_row gt_center">3.10</td>
+<td headers="ci" class="gt_row gt_center">1.77, 5.47</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td>
+<td headers="GVIF" class="gt_row gt_center"></td>
+<td headers="aGVIF" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+<td headers="estimate" class="gt_row gt_center">8.65</td>
+<td headers="ci" class="gt_row gt_center">4.99, 15.4</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td>
+<td headers="GVIF" class="gt_row gt_center"></td>
+<td headers="aGVIF" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Sex</td>
+<td headers="estimate" class="gt_row gt_center"></td>
+<td headers="ci" class="gt_row gt_center"></td>
+<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="GVIF" class="gt_row gt_center">1.1</td>
+<td headers="aGVIF" class="gt_row gt_center">1.0</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;female</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="ci" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="GVIF" class="gt_row gt_center"></td>
+<td headers="aGVIF" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;male</td>
+<td headers="estimate" class="gt_row gt_center">0.07</td>
+<td headers="ci" class="gt_row gt_center">0.04, 0.11</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td>
+<td headers="GVIF" class="gt_row gt_center"></td>
+<td headers="aGVIF" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Kinder</td>
+<td headers="estimate" class="gt_row gt_center"></td>
+<td headers="ci" class="gt_row gt_center"></td>
+<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="GVIF" class="gt_row gt_center">1.1</td>
+<td headers="aGVIF" class="gt_row gt_center">1.0</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;FALSE</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="ci" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"></td>
+<td headers="GVIF" class="gt_row gt_center"></td>
+<td headers="aGVIF" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;TRUE</td>
+<td headers="estimate" class="gt_row gt_center">3.23</td>
+<td headers="ci" class="gt_row gt_center">1.56, 6.78</td>
+<td headers="p.value" class="gt_row gt_center">0.002</td>
+<td headers="GVIF" class="gt_row gt_center"></td>
+<td headers="aGVIF" class="gt_row gt_center"></td></tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="6">Null deviance = 724; Null df = 535; Log-likelihood = -242; AIC = 494; BIC = 515; Deviance = 484; Residual df = 531; No. Obs. = 536</td>
+    </tr>
+  </tfoot>
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="6"><sup class="gt_footnote_marks">1</sup> OR = Odds Ratio, CI = Confidence Interval, GVIF = Generalized Variance Inflation Factor</td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="6"><sup class="gt_footnote_marks">2</sup> GVIF^[1/(2*df)]</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="voraussetzungschecks-1" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="voraussetzungschecks-1"><span class="header-section-number">6.6</span> Voraussetzungschecks</h2>
+<section id="multikollinearität-1" class="level4" data-number="6.6.0.1">
+<h4 data-number="6.6.0.1" class="anchored" data-anchor-id="multikollinearität-1"><span class="header-section-number">6.6.0.1</span> Multikollinearität</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Es gibt ein Paket "olsrr" für die Prüfung der OLS-Voraussetzungen, </span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="do">## wo man sich den VIF und die Toleranz rauslassen kann:s</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(Survived <span class="sc">~</span> Pclass_f <span class="sc">+</span> Sex <span class="sc">+</span> Age_z <span class="sc">+</span> <span class="fu">I</span>(Age_z<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> Kinder,  <span class="at">family=</span>binomial, <span class="at">data=</span>train) <span class="sc">|&gt;</span> </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  olsrr<span class="sc">::</span><span class="fu">ols_vif_tol</span>() </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Warning: In lm.fit(x, y, offset = offset, singular.ok = singular.ok, ...) :</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="do">##  extra argument 'family' will be disregarded</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="do">##    Variables Tolerance      VIF</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="do">## 1  Pclass_f2 0.8579868 1.165519</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 2  Pclass_f1 0.7502936 1.332811</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="do">## 3    Sexmale 0.9486830 1.054093</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="do">## 4      Age_z 0.3265338 3.062470</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 5 I(Age_z^2) 0.3995874 2.502582</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 6 KinderTRUE 0.2886407 3.464515</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="residualplot-1" class="level3" data-number="6.6.1">
+<h3 data-number="6.6.1" class="anchored" data-anchor-id="residualplot-1"><span class="header-section-number">6.6.1</span> Residualplot</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07_ML_files/figure-html/Verteilungschecks-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p></p><figcaption class="figure-caption">Histogramm der Residuen</figcaption><p></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07_ML_files/figure-html/Verteilungschecks-2.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p></p><figcaption class="figure-caption">Histogramm der Residuen</figcaption><p></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07_ML_files/figure-html/Verteilungschecks-3.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p></p><figcaption class="figure-caption">Histogramm der Residuen</figcaption><p></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07_ML_files/figure-html/Verteilungschecks-4.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p></p><figcaption class="figure-caption">Histogramm der Residuen</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="vorhersagetest" class="level4" data-number="6.6.1.1">
+<h4 data-number="6.6.1.1" class="anchored" data-anchor-id="vorhersagetest"><span class="header-section-number">6.6.1.1</span> Vorhersagetest</h4>
+<div class="cell">
+<pre><code>## Warning: `as.tibble()` was deprecated in tibble 2.0.0.
+## ℹ Please use `as_tibble()` instead.
+## ℹ The signature and semantics have changed, see `?as_tibble`.
+##        predicted   0   1
+## actual                  
+## 0                100   6
+## 1                 31  41
+## # A tibble: 1 × 1
+##   Accuracy
+##      &lt;dbl&gt;
+## 1    0.792</code></pre>
+</div>
+
+
+</section>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Manche Variablen wurden erst noch erstellt (zB «Kinder» oder «Age_z»). Die entsprechende Datenaufbereitung.Rmd können Sie hier schnell <a href="./data/Datenaufbereitung.Rmd" downloaden=""></a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Kopiert");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Kopiert");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./05_Dimensionsreduktion.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Faktorenanalyse</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./09_Clusteranalyse.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Clusteranalyse</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

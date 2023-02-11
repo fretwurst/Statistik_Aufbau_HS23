@@ -1,0 +1,336 @@
+---
+title: "Statistik Aufbau: Einführung"
+subtitle: "Orga, Rückblick, Vorschau"
+author: Benjamin Fretwurst
+output-dir: "./Statistik_Aufbau/reveal"
+
+format: 
+  revealjs:
+    navigation-mode: vertical
+    controls-layout: bottom-right
+    touch: false
+    controls: true
+    number-sections: true
+    slide-number: true
+    # slide-tone: true
+    chalkboard: 
+      buttons: true
+    preview-links: auto
+    footer: "Fretwurst: Statistik Aufbau -- Sitzung 1"
+    css: 
+      - "reveal_style.css"
+      - "www/webex.css"
+    toc: false
+    toc-title: "Content"
+    title-slide-attributes: 
+        data-background-image: "images/Vierwald.jpg"
+        data-background-opacity: "1"
+    logo: "images/UZH_SIEGEL.png"
+    header-logo: "images/UZH_SIEGEL.png"
+    html-math-method: mathjax
+    server: shiny
+    # menu: 
+    #   sticky: true
+    #   keyboard: true
+    #   autoOpen: true
+    #   width: normal
+    #   openOnInit: true
+editor: 
+   visual: true
+   render-on-save: true
+---
+
+
+# Orga
+::: {.callout-warning}
+## Das sieht noch grütze aus!
+Da muss ich noch schauen, wie ich das besser hinbekomme.
+:::
+
+```{mermaid}
+%%| fig-width: 6
+flowchart LR
+  A[ Orga ] --> B(STP)
+  B --> C{Inhalt}
+  C --> D[univariate]
+  C --> E[bivariate]
+  C --> F[multivariate]
+```
+
+
+
+```{r}
+#| label: "Setup"
+#| echo: false
+
+setwd(this.path::here())
+
+source("www/webex.R")
+```
+
+## Intro
+
+```{r}
+vembedr::embed_youtube("RIZ0ZAqXG5o", width = 1200, height = 600) |>
+  vembedr::use_rounded()
+```
+
+
+## Lernziele
+
+::: {.callout-tip}
+## Korrelation und Regression 
+-   Korrelation
+-   Regression
+    -   bivariat
+    -   multivariat
+:::
+
+# GLM
+<br/>
+Das lineare Modell ist die Basis von fast allem. Auch was Sie schon kennen, wird unter dem Konzept "lineares Modell" zusammengefasst:
+
+:::{.incremental}
+-   Varianzanalyse
+-   Korrelation
+-   Regression
+:::
+
+
+## bivariate Regression Y ← X
+
+::: columns
+::: {.column width="50%"}
+```{=tex}
+\begin{align}
+Y_i & = \overline{Y} + e_i\\
+Y_i & = b_1 + b_2X_i + e_i\\
+\hat{Y_i} & = b_1 + b_2X_i \\
+          Y_i & = \hat{Y_i}+e_i\\
+          SS_T & = SS_R+SS_M
+\end{align}
+```
+:::
+
+::: {.column width="45%"}
+![](images/S1Teil2-1.jpg)
+:::
+:::
+
+## Kreuztabellen
+
+Beispiel für eine Kreuztabelle mit Link zu mehr (interaktiven) Kreuztballen:
+
+![](images/Kreuztabelle.jpg)
+
+# R
+
+## R-Chunks in Quarto {.scrollable auto-animate="true"}
+
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Code anzeigen"
+#| eval: false
+
+Modell <- lm(Y ~ X_2 + X_3, 
+             data = DATEN) # und wird für diese Daten angepasst,
+
+summary(Modell)
+```
+
+## R-Chunks in Quarto {.scrollable auto-animate="true"}
+
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Code anzeigen"
+
+DATEN <- readRDS(file = "data/EinfachsteRegression.RDS")
+
+Modell <- lm(Y ~ X_2 + X_3, 
+             data = DATEN) # und wird für diese Daten angepasst,
+summary(Modell)
+```
+<br/>
+
+## Mit sjPlot kann man den Output besser anpassen und druckfertig gestalten {.scrollable auto-animate="true"} 
+
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Code anzeigen"
+#| code-line-numbers: 2,6|3-5
+
+# Passe weiter an.
+sjPlot::tab_model(Modell, 
+                  show.std = TRUE, # zeige die standardisierten Koeffizienten
+                  show.est = FALSE, # zeige die unstandardisierten estimates nicht
+                  show.r2 = TRUE # zeige R^2
+                  )
+```
+
+
+# Interaktive Folien
+
+## Einflüsse von N, $\sigma_x$ und $\sigma_y$ auf die Regressionsgerade
+
+```{ojs}
+viewof N = Inputs.range([50, 1e3], {label: "N", step: 50})
+viewof sdx = Inputs.range([0, 1.5], {label: tex`\sigma_x`, title: "test", step: 0.01})
+viewof sdy = Inputs.range([0, 1.5], {label:  tex`\sigma_y`, step: 0.01})
+
+betatrue=[0,1]
+
+
+beta = {
+  const xbar = d3.mean(data, (d) => d.x);
+  const ybar = d3.mean(data, (d) => d.y);
+
+  const numerator = d3.sum(data.map(d => (d.x - xbar) * (d.y - ybar)));
+  const denominator = d3.sum(data.map(d => Math.pow(d.x - xbar, 2)));
+
+  const betahat = numerator / denominator;
+  const alphahat = ybar - betahat * xbar;
+
+  return [alphahat, betahat];
+}
+
+truedata = {
+  const results = [];
+  for(let i = 0; i < N; i++) {
+    const x = rnorm();
+    const y = x;
+
+    results.push({ x, y });
+  }
+  return results;
+}
+
+data_x = truedata.map(d => ({
+  x: d.x + rnorm() * sdx,
+  y: d.y
+}));
+
+data = data_x.map(d => ({
+  x: d.x,
+  y: betatrue[0] + betatrue[1] * d.y + rnorm() * sdy
+}));
+
+function rnorm() {
+  // https://stackoverflow.com/questions/25582882/javascript-math-random-normal-distribution-gaussian-bell-curve
+  let u = 0, v = 0;
+  while(u === 0) u = Math.random(); //Converting [0,1) to (0,1)
+  while(v === 0) v = Math.random();
+  return Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
+}
+
+confidence_grid = Array(101).fill(0).map((d, i) => -5 + 10 * i / 100)
+
+confidence_bands = {
+  const xbar = d3.mean(data, d => d.x);
+  const resids = data.map(d => beta[0] + beta[1] * d.x - d.y);
+  const resids_sq = d3.sum(resids.map(d => Math.pow(d, 2)));
+  const crit = jstat.studentt.inv(0.975, N - 2);
+  const denominator = d3.sum(data.map(d => Math.pow(d.x - xbar, 2)));
+
+  const diff = confidence_grid.map(d => crit * Math.sqrt((1 / (N - 2)) * resids_sq * (1 / N + Math.pow(d - xbar, 2) / denominator)));
+
+  return diff.map((d, i) => (
+    { 
+      x: confidence_grid[i],
+      lower: beta[0] + beta[1] * confidence_grid[i] - d,
+      upper: beta[0] + beta[1] * confidence_grid[i] + d
+    }
+  ));
+}
+
+jstat = require('jstat@1.9.5/dist/jstat.js')
+```
+
+```{ojs}
+chart = {
+  const width = 640;
+  const height = 400;
+  const margin = {top: 20, right: 30, bottom: 30, left: 40};
+
+  const x = d3.scaleLinear()
+      .domain([-5, 5])
+      .range([margin.left, width - margin.right]);
+
+  const y = d3.scaleLinear()
+      .domain([-5, 5])
+      .range([height - margin.bottom, margin.top]);
+
+  const svg = d3.create("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+  svg.append("g")
+      .attr("transform", `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(x));
+
+  svg.append("g")
+      .attr("transform", `translate(${margin.left},0)`)
+      .call(d3.axisLeft(y));
+
+  svg.selectAll("circle")
+      .data(data)
+      .enter()
+      .append("circle")
+      .attr("r", 2)
+      .attr("cx", d => x(d.x))
+      .attr("cy", d => y(d.y))
+      .attr("opacity", 0.5);
+
+  svg.append("line")
+    .attr("x1", x(x.domain()[0]))
+    .attr("x2", x(x.domain()[1]))
+    .attr("y1", y(beta[0] + beta[1] * x.domain()[0]))
+    .attr("y2", y(beta[0] + beta[1] * x.domain()[1]))
+    .attr("stroke", "red");
+
+
+  const points = confidence_bands.map(d => `${x(d.x)},${y(d.lower)}`).join(" ")
+    + " " + confidence_bands.slice().reverse().map(d => `${x(d.x)},${y(d.upper)}`).join(" ");
+  
+  svg.append("polygon")
+    .attr("points", points)
+    .attr("stroke", "none")
+    .attr("fill", "rgba(100, 0, 0, 0.05)");
+  
+  svg.append("line")
+    .attr("x1", x(x.domain()[0]))
+    .attr("x2", x(x.domain()[1]))
+    .attr("y1", y(betatrue[0] + betatrue[1] * x.domain()[0]))
+    .attr("y2", y(betatrue[0] + betatrue[1] * x.domain()[1]))
+    .attr("stroke", "gray");
+
+
+  return svg.node();
+}
+
+
+```
+
+
+# Quiz
+
+## Klicker
+
+<div>
+<iframe  width = "100%" height = "500" frameborder="no" src="https://app.klicker.uzh.ch/join/fkww0s"></iframe>
+</div>
+
+## Permanent
+
+```{r, echo = FALSE}
+q_LM1 <- c(
+  answer = "Regression",
+  answer = "Varianzanalyse",
+          "Faktorenanalyse", 
+          "Korrelation"
+   )
+```
+
+`r if(knitr::is_html_output()){longmcq(q_LM1)} else {"Nennen Sie die zwei Ihnen bekannten Verfahren."}`

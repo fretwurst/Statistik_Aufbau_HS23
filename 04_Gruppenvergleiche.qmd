@@ -1,0 +1,377 @@
+# Gruppenvergleiche (ANCOVA)
+
+```{r}
+#| echo: false
+#| include: false
+#| 
+library(tidyverse)
+source("_common.R")
+
+setwd(this.path::here())
+
+# Grundtöne
+Farben <- c("#d80069", "#004188", "#94b368",  "#782182", "#0092d8")
+
+xfun::embed_files(c('files/OLS.xlsx', 'files/EinfachsteRegression.xlsx'))
+```
+
+Nominale UVs sind dichotome Variablen (zwei Ausprägungen) oder kategoriale (mehr als zwei Ausprägungen). Wenn wir mit solchen nominalen Variablen Unterschiede erklären wollen (die auf Zusammenhänge bzw. Kausalität zurückgehen), bilden wir mit diesen Variablen Gruppen der Fälle, die wir dann vergleichen. Der Vergleich besteht in der Regel in der Prüfung der Signifikanz von Unterschieden. Das können t-Tests für Mittelwertunterschiede sein. Varianzanalysen für zwei oder mehr Gruppen. Oder auch Regressionen, wo die nominalen Variablen als UV bzw. UVs eingehen.
+
+Der Datensatz, der für dieses Beispiel herangezogen wird, ist von Andy Field. Er hatte einen Artikel darüber gelesen, dass Ingineure einen Stoff entwickeln, der wie unsichtbar macht, indem irgendwie der Hintergrund auf den Umhang projeziert wird oder so. Jedenfalls hat sich Andy Field dann überlegt, was die Leute mit so einem Unsichtbarkeitsumhang (Cloak) wohl für Schabernack (Mischief) anstellen würden, wenn sie von ihrer Umgegung nicht mehr beobachtet werden. Dafür hat Andy Field ein Experiment in der Zukunft imaginiert, bei dem 12 Personen kein Umhang gegeben wird und 12 ein Tarnmantel, der unsichtbar macht. Dann wird gemessen, wie viel Unsinn die Leute jeweils anstellen. Die durchschnittliche Anzahl von Schabernackstaten (Mischief) wird dafür zwischen der Experimental- (hat einen Cloak an) und der Kontrollgruppe (kein Cloak) verglichen.
+
+## Visualisierung und Deskriptives
+
+Gruppenvergleiche können schon gut mit Boxplots gemacht werden. Dabei wird der Mittelwert in einer Box als Linie dargestellt und die das untere sowie das obere Quartil (25% bzw. 95% der Verteilung) als Ränder der Box.
+
+```{r Invisibility, echo=FALSE, fig.height=5}
+# Lade den Datensatz "Invisibility" aus den Netz runter
+download.file("http://www.discoveringstatistics.com/docs/ds_data_files/SPSS%20Data%20Files/Invisibility.sav", "data/Invisibility.sav")
+
+# Importiere den Datensatz, der im SPSS-Format vorliegt, in ein R-Daten-Objekt. Das geht mit dem Paket "haven" und dem Befehl "read_spss"
+Invisibility <- haven::read_spss("data/Invisibility.sav")
+
+# Wenn man hier nur den Teil "view(Invisibility)" markiert und startet, dann öffnet R die Daten in der Datenansicht
+# view(Invisibility)
+
+# Mache ein Boxplot für die Variable y = "Mischief" anhand der Gruppenvariable x = "Cloak"
+p <- Invisibility |> 
+    ggpubr::ggboxplot(x = "Cloak", y = "Mischief",
+          color = "Cloak", palette = c(Farben[1], Farben[2]),
+          add = "jitter")
+
+p
+```
+
+Es können aber auch Histogramme erstellt werden, mit Mittelwerten für zwei Gruppen, wobei die Balken für die einzelnen Werte bzw. Wertegruppen überlagert sind.
+
+```{r Mittelwertvergleich der Unsichtbarkeit, echo=FALSE}
+# Baue ein Histogram mit zwei Gruppen und füge die Mittelwerte (add = "mean") und die Dichtefunktionen hinzu (add_density)
+p <- Invisibility |>
+  mutate(Mischief = as.numeric(Mischief),
+        Cloak = ifelse(Cloak == 1, "Ja", "Nein")) |>
+  ggpubr::gghistogram(x = "Mischief",
+  add = "mean", rug = TRUE,
+  fill = "Cloak", palette = c(Farben[1], Farben[2]),
+  ylab="",
+  add_density = TRUE, bins = 17) + 
+  theme(rect = element_rect(fill = "transparent"))
+
+p
+```
+
+Spätestens an dieser Stelle sollte man sich die Ausgangsvariablen mal angucken, um zu sehen, wie die verteilt ist und wo ihr Mittelwert liegt und wie sie um ihren Mittelwert streut und all das. Dafür ist es immer sinnvoll sich die Variablen als Häufigkeitsauszählung anzusehen.
+
+```{r Descriptives, echo=FALSE, fig.height=5}
+# Häufigkeitsauszählungen mit dem Paket sjmisc:: und dem Befehl frq (frequencies)
+Invisibility |> sjmisc::frq(Cloak, Mischief)
+
+SD_Cloak <- 0.51
+SD_Mischief <- 1.86
+```
+
+Und man sollte sich die Mittelwerte der AV (hier Mischief) und die Gruppierungsvariable (auch UV und hier Cloak) ausgeben lassen.
+
+```{r Mittelwerte}
+# Gruppiere die Daten "Invisibility" nach Cloack und berechne mit summyrise die Mittelwerte für Mischief
+Invisibility |> 
+  group_by(Cloak) |> 
+  summarise(Mittelwerte = mean(Mischief))
+
+# Speichere die Werte in Objekte
+M_Mischief_Cloak_0 <- 3.75
+M_Mischief_Cloak_1 <- 5.00
+M_Mischief_Diff <- 5.00 - 3.75
+```
+
+## Mittelwertvergleich für zwei Gruppen
+
+### mit dem t-Test
+
+Mit dem t-Test kann geprüft werden, ob sich die Mittelwerte der beiden Gruppen unterscheiden. Es wird ein t-Test für unabhängige Stichproben gemacht. Dabei wird die Differenz der beiden Mittelwerte berechnet und gegen die H0 getestet, dass sie 0 sein könnte, also in der GG kein Unterschied zwischen der Gruppe Cloak = 1 und der Gruppe Cloak = 0.
+
+```{r t-test}
+# Führe einen t-Test für Mischief aus. Die UV (Cloak) muss dichotom sein (1 und 0 und nicht noch 9 oder so)
+
+t.test(Mischief ~ Cloak, data = Invisibility)
+
+t_Wert <- -1.7135
+p_Wert <- 0.101
+```
+
+Der Output sagt uns, dass die Mittelwerte von Mischief aufgeteilt nach Cloak angeschaut werden. Der t-Wert unter Annahme der Nullhypothese H0 ist `r t_Wert` und der zugehörige p-Wert ist `r p_Wert`. Im Text steht noch, dass die Alternativhypothese lautet: Der wahre Mittelwertunterschied zwischen der 0-Gruppe und der 1-Gruppe ist nicht gleich 0. Darunter steht das 95-prozentige Konfidenzintervall der Mittelwertdifferenz. In der untersten Zeile werden die beiden Mittelwerte der beiden Gruppen nochmals ausgegeben.
+
+### Mit Korrelation
+
+Wenn die Gruppenvariable eine Dummyvariable ist (also dichotom und nur aus 0 und 1 bestehend), dann kann auch eine Korrelation gerechnet werden, wobei der t-Wert dann derselbe ist, wie beim t-Test von Mittelwertvergleichen für unabhängige Stichproben.
+
+```{r Korrelation}
+# Berechne eine Korrelation zwischen Mischief und Cloak
+
+cor.test(Invisibility$Mischief, Invisibility$Cloak)
+
+Korrelation <- .343
+```
+
+Vergleichen Sie mal den t-Wert und den p-Wert der Korrelation mit dem des t-Test für Mittelwertunterschiede. Die sind (bis auf Rundungsunterschiede) identisch.
+
+Es gibt die einfache Varianzanalyse. Dabei wird geprüft, ob die Gruppierungsvariable signifikant Varianz der AV aufklärt. Der p-Wert ist derselbe, wie oben beim t-Test und der Korrelation, weil es dieselben Daten und Variablen sind.
+
+### Gruppenvergleich mit Varianzanalyse
+
+```{r Varianzanalyse, echo = TRUE}
+
+# Mache eine Varianzanalyse (Analysis of Varian (aov bzw. ANOVA)) mit einer UV (one.way)
+one.way <- aov(Mischief ~ Cloak, data = Invisibility)
+
+# Gib die Zusammenfassung der aov raus
+summary(one.way)
+
+# Berechne mal das R^2 durch die Quadratsumme (Sum Sq), die die Gruppierung (hier nach Cloak) aufklärt, durch die Gesamtquadratsumme (Sum Sq der Cloak + der der Residuals). Dann runde auf 4 Nachkommastellen.
+
+R2 <- round(9.38/(9.38 + 70.25),4)
+
+# Binde das R^2 in die Ausgabe ein, einfach für später
+paste0("R2 = Sum_Sq_Cloak / (Sum_Sq_Cloak + Risiduals_SumSq): ", R2," (12%)")
+
+```
+
+Die Varainzanalyse prüft, ob die Mittelwerte in einer AV für jede der UV-Gruppen identisch ist. Was in der Tabelle steht, sind lauter Hilfswerte für den einen relevantenn Wert: dem p-Wert (hier "Pr(\>F)). Der p-Wert ist wieder derselbe wie oben bei der Korrelation und dem Mittelwertvergleich.
+
+## Mittelwertvergleich mit Regression
+
+Am besten kann mit einer Regression ein Mittelwertvergleich durchgeführt werden. Das $R^2$ entspricht dem Quadrat der Korrelation. Der F-Wert zum $R^2$ ist gleich dem F-Wert aus der Varianzanalyse. Der b-Wert (hier von "Cloak of invisibility") in der Regression entspricht dem Mittelwertunterschied zwischen den beiden Gruppen. Der "Intercept" entspricht dem Mittelwert der 0-Gruppe (keine Cloak). Mit der Regression kann also alles abgedeckt werden, was mit den anderen Auwertungsmethoden auch erledigt wird. Die Regression kann aber mehr!
+
+```{r Regression, fig.cap="Regression mit einer Dummmy als UV"}
+# Der Syntax für Regressionsmodelle ist so klar und einfach, dass er auch bei den simpleren Verfahren verwendet wurde (z.B. t-Test oben). Es wird hier erstmal ein Modellobjekt (Regression) erstellt, dass dann ausgewertet wird.
+Regression <- lm(Mischief ~ Cloak, data = Invisibility)
+
+# Hier schauen wir uns das Modellobjekt "Regression" an. 
+sjPlot::tab_model(Regression, 
+                  show.std = TRUE, # zeige die standardisierten Koeffizienten
+                  show.est = TRUE, # zeige die unstandardisierten estimates nicht
+                  show.r2 = TRUE # zeige R^2
+                  )
+```
+
+## Interaktionseffekte
+
+Werden wir mal erwachsen und schauen uns ein anderes Beispiel an, das auf eine Medienwirkgungsfrage zurück geht. Gehen wir also jetzt der Frage nach, ob gewalthaltige Videospiele antisozial machen. Dazu hat das britische Ofcom (Office of Communication) 2008 eine Studie herausgegeben [@Ofcom2008]. Für die Studie wurden 442 Jugendliche befragt. Im folgenden Chunkg wird der dazugehörige Datensatz heruntergeladen, umgewandelt und im Datenobjekt "Video_Games" gespeichert. Den analysieren wir im Folgenden. Die Variablen sind "Aggression" als Messung aggressiver Verhaltensweisen, "CaUnTs" als callous unemotional traits (affektiv-soziale defizite) und "Vid_Games" in Stunden Nutzung von Videospielen.
+
+```{r Video_Games, echo=FALSE}
+download.file("http://www.discoveringstatistics.com/docs/ds_data_files/SPSS%20Data%20Files/Video%20Games.sav", "data/Video_Games.sav", quiet = TRUE)
+
+Video_Games <- haven::read_spss("data/Video_Games.sav")
+
+Video_Games
+```
+
+Schauen wir uns das mal genauer an:
+
+```{r, echo=FALSE, fig.height=5}
+# Nehme die Variable für Antisoziales Verhalten (CaUnTs) und bilde eine Gruppenvariable (Anti_Sozial) daraus und drei Dummyvariablen (Anti_Soz_gering bis Anti_Soz_hoch).
+
+Video_Games <- Video_Games |>
+  mutate(Anti_Sozial = sjmisc::rec(CaUnTs, rec = "0:10 = 1 [gering]; 11:30 = 2 [mittel]; 31:max = NA [hoch]")) |> 
+  mutate(Anti_Soz_gering = sjmisc::rec(CaUnTs, rec = "0:10 = 1; else = 0"), 
+         Anti_Soz_mittel = sjmisc::rec(CaUnTs, rec = "11:30 = 1; else = 0"), 
+         Anti_Soz_hoch = sjmisc::rec(CaUnTs, rec = "31:max = 1; else = 0"))
+
+## Wenn man hier die # wegnimmt, dann werden für die neu gebildeten Variablen Häufigkeitsauszählungen rausgegeben. 
+# Video_Games |> 
+#   sjmisc::frq(Anti_Soz_gering, Anti_Soz_mittel, Anti_Soz_hoch)
+
+# Speichere in dem Datensatz Video_Games_AS_gering man nur die Fälle mit mittlerer oder geringem Antisozialem Verhalten.
+Video_Games_AS_gering <- Video_Games |> 
+  filter(CaUnTs < 31)
+
+# Mache einen Scatterplot (geom_point) für Vid_Games und Agression, unterteilt nach Anti_Sozial und lege da mit geom_smooth jeweils eine Regressionsgerade rein.
+Video_Games_AS_gering |> 
+  ggplot2::ggplot(aes(x = Vid_Games, y = Aggression, color = as.factor(Anti_Sozial))) +
+  geom_point()+ 
+  scale_color_manual(values=c(c(Farben[3], Farben[4]))) + 
+  geom_smooth(method=lm, se=FALSE, fullrange=TRUE) + 
+  theme_minimal()
+```
+
+Wie man sieht gibt es die zwei Gruppen. Wenn die Tage pro Woche mit Videospielen steigt, dann steigt die Aggression kaum an. Das ist für beide Gruppen so, ber für die 2-er-Gruppe (mittleres Antisoziales Verhalten) liegen die Werte im Mittel höher. Das haben wir jetzt gesehen, aber geschätzt und getestet haben wir es noch nicht. Das geht aber gut mit der Regression.
+
+## Eine Dummy als UV
+
+Wenn wir eine Dummyvariable als UV haben, dann haben wir es eigentlich mit einem Unterschiedstest zu tun, also einem Mittelwertvergleich. Vergleichen werden dabei die Mittelwerte der UV für zwei Gruppen. Die Gruppen wiederum werden durch in der Dummyvariable festgelegt: Die eine Gruppe (G0) hat die 0 und die andere Gruppe (G1) die 1. Es wird also die Differenz in den Y-Werten (Y_Diff) durch die Dummyvariable erklärt.
+
+```{=tex}
+\begin{align}
+\overline{Y}_{Diff}&=\overline{Y}_{G1}-\overline{Y}_{G0}&\\
+      Y_i&=b_1 + b_2X_{i2}\\
+      Y_i&=b_1 &\text{ wenn } X_{i2}=0\\
+      Y_i&=b_1  + b_2 &\text{ wenn } X_{i2}=1\\
+  \text{Also ist:}\overline{Y}_{Diff}&=b_2\\
+  t&=\frac{\overline{Y}_{G1}-\overline{Y}_{G0}}{se_{\overline{Y}_{Diff}}}=\frac{b_2}{se_b}
+\end{align}
+```
+![](images/HJTeil1.png){width="100%"}
+
+Hier ist nur "Anti_Soz_mittel" als UV im Modell.
+
+```{r Regression-mit-D-als-UV, fig.cap="Regression mit einer Dummy als UV"}
+Modell <- lm(Aggression ~ Anti_Soz_mittel, data = Video_Games_AS_gering)
+
+sjPlot::tab_model(Modell, 
+                  show.std = TRUE, # zeige die standardisierten Koeffizienten
+                  show.est = TRUE, # zeige die unstandardisierten estimates
+                  show.r2 = TRUE, # zeige R^2
+                  show.fstat = TRUE, # zeige die F-Statistik
+                  string.est = "b", # beschrifte die Estimator mit b
+                  string.std = "std. b" # beschrifte die standardisierten b mit std. b
+                  )
+```
+
+Interpretation der Regression: Der (Intercept) hat im b eine 30.76 und zeigt daher in diesem Modell an, wie gross der Mittelwert für die Referenzgruppe ist (0 für Anti_Soz_mittel "nicht mittel"). Das b für die "Callous Unemotional Traits" liegt bei 10.33. Das bedeutet, dass der Mittelwert der Gruppe Anti_Soz_mittel = 1 um 10.33 grösser ist als der Mittelwert der 0-Gruppe, also `r 10.33 + 30.76`. Dieser Unterschied entspricht einem Zusammenhang von .4 als Korrelation, was an dem standardisierten b abgelesen werden kann, weil die standardisierten Regressionskoeffizienten (oft auch als BETA bezeichnet) sehr dicht an den Korrelationskoeffizienten sind. Das Konfidenzintervall für den Mittelwertunterschied liegt zwischen 7.91 und 12.75. Da 0 nicht mit im Intervall liegt, sehen wir schon, dass der Mittelwertunterschied signifikant ist. Wir sehen aber nicht nur, dass der Mittelwertunterschied signifikant von 0 verschieden ist, sondern auch, dass er signifikant von z.B. 5 verschieden ist. Wenn jetzt zum Beispiel andere Forscherinnen das Phänomen vorher schon untersucht gehabt hätten und die Mittelwertunterschied zwischen 1.93 und 4.25 gefunden hätten, dann könnten wir mit der Analyse hier sagen, dass sich die beiden Konfidenzintervalle nicht überschneiden, also unser Ergebnis signifikant von dem der anderen Forscher ist. Das geht schon in die Richtung Metaanalyse. Wenn wir nochmal in die Tabelle schauen, dann sehen wir hinten auch, dass die p-Werte unter .05 liegen, was eine Signifikanz auf dem 95%-igem Signifikanzniveau anzeigt. Das wussten wir über die CI aber auch schon vorher und da wussten wir sogar mehr!
+
+## Dummy und Covariate
+
+Jetzt wird das Modell um eine Covariate ergänzt. Mit `olsrr::ols_vif_tol(Modell3)` werden die Toleranz und der VIF berechnet.
+
+```{r}
+Modell3 <- lm(Aggression ~ Vid_Games + Anti_Soz_hoch, data = Video_Games)
+
+olsrr::ols_vif_tol(Modell3)
+
+sjPlot::tab_model(Modell3, 
+                  show.std = TRUE, # zeige die standardisierten Koeffizienten
+                  show.est = TRUE, # zeige die unstandardisierten estimates
+                  show.r2 = TRUE, # zeige R^2
+                  show.fstat = TRUE,
+                  string.est = "b",
+                  string.std = "std. b"
+                  )
+```
+
+Die Toleranzwerte sind sehr hoch und daher völlig ok. Der Varianzinflationsfaktor ist fast genau 1. Es gibt also eigentlich keine Inflation der Fehlerstreuung der b's (und allem was darauf aufbaut, wie die standardisierten Regressionskoeffizienten, Konfidenzintervalle, t-Wert zum t-Test und also auch die p-Werte). Also ist hier alles gut.
+
+## Dummy in Interaktion mit der Covariate
+
+Es kann natürlich sein, dass eine Gruppe mal einen anderen Zusammenhang hat, also einen anderen Anstieg der Regressionsgeraden. Jetzt nehmen wir die Gruppe mit hohem Antisozialem Verhalten mit rein und gucken für die, ob das häufige Spielen von Videospielen einen Einfluss auf ihr aggressives Verhalten hat.
+
+```{r, fig.cap="Zusammenhang Videospiele zu Aggression für Menschen mit hohem vs. geringerem antisozialen Verhalten", echo=FALSE, fig.height=5}
+Video_Games |> 
+  ggplot2::ggplot(aes(x = Vid_Games, y = Aggression, color = as.factor(Anti_Soz_hoch))) +
+  geom_point()+ 
+  scale_color_manual(values=c(c(Farben[3], Farben[4]))) + 
+  geom_smooth(method=lm, se=FALSE, fullrange=TRUE) + 
+  theme_minimal()
+```
+
+In der Grafik ist gut zu erkennen, dass die Videospiele auf die Personen mit hohem antisozialen Verhalten eine deutlich stärkere Wirkung hat. Der Anstieg der Regressionsgerade ist für die Gruppe mit Anti_Soz_hoch deutlich steiler. Ihr Mittelwert liegt im Schnittpunkt der Mittelwert (in der Mitte der Wolke) auch höher als bei der Gruppe ohne hohes antisoziales Verhalten.
+
+Das lässt sich in einer Regression bauen, indem die Dummy so wie sie ist in das Modell aufgenommen wird und dann noch als Interaktion mit der Kovariaten.
+
+```{r}
+Modell4 <- lm(Aggression ~ Vid_Games + Anti_Soz_hoch + Vid_Games * Anti_Soz_hoch, data = Video_Games)
+
+olsrr::ols_vif_tol(Modell4)
+
+sjPlot::tab_model(Modell4, 
+                  show.std = TRUE, # zeige die standardisierten Koeffizienten
+                  show.est = TRUE, # zeige die unstandardisierten estimates
+                  show.r2 = TRUE, # zeige R^2
+                  show.fstat = TRUE,
+                  string.est = "b",
+                  string.std = "std. b"
+                  )
+```
+
+Dabei bauen wir im Grunde die Variablen doppelt in das Modell ein. Das hat zur Folge, dass vor allem die Dummys mit dem Interaktionsterm sehr hoch Multikollinear sind. Da hilft es, wenn man alle Variablen im Modell mit `scale()`z-transformiert, also zentriert und so skaliert, dass die Standardabweichungen bei allen Variablen 1 sind.
+
+```{r, echo=FALSE}
+Video_Games_z <- Video_Games |> 
+  mutate(across(c(Aggression, Vid_Games), ~scale(.x))) # verändere alle numerischen Variablen, indem sie z-transformiert werden (scale)
+
+Modell4 <- lm(Aggression ~ Vid_Games + Anti_Soz_hoch + Vid_Games * Anti_Soz_hoch, data = Video_Games_z)
+
+olsrr::ols_vif_tol(Modell4)
+
+sjPlot::tab_model(Modell4, 
+                  show.std = TRUE, # zeige die standardisierten Koeffizienten
+                  show.est = TRUE, # zeige die unstandardisierten estimates
+                  show.r2 = TRUE, # zeige R^2
+                  show.fstat = TRUE,
+                  string.est = "b",
+                  string.std = "std. b"
+                  )
+```
+
+## Eine Kategoriale als UV
+
+Es kann natürlich auch sein, dass man eine Variable hat, die kategorial ist, also mehr als zwei Ausprägungen hat. Dann erstellt man zu jeder Ausprägung eine Dummyvariable und baut zwei davon in das Modell ein. Dann ist die Ausprägung der übrigen Variable die Referenzkategorie. Den Schnittpunkt mit den Mittelwerten der übrigen Kovariaten liegt für die Referenzkategorie beim $b_1$. Der Anstieg der Referenzkategorie ist der des b's für die Kovariate alleine.
+
+```{r, echo=FALSE}
+Video_Games_z <- Video_Games |> 
+  mutate(across(everything(), ~scale(.x))) # verändere alle numerischen Variablen, indem sie z-transformiert werden (scale)
+
+Modell5 <- lm(Aggression ~ Vid_Games + Anti_Soz_hoch + Anti_Soz_mittel +
+                Vid_Games * Anti_Soz_hoch + Vid_Games * Anti_Soz_mittel,
+              data = Video_Games_z)
+
+olsrr::ols_vif_tol(Modell5)
+
+sjPlot::tab_model(Modell5, 
+                  show.std = TRUE, # zeige die standardisierten Koeffizienten
+                  show.est = TRUE, # zeige die unstandardisierten estimates
+                  show.r2 = TRUE, # zeige R^2
+                  show.fstat = TRUE,
+                  string.est = "b",
+                  string.std = "std. b"
+                  )
+```
+
+## Beispiel Vertrauen in Politiker nach journalistischen Arbeitsjahren
+
+In diesem Beispiel wird untersucht, wie sich die Dauer der Arbeitsjahre von Journalisten auf ihr Vertrauen in Politiker auswirkt. Den Datensatz holen wir aus `tidycomm::WoJ`.
+
+```{r, echo=FALSE}
+DACHoJ <- tidycomm::WoJ |> 
+  filter(country == "Germany" | country == "Switzerland" | country == "Austria")
+```
+
+In dem Scatterplot sieht man gut, dass das Vertrauen in Deutschland und der Schweiz sinkt, wobei es in der Schweiz auf demselben Niveau beginnt, dann aber schneller abnimmt mit den Jahren an Erfahrungen. In Österreich ist das Vertrauen am Anfang schlechter und steigt dann mit der Zeit.
+
+```{r, echo=FALSE}
+DACHoJ |> 
+    ggplot2::ggplot(aes(y = trust_politicians, x = work_experience, color = country)) +
+  geom_point()+ 
+  scale_color_manual(values=c(c(Farben[2], Farben[3], Farben[4]))) + 
+  geom_smooth(method=lm, se=FALSE, fullrange=TRUE) + 
+  theme_minimal()
+```
+
+Hier das Ganze als Regressionsrechnung. Deutschland ist die Referenzkategorie und dann wird geschaut, wie die Schweiz und Österreich davon abweichen.
+
+```{r, echo=FALSE}
+DACHoJ <- DACHoJ |> 
+  mutate(DE = if_else(country == "Germany", 1, 0),
+         CH = if_else(country == "Switzerland", 1, 0),
+         AT = if_else(country == "Austria", 1, 0))
+
+fit2 <- lm(trust_politicians ~ work_experience 
+     + CH + AT
+     + CH * work_experience + AT * work_experience, data = DACHoJ)
+
+DACHoJ_z <- DACHoJ |> 
+  mutate(across(where(is.numeric), ~scale(.x)))
+
+fit2_z <- lm(trust_politicians ~ work_experience 
+     + CH + AT 
+     + CH * work_experience + AT * work_experience, data = DACHoJ_z)
+
+olsrr::ols_vif_tol(fit2_z)
+
+sjPlot::tab_model(fit2_z, 
+                  show.std = TRUE, # zeige die standardisierten Koeffizienten
+                  show.est = TRUE, # zeige die unstandardisierten estimates
+                  show.r2 = TRUE, # zeige R^2
+                  show.fstat = TRUE,
+                  string.est = "b",
+                  string.std = "std. b"
+                  )
+```

@@ -1,0 +1,31 @@
+# Glossar
+
+```{r}
+#| echo: false
+#| include: false
+
+library(tidyverse)
+source("_common.R")
+```
+
+```{r Glossar, fig.cap="Glossar", out.width="80%", echo=FALSE}
+Glossar <- readxl::read_excel("files/Vokabelliste.xlsx")
+
+Glossar |> 
+  filter(Sitzung != 9) |> 
+  select(Sitzung, Inhalt, Deutsch, Englisch) |> 
+  arrange(Deutsch) |> 
+  DT::datatable(elementId = NULL, filter = list(
+  position = 'top', plain = TRUE, clear = FALSE),
+                extensions = 'Buttons',
+                options = list(
+                    dom = 'frtipB',
+    buttons = c('copy',  'excel', 'pdf', 'print'),
+                    pageLength = 1000,
+  lengthMenu = c(10, 20, 50, 75, 100),
+  columnDefs = list(list(
+            className = 'dt-left', targets = 2:4
+          ))
+                ))
+```
+

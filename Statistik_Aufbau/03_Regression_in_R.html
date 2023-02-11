@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de-CH" xml:lang="de-CH"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.313">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Statistik Aufbau - 3&nbsp; Regression in R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./04_Gruppenvergleiche.html" rel="next">
+<link href="./02_GLM.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "Keine Treffer",
+    "search-matching-documents-text": "Treffer",
+    "search-copy-link-title": "Link in die Suche kopieren",
+    "search-hide-matches-text": "Zusätzliche Treffer verbergen",
+    "search-more-match-text": "weitere Treffer in diesem Dokument",
+    "search-more-matches-text": "weitere Treffer in diesem Dokument",
+    "search-clear-button-title": "Zurücksetzen",
+    "search-detached-cancel-button-title": "Abbrechen",
+    "search-submit-button-title": "Abschicken"
+  }
+}</script>
+<link href="site_libs/vembedr-0.1.5/css/vembedr.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="www/style.css">
+<link rel="stylesheet" href="www/webex.css">
+<link rel="stylesheet" href="www/index.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Regression in R</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistik Aufbau</a> 
+        <div class="sidebar-tools-main">
+    <a href="./Statistik-Aufbau---Fretwurst.pdf" title="Download PDF" class="sidebar-tool px-1"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Einleitung</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Wiederholung.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Was bisher geschah</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_GLM.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Das lineare Modell</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_Regression_in_R.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Regression in R</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Gruppenvergleiche.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Gruppenvergleiche (ANCOVA)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_Dimensionsreduktion.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Faktorenanalyse</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_ML.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Machine Learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_Clusteranalyse.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Clusteranalyse</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./80_Glossar.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Glossar</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./90_Literatur.html" class="sidebar-item-text sidebar-link">Literatur</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Seiteninhalt</h2>
+   
+  <ul>
+  <li><a href="#alternative-ausgaben-für-die-regressionsanalysen-mit-pakten" id="toc-alternative-ausgaben-für-die-regressionsanalysen-mit-pakten" class="nav-link active" data-scroll-target="#alternative-ausgaben-für-die-regressionsanalysen-mit-pakten"><span class="toc-section-number">3.1</span>  Alternative Ausgaben für die Regressionsanalysen mit Pakten</a></li>
+  <li><a href="#checks-der-voraussetzungen" id="toc-checks-der-voraussetzungen" class="nav-link" data-scroll-target="#checks-der-voraussetzungen"><span class="toc-section-number">3.2</span>  Checks der Voraussetzungen</a>
+  <ul class="collapse">
+  <li><a href="#multikollinearität" id="toc-multikollinearität" class="nav-link" data-scroll-target="#multikollinearität"><span class="toc-section-number">3.2.1</span>  Multikollinearität</a></li>
+  <li><a href="#homoskedastizität" id="toc-homoskedastizität" class="nav-link" data-scroll-target="#homoskedastizität"><span class="toc-section-number">3.2.2</span>  Homoskedastizität</a></li>
+  <li><a href="#normalverteilung-der-residuen" id="toc-normalverteilung-der-residuen" class="nav-link" data-scroll-target="#normalverteilung-der-residuen"><span class="toc-section-number">3.2.3</span>  Normalverteilung der Residuen</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Regression in R</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Veröffentlichungsdatum</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">1. September 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="cell-output-display">
+<div class="vembedr">
+<div class="vembedr-rounded">
+<iframe src="https://www.youtube.com/embed/UI2ETORyr5E" width="800" height="500" frameborder="0" allowfullscreen="" data-external="1"></iframe>
+</div>
+</div>
+</div>
+</div>
+<p>Im Video wird diese Seite noch kommentiert, mit der Excel variiert und etwas Hintergrund erklärt. Die Werte der Regressionsrechnung sind andere als auf der Seite hier, weil von Excel bei jedem Durchlauf etwas andere Werte herauskommen. Schauen Sie sich am besten das Video an und versuchen Sie dann, die Outputs der etwas veränderten Werte zu interpretieren.</p>
+<hr>
+<p>Regressionen können in R mit Hilfe des Linearen Modell berechnet werden. Der Befehlsaufruf für das Lineare Modell ist <code>lm()</code>. In diesen Aufruf für das lineare Modell muss das Modell selbst geschrieben werden. Wenn also das Modell wäre:</p>
+<p><span class="math display">\[\begin{align}
+Y_i&amp;=b_1 + b_2X_{i2} + b_3X_{i3}+e_i
+\end{align}\]</span></p>
+<p>… dann wäre das der Befehlsaufruf in R: <code>lm(Y ~ X_2 + X_3)</code></p>
+<p>Es muss dem System also nur gesagt werden, welche Variable erklärt werden soll, also welche die AV ist (sie steht links vom «~») und dann muss man rechts vom «~» R mitteilen, welches die unabhängigen Variablen (UVs) sind, mit denen die AV erklärt werden soll. Die Laufindizes der Summen, also die i’s braucht man nicht, weil R schon klar ist, dass es alle Werte einer Variablen nehmen soll (wenn das mal nicht der Fall ist, muss man es R mitteilen, indem man den Datensatz filtert). Für die b’s geht R davon aus, dass für jede Variable ein Regressionskoeffizient (Schätzer bzw. estimator) anhand der Daten berechnet bzw. geschätzt werden muss. Zu guter Letzt braucht man R auch nicht erklären, dass Residuen (die e’s) übrig bleiben werden. Das ist einfach so. Darum ist die Formel in R so schön kurz. So spezifizieren Sie das Modell. Bevor wir das tun können, brauchen wir aber Daten, für die ein Modell spezifiziert werden kann.</p>
+<p>Dafür laden wir einen Datensatz, den ich als Spieldatensatz in Excel gebastelt habe.</p>
+<hr>
+<p><strong>Mit dieser Exceldatei starten wir mal:</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="data/EinfachsteRegression.xlsx"><img src="images/EinfachsteRegression.jpg" title="Link zur Excel-Datei" class="img-fluid figure-img" style="width:100.0%"></a></p>
+<p></p><figcaption class="figure-caption">EinfachsteRegression</figcaption><p></p>
+</figure>
+</div>
+<hr>
+<p>In können Exceldateien mit dem Paket <code>readxl</code> in R «importiert» werden (schauen Sie mal, ob in Ihrem R-Studio oben ein gelber Streifen auftaucht, wenn Sie folgende Zeile schreiben; in dem Fall klicken Sie oben darauf, dass das Paket, was fehlt, noch installiert werden muss.).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lade die Exceldatei "EinfachsteRegression.xlsx" </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># mit dem Paket readxl </span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># und daraus dem Befehl read_excel</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># DATEN &lt;- readxl::read_excel("data/EinfachsteRegression.xlsx") </span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Besser hier noch speichern, damit die Werte aus der Excel nicht jedes Mal andere sind. In Excel wird ja jedes Mal neu "gewürfelt", wenn die Datei geöffnet wird.</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># saveRDS(DATEN, file = "data/EinfachsteRegression.RDS")</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>DATEN <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="at">file =</span> <span class="st">"data/EinfachsteRegression.RDS"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Zeige mal die ersten 10 Zeilen des Datensatzes</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>DATEN</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 100 × 4</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="do">##      ID     Y   X_2   X_3</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="do">##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="do">## 1     1    13     3     5</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="do">## 2     2     7     1     5</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="do">## 3     3    10     2     4</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="do">## 4     4    14    10     7</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="do">## 5     5     5     3     5</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="do">## 6     6    19    10     9</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="do">## # … with 94 more rows</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Über die Variablen im Datensatz wissen wir ein paar Dinge. Es gibt 100 Fälle, also 100 Zeilen im Datensatz. X_2 ist eine Zufallszahl, die Werte zwischen 0 und 10 annehmen kann. Wir können steuern, dass X_2 und X_3 (ein bischen) miteinander zusammenhängen, indem X_3 je Zeile die Summe aus X_2 und einer Zufallszahl ist. Und dann bilden wir Y als Summe aus einer Konstanten (b_1 = 5) + 0.8*X_2 + 2*X_3 + noch einer Zufallszahl zwischen 0 und 10 (wozu das gut ist, erkläre ich im Video und spiele damit etwas herum :-). Jetzt können wir uns anschauen, wie diese Variablen miteinander zusammenhängen, wenn wir eine Regression rechnen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Das Modell ist also recht einfach </span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>Modell <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X_2 <span class="sc">+</span> X_3, </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> DATEN) <span class="co"># und wird für diese Daten angepasst,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                           <span class="co"># es werden also die Koeffizienten gesucht.</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Mit diesem Befehl kann man direkt </span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># einen vergleichsweise informativen Output erzeugen:</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Modell)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Call:</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="do">## lm(formula = Y ~ X_2 + X_3, data = DATEN)</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Residuals:</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="do">##     Min      1Q  Median      3Q     Max </span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="do">## -5.3455 -2.3656  0.3684  2.4642  4.9255 </span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="do">## Coefficients:</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="do">##             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="do">## (Intercept)   5.6408     0.8166   6.908 5.16e-10 ***</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="do">## X_2           0.6823     0.1395   4.890 4.00e-06 ***</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="do">## X_3           0.4430     0.2100   2.109   0.0375 *  </span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="do">## ---</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="do">## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="do">## Residual standard error: 2.904 on 97 degrees of freedom</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="do">## Multiple R-squared:  0.4783, Adjusted R-squared:  0.4676 </span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="do">## F-statistic: 44.47 on 2 and 97 DF,  p-value: 1.968e-14</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In dem Output steht als erstes nochmal das Modell, wie es angefordert wurde, also wie der Call war: <code>lm(formula = Y ~ X_2 + X_3, data = DATEN)</code>. Darunter stehen ein paar Statistiken für die Residuen. Ich habe keine Ahnung, warum das die Macher dieser Funktion wichtig fanden, dass das da steht.</p>
+<p>Wichtiger sind die Koeffizienten (Coefficients): In der ersten Spalte die Variablennamen. In der zweiten Spalte die «Estimates», was schlicht die B’s in der Regression sind. Dahinter stehen die Standardfehler der B’s. In der dritten Spalte (man muss etwas genauer hinsehen) steht der t-Wert als «t value». Direkt dahinte (was sinnvoll ist) stehen die p-Werte mit der Spaltenüberschrift «Pr(&gt;|t|)» (Jesus!), also die Wahrscheinlichkeit, dass das gefundene oder ein höheres t rein zufällig vorkommt, obwohl in Wirklichkeit die Nullhypothese gilt, dass das jeweilige zu schätzende unbekannte <span class="math inline">\(\beta\)</span> in der Auswahlgesamtheit gleich 0 ist.</p>
+<p>Darunter steht eine Art Legende für die Sternchen, also die Signifikanz. Diese Sternchen sind praktisch, wenn mal jemand 5% Irrtumswahrscheinlichkeit aushält (p &lt; 0.05, dass die <span class="math inline">\(H_0\)</span> gilt, bei 95%-igem Signifikanzniveau), aber andere p &lt; 0.01. Was wir aber eigentlich nicht wollen, ist das Signifikanzen gesteigert werden. Wir sind (und damit Sie) standardmässig auf 95%-iges Signifikanzniveau festgelegt und schauen nur, ob der p-Wert über oder unter .05 liegt (das p kann nur von 0 bis 1 gehen, und darum wird die führende 0 oft weggelassen - das sieht auch cooler aus). Unter der Koeffiziententabelle stehen die Erläuterungen der Sternchen wie als Fussnote. Die sind so schräg angelegt, mit der 0 am Anfang und 1 am Ende, bei denen ich auch nicht weiss, warum und wofür. Es ist auch nicht ganz eindeutig, ob 0.05 nun über ein Sternchen oder den unglücklichen Punkt gekennzeichnet sein soll. Lesen Sie einfach die p-Werte in der Spalte Pr(&gt;|t|). Da sehen Sie ja, welcher kritische Wert von p gerade unterschritten wird. Wenn Sie einen Bericht schreiben, dann geben Sie, wenn überhaupt, nur ein Sternchen an, wenn Ihre Ergebnisse signifikant sind. Normalerweise ist das der Fall abei p &lt; .05. Das ist sowas wie der Standard. Wenn Sie strenger sein wollen, weil es gefährlich ist fälschlich eine Signifikanz anzunehmen, dann nehmen Sie eher .01 und wenn Sie eine kleine Stichprobe haben und sehr innovativ sind und sowieso noch eine grössere Studie gemacht werden soll, dann können Sie auch mal .1 als Signifikanzgrenze nehmen.</p>
+<p>Die letzten Zeilen des Summary-Outputs sind der Modellgüte gewidmet. Die erste Zeile können Sie erstmal ignorieren. Das sind nur Zahlen, die in der zweiten Zeile verrechnet wurden. Da steht das <span class="math inline">\(R^2\)</span>. Also das Bestimmtheitsmass. Das Adjusted R-squared liegt schon bei 100 Fällen sehr nahe am normalen <span class="math inline">\(R^2\)</span>. Sie können sich merken, dass Sie nur dann auf das Adjusted R-squared zurückgreifen, wenn es gerundet in der ersten Nachkommastelle von <span class="math inline">\(R^2\)</span> abweicht (liegt immer drunter). In der letzten Zeile dieses Outputs steht die F-Statistic, wobei Sie hier sicher auch Mühe haben, den F-Wert an sich zu interpretieren, das können die Wenigsten. Das brauchen Sie auch nicht, weil Ihnen am Ende wieder ein p-Wert ausgegeben wird. Der sagt hier, wie wahrscheinlich der F-Wert von vorne auftritt, wenn die <span class="math inline">\(HK_0\)</span> gilt, dass das gesamte Modell keine Varianz der AV erklärt, also wir durch die UVs X_2 und X_3 genau Null über Y lernen können.</p>
+<hr>
+<p><strong>Nennen Sie die Elemente, die in R angegeben werden müssen, damit ein Modell geschätzt werden kann?</strong></p>
+<div class="cell">
+
+</div>
+<div id="radio_MWLEFOODFI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_MWLEFOODFI" value=""> <span>b's</span></label><label><input type="radio" autocomplete="off" name="radio_MWLEFOODFI" value="answer"> <span>AV</span></label><label><input type="radio" autocomplete="off" name="radio_MWLEFOODFI" value=""> <span><span class="math inline">\(e_i\)</span></span></label><label><input type="radio" autocomplete="off" name="radio_MWLEFOODFI" value="answer"> <span>UVs</span></label>
+</div>
+<hr>
+<section id="alternative-ausgaben-für-die-regressionsanalysen-mit-pakten" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="alternative-ausgaben-für-die-regressionsanalysen-mit-pakten"><span class="header-section-number">3.1</span> Alternative Ausgaben für die Regressionsanalysen mit Pakten</h2>
+<p>Sie merken, es ist schon wieder alles so zerrissen. Gerne hätten wir doch eine Regressionsanalyse, wo alles drin ist, was wir wollen. Also auch die standardisierten Regressionskoeffizienten, die std. BETAS und vielleicht die Konfedenzintervalle für dieses BETAS. Das finden wir im Paket sjplot.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Mache eine Regressionstabelle </span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># mit dem Paket sjPlot und dem Befehl tab_model()</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>sjPlot<span class="sc">::</span><span class="fu">tab_model</span>(Modell)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table style="border-collapse:collapse; border:none;">
+<tbody><tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Y</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">5.64</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">4.02&nbsp;–&nbsp;7.26</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">X 2</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.68</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.41&nbsp;–&nbsp;0.96</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">X 3</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.44</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.03&nbsp;–&nbsp;0.86</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.037</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">100</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">0.478 / 0.468</td>
+</tr>
+
+</tbody></table>
+
+</div>
+</div>
+<p>Die «Predictors» sind die Variablen, die Estimates sind die b. Das CI ist das Konfidenzintervall der b und p ist der p-Wert. Unter der Tabelle steht das Bestimmtheitsmass <span class="math inline">\(R^2\)</span>. Das sieht also schon ganz gut aus, aber ich hätte gerne die standardisierten Regressionskoeffizienten, die BETAS statt der b’s (Estimates).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Passe weiter an.</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>sjPlot<span class="sc">::</span><span class="fu">tab_model</span>(Modell, </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show.std =</span> <span class="cn">TRUE</span>, <span class="co"># zeige die standardisierten Koeffizienten</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show.est =</span> <span class="cn">FALSE</span>, <span class="co"># zeige die unstandardisierten estimates nicht</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show.r2 =</span> <span class="cn">TRUE</span> <span class="co"># zeige R^2</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                  )</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table style="border-collapse:collapse; border:none;">
+<tbody><tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Y</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. Beta</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">standardized CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.14&nbsp;–&nbsp;0.14</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">X 2</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.51</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.31&nbsp;–&nbsp;0.72</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">X 3</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.22</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.01&nbsp;–&nbsp;0.43</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.037</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">100</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">0.478 / 0.468</td>
+</tr>
+
+</tbody></table>
+
+</div>
+</div>
+<p>Jetzt stehen an der Stelle der «Estimates» die standardisierten Regressionskoeffizienten mit der Bezeichnung «std. Beta», was ein bischen doppelt gemoppelt ist, weil «BETA» die Kennung für die standardisierten Regressionskoeffizienten ist. Die Konfidenzintervalle CI beziehen sich jetzt auch auf die «std. Beta». Der p-Wert ist noch derselbe - da kann ja auch nichts anderes rauskommen. Mit einem anderen Paket können wir uns auch eine ausführlichere «Summary» erzeugen. Das ist dann sinnvoll, wenn Sie sowieso in Word ihre Arbeit schreiben und die Werte aus R in ordentliche Tabellen in Word eintragen (so gut es geht).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sehr ausführliche Ausgaben Modellgüte und Koeffizienten.</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>olsrr<span class="sc">::</span><span class="fu">ols_regress</span>(Modell)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">##                         Model Summary                          </span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="do">## --------------------------------------------------------------</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="do">## R                       0.692       RMSE                2.904 </span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="do">## R-Squared               0.478       Coef. Var          25.838 </span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Adj. R-Squared          0.468       MSE                 8.434 </span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Pred R-Squared          0.446       MAE                 2.465 </span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="do">## --------------------------------------------------------------</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  RMSE: Root Mean Square Error </span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  MSE: Mean Square Error </span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  MAE: Mean Absolute Error </span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="do">##                                ANOVA                                 </span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="do">## --------------------------------------------------------------------</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="do">##                 Sum of                                              </span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="do">##                Squares        DF    Mean Square      F         Sig. </span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="do">## --------------------------------------------------------------------</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="do">## Regression     750.123         2        375.061    44.469    0.0000 </span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="do">## Residual       818.117        97          8.434                     </span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="do">## Total         1568.240        99                                    </span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="do">## --------------------------------------------------------------------</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="do">##                                 Parameter Estimates                                  </span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="do">## ------------------------------------------------------------------------------------</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="do">##       model     Beta    Std. Error    Std. Beta      t       Sig     lower    upper </span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="do">## ------------------------------------------------------------------------------------</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="do">## (Intercept)    5.641         0.817                 6.908    0.000    4.020    7.261 </span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="do">##         X_2    0.682         0.140        0.515    4.890    0.000    0.405    0.959 </span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="do">##         X_3    0.443         0.210        0.222    2.109    0.037    0.026    0.860 </span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="do">## ------------------------------------------------------------------------------------</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Da haben wir jetzt mehr als wir brauche, finden aber fast alles, was wir suchen (leider TOL und VIF nicht). Da gucken wir uns gleich an.</p>
+</section>
+<section id="checks-der-voraussetzungen" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="checks-der-voraussetzungen"><span class="header-section-number">3.2</span> Checks der Voraussetzungen</h2>
+<section id="multikollinearität" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="multikollinearität"><span class="header-section-number">3.2.1</span> Multikollinearität</h3>
+<p>Wir wissen aus der Konstruktion der Excel-Datei, dass die UVs X_2 und X_3 miteinander korrellieren. Das können wir uns einfach mal als Korrelation anschauen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># nehme die Daten des Datenobjekts "DATEN"</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>DATEN <span class="sc">|&gt;</span> <span class="co"># ... und pipe (|&gt;, mache also </span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                         <span class="co"># mit dem Arbeitsschritt der nächsten Zeile weiter)</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>()</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="do">##             ID          Y       X_2       X_3</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="do">## ID  1.00000000 0.06560959 0.1430166 0.1161319</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Y   0.06560959 1.00000000 0.6740839 0.5913754</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="do">## X_2 0.14301664 0.67408390 1.0000000 0.7174257</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="do">## X_3 0.11613194 0.59137538 0.7174257 1.0000000</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In der Korrelation kann man sehen, dass X_2 und X_3 recht stark korrelieren. Schön anzusehen ist das allerdings nicht. Darum gleich nochmal schöner:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>DATEN <span class="sc">|&gt;</span> <span class="co"># nehme DATEN und ...</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>() <span class="sc">|&gt;</span> <span class="co"># berechne die Korrelation und mache dann noch weiter</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  corrplot<span class="sc">::</span><span class="fu">corrplot</span>(<span class="at">type =</span> <span class="st">"lower"</span>, <span class="co"># nimm mal nur die unter der Diagonalen</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">method =</span> <span class="st">"square"</span>, <span class="co"># Quadrate statt Kreise</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">addCoef.col =</span> <span class="st">'black'</span>, <span class="co"># füge mal die Korrelationskoeffizienten hinzu</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">diag =</span> <span class="cn">FALSE</span> , <span class="co"># Die Einsen in der Diagonale lass mal weg (Korrelationen der Variablen mit sich selbst)</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>         )</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03_Regression_in_R_files/figure-html/Correlation-schoen-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p></p><figcaption class="figure-caption">Korrelationen mit corrplot</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>OK, also wie sehen, dass X_2 und X_3 stark miteinander korrelieren! Das muss Multikollinearität geben. Oben in dem Summary-Output der Regression konnten wir das noch nicht sehen. Leider produziert die Standard-lm die Toleranzwerte und VIF-Werte nicht. Wir können die aber anfordern:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Es gibt ein Paket "olsrr" für die Prüfung der OLS-Voraussetzungen, </span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">## wo man sich den VIF und die Toleranz rauslassen kann:s</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  Dafür wird also das Paket "olsrr" benötigt. </span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Entweder sie werden direkt gefragt, ob Sie es installieren möchten </span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="do">## oder Sie gehen auf Tools -&gt; Install Package und holen es sich. </span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>olsrr<span class="sc">::</span><span class="fu">ols_vif_tol</span>(Modell) </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="do">##   Variables Tolerance     VIF</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="do">## 1       X_2 0.4853003 2.06058</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="do">## 2       X_3 0.4853003 2.06058</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Die Toleranz ist das <span class="math inline">\(R^2\)</span>, wenn die jeweilige UV quasi als AV einer Regression genommen werden würde und alle übrigen UV als UVs. Der VIF ist der «Varianzinflationsfaktor» und schlicht der Kehrwert (1/<span class="math inline">\(R^2\)</span>) der Toleranz.</p>
+</section>
+<section id="homoskedastizität" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="homoskedastizität"><span class="header-section-number">3.2.2</span> Homoskedastizität</h3>
+<p>Die Annahme der Homoskedastizität bedeutet, dass die Streuung der Residuen, also der Werte um die Regressionsgerade nicht mit den vorhergesagten oder den UVs zusammenhängen sollte. Sie sollten immer recht gleichmässig (homoskedastisch) um vorhergesagten Werte (die Regressionsgerade) streuen. Es sollen keine kurvenartigen Gebilde sichtbar werden und keine Trichter in irgendeine Richtung.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotte die geschätzten Werte auf der Regressionsgeraden (Y-Hut) </span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># auf der X-Achse und die Residuen auf der Y-Achse</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>olsrr<span class="sc">::</span><span class="fu">ols_plot_resid_fit</span>(Modell)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03_Regression_in_R_files/figure-html/Homoskedastizitaetscheck-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p></p><figcaption class="figure-caption">Plot für Fit und Residuen</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Wenn wir die Residuen gegen die geschätzten Werte plotten, dann deutet nichts auf einen kurvlinearen Verlauf hin. Wenn der da wäre, würden wir eine recht klare Kurvenverteilung sehen. So eine Beziehung gibt es in der Regel nicht einfach zufällig und da wir so etwas nicht in die Daten imputiert haben, ist es eben auch nicht drin. Gut so. Eine Art Trichter sehen wir auch nicht, also ist die Streuung der Fehler um die Gerade überfall ungefähr gleich.</p>
+<p>Wir können uns auch Tests für die Voraussetzungen rausgeben lassen. Homoskedastizität kann mit dem Breusch-Pagan-Test geprüft werden.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Führe einen Breusch-Pagan-Test aus</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>olsrr<span class="sc">::</span><span class="fu">ols_test_breusch_pagan</span>(Modell)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  Breusch Pagan Test for Heteroskedasticity</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="do">##  -----------------------------------------</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="do">##  Ho: the variance is constant            </span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  Ha: the variance is not constant        </span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="do">##             Data              </span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  -----------------------------</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  Response : Y </span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  Variables: fitted values of Y </span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="do">##         Test Summary         </span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="do">##  ----------------------------</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="do">##  DF            =    1 </span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="do">##  Chi2          =    0.0161833 </span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="do">##  Prob &gt; Chi2   =    0.8987714</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Der ist in diesem Fall nicht signifikant. Oben steht, dass wenn die H0 beibehalten werden kann, dann wird die Varianz der Fehler als konstant über die Werte der gefitteten Werte der AV betrachtet. Ist ok.</p>
+</section>
+<section id="normalverteilung-der-residuen" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="normalverteilung-der-residuen"><span class="header-section-number">3.2.3</span> Normalverteilung der Residuen</h3>
+<p>Die Normalverteilung der Residuen kann man sich mit dem Normal-Q-Q-Plot ansehen (manchmal auch nur Q-Q oder Resid-QQ). Wenn die Residuen perfekt normalverteilt wären, dann lägen die blauen Punkte auf der Geraden.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Führe einen Normal-Q-Q-Plot aus</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>olsrr<span class="sc">::</span><span class="fu">ols_plot_resid_qq</span>(Modell)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03_Regression_in_R_files/figure-html/N-Q-Q-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p></p><figcaption class="figure-caption">Normal-Q-Q-Plot</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Also gut, der Normal-Q-Q-Plot sagt deutlich, dass die Residuen nicht normalverteilt sind. Das liegt vor allem daran, dass die Verteilungen in der Excel mit einfachen Zufallszahlen gemacht wurden und nicht mit normalverteilten Variablen. Da wir auch nicht so viele Fälle haben (100), gibt es so eine Kurve. Das ist für die Tests, die bekannte Verteilungsannahmen annehmen, nicht so toll. Wir müssen mit den Interpretationen unserer t-Test und F-Tests mindestens vorsichtig sein. Also vielleicht bei einer p-Wert von .04 nicht gleich von klarer Signifikanz reden. Allerdings sind unsere Schätzer (b’s und <span class="math inline">\(R^2\)</span>) recht robust gegen diese Verletzung. Das heisst, dass wir bei bei p-Werten kleiner .01 auch dann signifikante b’s interpretieren können, wenn diese Annahme etwas verletzt ist.</p>
+<p>Am besten, wir schauen uns das nochmal in einem Histogramm an, da kann man mehr sehen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Mache mal ein Histogramm der Residuen. Die sollten annähernd normalverteilt sein. </span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>olsrr<span class="sc">::</span><span class="fu">ols_plot_resid_hist</span>(Modell)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03_Regression_in_R_files/figure-html/Histogramm-der-Residuen-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p></p><figcaption class="figure-caption">Histogramm der Residuen</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Und da sehen Sie die Ursache. Und sie sehen, najaaaa, sooo schlimm ist das doch nicht.</p>
+<p>Wir können auch hier Tests machen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Führe Tests auf signifikante Verletzungen </span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># der Normalverteilungsannahme aus.</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>olsrr<span class="sc">::</span><span class="fu">ols_test_normality</span>(Modell)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Warning in ks.test.default(y, "pnorm", mean(y), sd(y)): für den Komogorov-Smirnov-Test</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="do">## sollten keine Bindungen vorhanden sein</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="do">##        Test             Statistic       pvalue  </span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Shapiro-Wilk              0.9525         0.0012 </span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Kolmogorov-Smirnov        0.0788         0.5645 </span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Cramer-von Mises          6.2278         0.0000 </span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Anderson-Darling          1.2635         0.0026 </span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Es werden gleich mehrere rausgelassen, die unterschiedliche Eigenschaften haben und damit so ihre Stärken und Schwächen, wie jeder andere Mensch auch. Für Statistik-Aufbau soll uns mal reichen, dass wir ein Problem haben, wenn alle Tests zu dem Ergebnis kommen, dass wir ein Problem haben (alle p-Werte sind signifikant mit p &lt; .05). Kein Problem haben wir, wenn ein Test sagt, dass es ok ist. In diesem Fall rettet uns Kolmogorov-Smirnov. Wir behalten aber im Hinterkopf, dass es ein Problem gibt und überinterpretieren die Werte nicht, wenn sie nahe der Grenze liegen. Damit ist gemeint, dass p-Werte deutlich unter .05 liegen sollten, damit wir von signifikanten Effekten sprechen. Bei knapp interpretierbaren Ergebnissen, muss man einfach zugeben, dass man Probleme mit den Voraussetzungen hat und aus den Daten keine Sicherheit ziehen kann.</p>
+<hr>
+<p><strong>Welche der im folgenden genannten Voraussetzungen müssen geprüft werden, um ein lineares Modell rechnen bzw. unverzerrt auswerten zu können?</strong></p>
+<div class="cell">
+
+</div>
+<div id="radio_EEXOMBWKKE" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_EEXOMBWKKE" value="answer"> <span>keine zu starke Multikollinearität</span></label><label><input type="radio" autocomplete="off" name="radio_EEXOMBWKKE" value="answer"> <span>Homoskedastizität</span></label><label><input type="radio" autocomplete="off" name="radio_EEXOMBWKKE" value=""> <span>keine zu starke Covarianz zwischen den einzelnen UVs und der AV</span></label><label><input type="radio" autocomplete="off" name="radio_EEXOMBWKKE" value=""> <span>Monokausalität</span></label>
+</div>
+<hr>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Kopiert");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Kopiert");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./02_GLM.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Das lineare Modell</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./04_Gruppenvergleiche.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Gruppenvergleiche (ANCOVA)</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

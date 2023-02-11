@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de-CH" xml:lang="de-CH"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.313">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Statistik Aufbau - 1&nbsp; Was bisher geschah</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./02_GLM.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "Keine Treffer",
+    "search-matching-documents-text": "Treffer",
+    "search-copy-link-title": "Link in die Suche kopieren",
+    "search-hide-matches-text": "Zusätzliche Treffer verbergen",
+    "search-more-match-text": "weitere Treffer in diesem Dokument",
+    "search-more-matches-text": "weitere Treffer in diesem Dokument",
+    "search-clear-button-title": "Zurücksetzen",
+    "search-detached-cancel-button-title": "Abbrechen",
+    "search-submit-button-title": "Abschicken"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="www/style.css">
+<link rel="stylesheet" href="www/webex.css">
+<link rel="stylesheet" href="www/index.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Was bisher geschah</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistik Aufbau</a> 
+        <div class="sidebar-tools-main">
+    <a href="./Statistik-Aufbau---Fretwurst.pdf" title="Download PDF" class="sidebar-tool px-1"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Einleitung</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Wiederholung.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Was bisher geschah</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_GLM.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Das lineare Modell</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_Regression_in_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Regression in R</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Gruppenvergleiche.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Gruppenvergleiche (ANCOVA)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_Dimensionsreduktion.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Faktorenanalyse</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_ML.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Machine Learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_Clusteranalyse.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Clusteranalyse</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./80_Glossar.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Glossar</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./90_Literatur.html" class="sidebar-item-text sidebar-link">Literatur</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Seiteninhalt</h2>
+   
+  <ul>
+  <li><a href="#die-folien-zur-sitzung" id="toc-die-folien-zur-sitzung" class="nav-link active" data-scroll-target="#die-folien-zur-sitzung"><span class="toc-section-number">1.1</span>  Die Folien zur Sitzung</a></li>
+  <li><a href="#univariate-statistik" id="toc-univariate-statistik" class="nav-link" data-scroll-target="#univariate-statistik"><span class="toc-section-number">1.2</span>  Univariate Statistik</a></li>
+  <li><a href="#bivariate-statistik" id="toc-bivariate-statistik" class="nav-link" data-scroll-target="#bivariate-statistik"><span class="toc-section-number">1.3</span>  Bivariate Statistik</a>
+  <ul class="collapse">
+  <li><a href="#kreuztabellen" id="toc-kreuztabellen" class="nav-link" data-scroll-target="#kreuztabellen"><span class="toc-section-number">1.3.1</span>  Kreuztabellen</a></li>
+  <li><a href="#covarianz-und-korrelation" id="toc-covarianz-und-korrelation" class="nav-link" data-scroll-target="#covarianz-und-korrelation"><span class="toc-section-number">1.3.2</span>  Covarianz und Korrelation</a></li>
+  <li><a href="#bivariate-regression" id="toc-bivariate-regression" class="nav-link" data-scroll-target="#bivariate-regression"><span class="toc-section-number">1.3.3</span>  Bivariate Regression</a></li>
+  </ul></li>
+  <li><a href="#inferenzstatistik" id="toc-inferenzstatistik" class="nav-link" data-scroll-target="#inferenzstatistik"><span class="toc-section-number">1.4</span>  Inferenzstatistik</a>
+  <ul class="collapse">
+  <li><a href="#konfidenzintervalle-für-mittelwerte" id="toc-konfidenzintervalle-für-mittelwerte" class="nav-link" data-scroll-target="#konfidenzintervalle-für-mittelwerte"><span class="toc-section-number">1.4.1</span>  Konfidenzintervalle für Mittelwerte</a></li>
+  <li><a href="#hypothesentesten" id="toc-hypothesentesten" class="nav-link" data-scroll-target="#hypothesentesten"><span class="toc-section-number">1.4.2</span>  Hypothesentesten</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Was bisher geschah</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Veröffentlichungsdatum</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">1. September 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="die-folien-zur-sitzung" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="die-folien-zur-sitzung"><span class="header-section-number">1.1</span> Die Folien zur Sitzung</h2>
+<div>
+<iframe class="slide-deck" width="100%" height="500" frameborder="no" src="reveal">
+</iframe>
+</div>
+</section>
+<section id="univariate-statistik" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="univariate-statistik"><span class="header-section-number">1.2</span> Univariate Statistik</h2>
+<p>Alle Statistik baut auf Masse zentraler Tendenz und Streumasse auf. Für das, was wir in diesem Semester tun, brauchen wir eigentlich nur den Mittelwert und die Varianz (bzw. die Standardabweichung). Der Mittelwert entspricht der Frage: Wie siehts denn normalerweise aus? Die Standardabweichung beantwortet die Frage: Gibt der «Normalwert» (Mittelwert) eine brauchbare Auskunft über die untersuchten Personen oder sind die doch alle sehr unterschiedlich. Mit dem Mittelwert und der Abweichung vom Mittelwert können wir Verteilungen beschreiben, die sich nach bekannten Gesetzen verteilen: den Wahrscheinlichkeitsgesetzen. Die Normalverteilung ist dabei die wichtigste Verteilung. Bei dieser gedachten Idealverteilung steht der Mittelwert genau in der Mitte und die Streuung ist ordentlich symmetrisch um den Mittelwerqt herum verteilt. Wegen dieser Eigenschaften, geben hier also der Mittelwert und die Standardabweichung die volle Information über die Art der Verteilung ab <span class="math inline">\(N(\overline{x},s_x)\)</span>. Die Standardnormalverteilung (nach der z-Transformation) hat einen Mittelwert von 0 und eine Standardabweichung von 1.</p>
+<p><span class="math display">\[\begin{align}    
+\overline{x} = &amp; \frac{1}{n}\sum_i^n(x_i) \label{eq:Mittelwert-x}\\     
+\overline{y}  = &amp; \frac{1}{n}\sum_i^n(y_i) \label{eq:Mittelwert-y}\\   
+   s^2 = V = &amp; \frac{1}{n} \sum_i^n(x_i-\overline{x})^2 \label{eq:Varianz-x}\\    
+    s  = &amp; \sqrt{\frac{1}{n} \sum_i^n(x_i-\overline{x})^2} \label{eq:SD-x}\\   
+      z_i= &amp;\frac{x_i-\overline{x}}{s} \label{eq:z-Transformation}
+\end{align}\]</span></p>
+<p>Eine z-verteilte Grösse hat immer: <span class="math inline">\(\overline{x}=0\)</span> und <span class="math inline">\(s = 1\)</span>. - Nach der z-Transformation gibt es immer eine Entsprechung zwischen den ursprünglichen Ausprägungen und denen der z-Verteilung. - Werte einer standardisierten Verteilungen sind vergleichbar.</p>
+</section>
+<section id="bivariate-statistik" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="bivariate-statistik"><span class="header-section-number">1.3</span> Bivariate Statistik</h2>
+<section id="kreuztabellen" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="kreuztabellen"><span class="header-section-number">1.3.1</span> Kreuztabellen</h3>
+<p>Wenn wir Daten analysieren, dann können wir sie visualisieren. Eine sehr starke Form der Visualisierung sind Tabellen. Der Vorteil von Tabellen ist, dass sie sehr dicht an den Daten sind, wir also z.B. sehen können dass, 57 Prozent der Haushalte noch über mindestens ein Radiogerät verfügen. In der Deutschschweiz (DS) sind es sogar 62 Prozent, während es in der Romandie (FS) 44 Prozent sind und im Tessin und den weiteren Teilen der italienischen Schweiz (IS) 63 Prozent. Man kann aus Kreuztabellen für die beiden berücksichtigten Variablen den ursprünglichen Datensatz rekonstruieren, weil man weiss wie viele Leute befragt wurden, wie viel Prozent aus der DS sind, aus der FS und aus der IS und wie viele Leute jeweils mindestens ein Radio haben. Irgendwann kann ich Ihnen mal zeigen, wie man aus einer Kreuztabelle eine Korrelation berechnen kann – man braucht nicht mehr. Also gut, die Tabellen enthalten viele Informationen und können, mit ein bisschen Anleitung, von fast jedem gelesen werden (anders als unserer schönen Regressions- oder Strukturgleichungsmodelle). Das Problem ist aber, dass man sehr schnell einschläft, wenn einem so eine Tabelle vorgelesen wird. Wenn man sie selbst liesst, ist es einfach sehr viel, worauf man schauen muss, was man vergleichen und dann vielleicht sogar noch texten muss. Eine Korrelation fast in einem direkt lesbaren Wert das Zusammen, was Sie vielleicht aus 5*5, also 25 Tabellenzellen mühsam herauslesen und dann immer noch nur so vom Gefühl her texten können. Tabellen sind also relativ voraussetzungsfrei interpretierbar, aber es ist sehr ermüdend und langwierig.</p>
+<hr>
+<p><strong>Beispiel für eine Kreuztabelle mit Link zu mehr (interaktiven) Kreuztballen:</strong><br>
+<img src="images/Kreuztabelle.jpg" title="https://shiny.iakom.ch/pem22/" class="img-fluid" style="width:100.0%" alt="Kreuztabelle"></p>
+<hr>
+</section>
+<section id="covarianz-und-korrelation" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="covarianz-und-korrelation"><span class="header-section-number">1.3.2</span> Covarianz und Korrelation</h3>
+<p>Vor ein paar Zeilen hatte ich behauptet, man brauche als Kenngrössen in der Statistik nicht mehr als Mittelwert und Standardabweichung. Das sollte der Beruhigung dienen und ist ein bisschen gelogen. Ein Merkmal kann man mit diesen Kenngrössen in der Regel gut beschreiben, aber um das Zusammenspiel zweier Variablen beschreiben zu können, braucht es noch eine Kenngrösse: die Kovariation. Wieder etwas vereinfacht und doch nicht ganz falsch: fast alle multivariate Statistik baut auf Mittelwerten, Varianzen und Kovarianzen auf.</p>
+<p>Kovarianz (cov oder auch C) sieht genauso aus, wie die Definition der Varianz, nur, dass nicht die Mittelwertabweichungen einer Variablen quadriert werden, sondern die Mittelwertabweichungen zweier Variablen multipliziert werden. Berechnet man die Kovarianz einer Variable mit sich selbst, kommt wieder die Varianz raus. Da Varianz und Mittelwert nicht standardisiert sind, ist auch die Kovarianz nicht standardisiert. Rechnet man mit standardisierten Variablen, kommt auch ein standardisierter Wert für die Kovarianz raus. Da der für Vergleiche von unvergleichlicher Bedeutung ist, hat auch dieser Kennwert einen eigenen Namen bekommen: Korrelation (r).</p>
+<span class="math display">\[\begin{align}
+      cov = C =  &amp; \frac{1}{n}\sum_i^n(x_i-\overline{x})
+          (y_i-\overline{y}) \label{eq:Covarianz} \\
+      r = &amp;  \frac{\sum_i^n(x_i-\overline{x})
+          (y_i-\overline{y})}{n \cdot s_x \cdot s_y} \label{eq:Korrelation}
+\end{align}\]</span>
+<hr>
+<p>Diese kleine shiny-App lässt Sie spielerisch raten, wie gross wohl eine Korrelation ist, wenn Sie eine Punktwolke sehen. Sie werden feststellen, dass die Statistik feiner gucken kann als der Mensch. Wo Sie kaum eine Korrelation feststellen können, misst die Statistik durchaus noch Zusammenhänge:<br>
+<img src="images/Korrelationsspiel.jpg" title="Link zum Korrelationsspiel" class="img-fluid" style="width:100.0%" alt="Onlineapp"></p>
+<hr>
+<!-- ### Partielle Korrelation -->
+<!-- Ein Korrelation ist eine Korrelation ist eine Korrelation, da hilft gar -->
+<!-- nix und "Scheinkorrelationen" gibt es im pingeligen Sinne des Wortes -->
+<!-- nicht. Aber man muss sich vor Scheinzusammenhängen und noch mehr vor -->
+<!-- Kausalen Interpretationen in acht nehmen, wo möglicherweise keine sind. -->
+<!-- Storchenpopulation und Geburtenrate korrelieren. Aber der Storch bringt -->
+<!-- nicht die Kinder. Um Drittvariablen, als Ursache für einen -->
+<!-- Scheinzusammenhang, ausschliessen zu können, werden die Kovarianzen -->
+<!-- zwischen den zu korrelierenden Variablen und der Drittvarible -->
+<!-- herausgerechnet, bzw. herauspartialisiert. Korreliert man nun die übrig -->
+<!-- gebliebene Restvarianz der zwei Variablen deren Zusammenhang man -->
+<!-- eigentlich berechnen wollte, bekommt man eine Partialkorrelation. -->
+<!-- ```{r Partielle-Korrelation1, eval=FALSE, fig.cap="Partielle Korrelation", include=FALSE, out.width="100%"} -->
+<!--    knitr::include_graphics(path = here::here("./Folien/Bilder/PartCorr1.jpg")) -->
+<!-- ``` -->
+<!-- ```{r Partielle-Korrelation2, fig.cap="Partielle Korrelation", echo=FALSE, out.width="100%"} -->
+<!--    knitr::include_graphics(path = "./Folien/Bilder/Fretwurst2008S215.jpg") -->
+</section>
+<section id="bivariate-regression" class="level3" data-number="1.3.3">
+<h3 data-number="1.3.3" class="anchored" data-anchor-id="bivariate-regression"><span class="header-section-number">1.3.3</span> Bivariate Regression</h3>
+<p>Die bivariate Regression ist im Grunde eine gehaltvollere Korrelation. Bei der Regression bestimme ich, im Unterschied zur Korrelation, was die abhängige Variable sein soll (AV) und was die unabhängige Variable sein soll (UV). Was die Regression bringt, sieht man in folgenden Formeln. Wenn wir in der ersten Zeile der Formeln @ref(eq:Mittelwert-Modell) davon ausgehen, dass wir keine UV haben, die die AV erklärt, dann haben wir als beste Information nur den Mittelwert. In dem Fall wäre unser Minimodell also: Die Werte in der Variable <span class="math inline">\(Y_i\)</span> sind am besten durch ihren Mittelwert <span class="math inline">\(\overline{Y}\)</span> «erklärt». Übrig bleiben die Abstände zwischen den gefundenen Werten und diesem Minimodell, also dem Mittelwert von Y. In der zweiten Zeile @ref(eq:Regressions-gleichung) sind wir schon klüger und nehmen an, dass eine Variable X dafür verantwortlich ist, dass die <span class="math inline">\(Y_i\)</span> so ausfallen, wie sie ausfallen. In der zweiten Zeile heisst es im Grunde: Die Werte in der AV Y sind abhängig von der UV X, wobei jeder Wert X mit einem b multipliziert werden muss und dann ein Rest <span class="math inline">\(e_i\)</span> bleibt. Damit Y nicht 0 sein muss, wenn X 0 ist (b*0=0), kommt zu dem <span class="math inline">\(b_2\)</span> noch ein <span class="math inline">\(b_1\)</span>. Fertig ist die bivariate Regressionsgleichung.</p>
+<span class="math display">\[\begin{align}
+  Y_i &amp; = \overline{Y} + e_i  \label{eq:Mittelwert-Modell} \\
+  Y_i &amp; = b_1 + b_2X_i + e_i \label{eq:Regressions-gleichung} \\
+  \hat{Y_i} &amp; = b_1 + b_2X_i \label{eq:Regressions-Modell} \\
+  Y_i &amp; = \hat{Y_i}+e_i \label{eq:Varianz-Modell-Residuum}
+\end{align}\]</span>
+<p>Jetzt könnten wir noch die vorhergesagten <span class="math inline">\(\hat{Y}\)</span> (gekennzeichnet durch ein Dach) durch das Modell abbilden, wobei dann einfach kein <span class="math inline">\(e_i\)</span> bleibt (dritte Zeile @ref(eq:Regressions-Modell)). In der untersten Formel @ref(eq:Varianz-Modell-Residuum) haben wir die in der Stichprobe gemessenen <span class="math inline">\(Y_i\)</span>, die gleich gesetzt sind mit den geschätzten <span class="math inline">\(Y_i\)</span> und dem Rest <span class="math inline">\(e_i\)</span>.</p>
+<p>Das <span class="math inline">\(b_2\)</span> gibt jetzt an, um wie viel Y grösser (oder kleiner) ist, wenn X um eine Einheit seiner Skala grösser wird. Die b’s sind also skalenabhängig. Weil das nicht immer leicht zu interpretieren ist und uns oft die Skalierung nicht weiter interessiert, wurden die standardisierten Regressionkoeffizienten erfunden. Bei diesen steht im Grunde wieder eine z-Transformation im Hintergrund, die die Skala «herausrechnet», indem durch die Standardabweichung geteilt wird.</p>
+<p>Die standardisierten Regressionskoffizienten geben einen Zusammenhang in Standardabweichungen an: Wenn x um eine Standardabweichung grösser ist, um wie viele Standardabweichungen ist dann y grösser (kann negativ sein)?</p>
+<p>Sie sind definiert als: <span class="math inline">\(BETA = b\cdot\frac{s_x}{s_y}\)</span></p>
+<p>Die BETAs<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> sind den partiellen Korrelationen sehr ähnlich: +1 ist ein perfekter positiver Zusammenhang, 0 kein Zusammenhang und -1 ein perfekter negativer Zusammenhang. Interpretieren würde ich ab 0.1, wenn sie signifikant sind.</p>
+</section>
+</section>
+<section id="inferenzstatistik" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="inferenzstatistik"><span class="header-section-number">1.4</span> Inferenzstatistik</h2>
+<p>Was in den Daten ist, die wir analysieren, das ist in den Daten – Punkt. Wir können Daten mit all diesen Tools untersuchen. Dafür brauchen wir natürlich vollständige Daten über das, was wir untersuchen wollen. Die haben wir aber oft nicht, weil es schlicht zu teuer ist und alle Menschen unfassbar nerven würde, wenn alle Sozialforscher:innen und Psycholog:innen und Wirtschaftswissenschaftler:innen usw. dauernd alle Menschen befragen würden. Das machen wir nicht, weil eine faszinierende Eigenschaft der Statistik ist, dass wir aus Teildaten Schlüsse auf die «Gesamt-Daten» ziehen können. Dieses Schliessen nennt man Inferenz (besser über das Englische zu merken: to infer). Dafür ist es notwendig, dass wir die Daten ohne bewussten Bias aus den Gesamtdaten entnommen haben.</p>
+<p>Einen Bias ausschliessen können wir, wenn wir den Zufall walten lassen. Zufall ist nichts anderes als das Nicht-bewusst-oder-unbewusst-Auswählen. Wenn wir zufällig gezogen haben, dann haben wir eine gute Chance auf ein unverzerrtes Abbild der Grundgesamtheit, die uns interessiert. Dann berechnen wir die ganzen Kennwerte der deskriptiven Statistik für die Stichprobe und können anhand der Zufallsgesetze bzw. Wahrscheinlichkeitstheorie auf die Verteilung in der Grundgesamtheit schliessen. Dabei bleibt eine Unsicherheit, weil der Zufall zufällig ungünstig ausfallen kann (wir haben auch schon Pferde kotzen sehen).</p>
+<p>Wir können allerdings sagen, wie wahrscheinlich bzw. unwahrscheinlich es ist, dass wir extrem viel Pech hatten mit unserer Stichprobenziehung. Dabei sind wir sehr vorsichtig und schätzen und testen konservativ. Die Frage ist also immer: Kann ich, wenn ich ganz vorsichtig und konservativ bin, ausschliessen, dass ich sehr viel Pech bei der Ziehung meiner Zufallsstichprobe hatte? Das Pech bei der Zufallsziehung wird als Nullhpyothese bezeichnet (H0). Die sagt nämlich, wir haben eigentlich keinen Unterschied oder Zusammenhang und trotzdem in unserer Stichprobe den Unterschied (abweichend von 0) gefunden, den wir gefunden haben. Wenn wir – bei aller Vorsicht – sagen, dass ein Effekt (Unterschied oder Zusammenhang) so gross ist, dass die Nullhypothese so unwahrscheinlich wird (5% Irrtumswahrscheinlichkeit), dass wir sie ablehnen können, dann haben wir etwas gefunden, etwas Signifikantes!</p>
+<p>Ob das signifikante Ergebnis unserer Theorie entspricht oder nicht, das müssen wir dann noch schauen, aber erstmal können wir festhalten, dass wir überhaupt etwas gefunden haben und nicht sagen müssen: Wir haben zwar einen positiven Zusammenhang gefunden, aber statistisch müssen wir die Nullhypothese beibehalten, dass der Zusammenhang positiv sein könnte, aber auch 0 oder negativ. Wenn wir nichts ausschliessen können, wissen wir nichts. Die H0 bedeutet also, dass wir statistisch nichts feststellen können und daher auch nicht zu Wissen gelangen. Wenn Sie irgendwo lesen, dass jemandem in seinen Analysen eine H0 zugute kommt oder die Annahme einer Nullhypothese als Erkenntnis gefeiert wird, seien Sie sehr skeptisch! Meistens liegt ein Denkfehler zugrunde: Dass ich 0 nicht ausschliessen kann, heisst nicht, dass ein Zusammenhang oder Unterschied nicht existiert. Wenn wir z.B. in einer Stichprobe einen Unterschied zwischen zwei Gruppen gefunden haben, dann ist die Wahrscheinlichkeit dafür, dass der Unterschied in der Grundgesamtheit 0 ist genauso gross, wie die Wahrscheinlichkeit, dass der Unterschied in der Grundgesamtheit doppelt so gross ist, wie der den wir gefunden haben. Das liegt daran, dass die Glockenkurve der Fehlerverteilung um einen gefundenen Wert symmetrisch um den gefunden Unterschied verteilt ist.</p>
+<hr>
+<p><strong>Mit dieser App lässt sich etwas mit der Normalverteilung experimentieren:</strong><br>
+<img src="images/shiny-Normalverteilung.jpg" title="Link zur Normalverteilungsapp" class="img-fluid" style="width:100.0%" alt="Normalverteilung"></p>
+<hr>
+<section id="konfidenzintervalle-für-mittelwerte" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="konfidenzintervalle-für-mittelwerte"><span class="header-section-number">1.4.1</span> Konfidenzintervalle für Mittelwerte</h3>
+<p>Konfidenzintervalle geben einen Wertebereich an, in dem die Parameter (GG) der Stichprobenkennwerte mit einer angebbaren Wahrscheinlichkeit liegen.</p>
+<span class="math display">\[\begin{align}
+   \text{ KI:}&amp; \overline{X}\pm z_1 \cdot SE \label{eq:Konfidenz-Intervall-1}\\
+   \text{KI:}&amp; \overline{X}\pm z_1 \cdot \frac{s_x}{\sqrt{n}} \label{eq:Konfidenz-Intervall-2}\\
+   \text{KI}_{l.05} =&amp; \overline{x} - 1.96 \cdot \frac{s_x}{\sqrt{n}} \label{eq:Konfidenz-Intervall-3}\\
+   \text{KI}_{r.05} =&amp; \overline{x} + 1.96 \cdot \frac{s_x}{\sqrt{n}}\label{eq:Konfidenz-Intervall-4}
+\end{align}\]</span>
+<hr>
+<p>Mit dieser kleinen Onlineapp können Sie sich mal einen Eindruck davon verschaffen, wie Konfidenzintervalle reagieren. Schalten Sie sich mal «Show Confidence Intervals» und «Show True Parameter» an und stellen die «Number of Experiments» auf 20. Dann suchen Sie mal, wie viele Konfidenzintervalle den wahren Wert nicht enthalten:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://joshloyal.shinyapps.io/confidence-interval-app/"><img src="images/KI_interaktiv.jpg" title="Link zur interaktiven App zu Konfidenzintervallen" class="img-fluid figure-img" style="width:100.0%"></a></p>
+<p></p><figcaption class="figure-caption">KI-App</figcaption><p></p>
+</figure>
+</div>
+<hr>
+</section>
+<section id="hypothesentesten" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="hypothesentesten"><span class="header-section-number">1.4.2</span> Hypothesentesten</h3>
+<p>Erkenntnistheoretisch prüfen wir unsere Hypothesen, um unser Wissen immer weiter abzusichern, bzw. Veränderungen festzustellen. Eine Theorie muss sich in der empirischen Sozialforschung immer wieder an neuen Daten bewähren. Wiedersprechen meine Daten immer wieder (replizierbar) der Theorie, wird sie modifiziert oder aufgegeben, wenn wir was Besseres haben.</p>
+<p>Bei der statistischen Analyse gibt es neben unseren wissenschaftlichen Hypothesen auch rein statistische Fragen. Wenn wir einen Mittelwert in unserer Stichprobe finden, ist der sicher nicht identisch mit dem entsprechenden Parameter <span class="math inline">\(\mu\)</span> in der Grundgesamtheit (Population). Es stellt sich also immer die Frage nach möglichen Unschärfen. Über die statistischen Hypthesen können wir Aussagen treffen, wenn wir den Gesetzen der Wahrscheinlichkeit (Stochastik) eine Chance geben, also wenn wir Zufallsstichproben ziehen. Diese Zufallsstichproben ziehen wir aber nicht aus der Grundgesamtheit, also allen Objekten oder Subjekten, für die unsere Theorie Gültigkeit beansprucht. Wir ziehen Stichproben in einem abgesteckten Zeitrahmen und unter den Bedingungen der Machbarkeit. Wer kein Telefon hat, wird nicht angerufen. Um dieser Unterscheidung nachdruck zu verleihen, unterscheide ich Grundgesamtheit und Auswahlgesamtheit. Für letztere gilt: Jedes Element der Auswahlgesamtheit hat eine von 0 verschiedene Chance in die Stichprobe zu gelangen.</p>
+<ol type="1">
+<li>Könnte in der Auswahlgesamtheit der wahre Wert auch 0 sein, oder ein anderes Vorzeichen haben?</li>
+<li>Die Nullhypothese ist eine statistische Hypothese gegen Falschentscheidungen aufgrund von Zufallsziehungen.</li>
+<li>Nullhypothesen werden anhand von bekannten Verteilungen getestet.</li>
+</ol>
+<div class="cell" data-hash="01_Wiederholung_cache/html/Infografik_c16503e33195da7fb8934c90ad1f668e">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/TestStat1.jpg" class="img-fluid figure-img" style="width:100.0%"></p>
+<p></p><figcaption class="figure-caption">Hypothesentesten</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+<p><strong>Link zu einer guten App zum Probieren:</strong><br>
+<img src="images/Hypothesen-testen.jpg" title="Link zum Hypothesentesten" class="img-fluid" style="width:100.0%" alt="Hypothesen-testen"></p>
+<hr>
+
+
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Es ist recht ungünstig, dass die standardisierten Regressionskoeffizienten (fast) genauso heissen wie die Parameter <span class="math inline">\(\beta\)</span> der b’s. Ich versuche das verbal deutlich zu machen, indem ich «beeta» mit langem ee sage, wenn ich die standardisierten Regressionkoeffizienten BETA meine und «betta» sage (mit sehr kurzem e), wenn ich die griechischen <span class="math inline">\(\beta\)</span> meine. Wenn Sie irgendwo ausserhalb eines Statistiklehrbuchs BETA lesen oder (sogar immer häufiger) <span class="math inline">\(\beta\)</span>, dann verlassen Sie sich darauf, dass immer die standardisierten Regressionskoeffizienten gemeint sind und nie die Parameter der Regressionskoeffizienten in der Grundgesamtheit, weil wir die nie kennen werden und deshalb in empirisch wissenschaftlichen Publikationen so gut wie nie die Rede von unbekannten Parametern sein wird, sondern immer von den Kennwerten der Stichprobe, also den standardisierten Regressionskoeffizienten BETA. Didaktisch ist das blöd, aber es ist so und wenn ich jetzt was ganz Neues erfinde, dann bringt Ihnen das auch garnix.)<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Kopiert");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Kopiert");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Einleitung</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./02_GLM.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Das lineare Modell</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de-CH" xml:lang="de-CH"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.313">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Statistik Aufbau - 4&nbsp; Gruppenvergleiche (ANCOVA)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./05_Dimensionsreduktion.html" rel="next">
+<link href="./03_Regression_in_R.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "Keine Treffer",
+    "search-matching-documents-text": "Treffer",
+    "search-copy-link-title": "Link in die Suche kopieren",
+    "search-hide-matches-text": "Zusätzliche Treffer verbergen",
+    "search-more-match-text": "weitere Treffer in diesem Dokument",
+    "search-more-matches-text": "weitere Treffer in diesem Dokument",
+    "search-clear-button-title": "Zurücksetzen",
+    "search-detached-cancel-button-title": "Abbrechen",
+    "search-submit-button-title": "Abschicken"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="www/style.css">
+<link rel="stylesheet" href="www/webex.css">
+<link rel="stylesheet" href="www/index.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Gruppenvergleiche (ANCOVA)</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistik Aufbau</a> 
+        <div class="sidebar-tools-main">
+    <a href="./Statistik-Aufbau---Fretwurst.pdf" title="Download PDF" class="sidebar-tool px-1"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Einleitung</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Wiederholung.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Was bisher geschah</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_GLM.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Das lineare Modell</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_Regression_in_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Regression in R</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Gruppenvergleiche.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Gruppenvergleiche (ANCOVA)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_Dimensionsreduktion.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Faktorenanalyse</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_ML.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Machine Learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_Clusteranalyse.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Clusteranalyse</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./80_Glossar.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Glossar</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./90_Literatur.html" class="sidebar-item-text sidebar-link">Literatur</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Seiteninhalt</h2>
+   
+  <ul>
+  <li><a href="#visualisierung-und-deskriptives" id="toc-visualisierung-und-deskriptives" class="nav-link active" data-scroll-target="#visualisierung-und-deskriptives"><span class="toc-section-number">4.1</span>  Visualisierung und Deskriptives</a></li>
+  <li><a href="#mittelwertvergleich-für-zwei-gruppen" id="toc-mittelwertvergleich-für-zwei-gruppen" class="nav-link" data-scroll-target="#mittelwertvergleich-für-zwei-gruppen"><span class="toc-section-number">4.2</span>  Mittelwertvergleich für zwei Gruppen</a>
+  <ul class="collapse">
+  <li><a href="#mit-dem-t-test" id="toc-mit-dem-t-test" class="nav-link" data-scroll-target="#mit-dem-t-test"><span class="toc-section-number">4.2.1</span>  mit dem t-Test</a></li>
+  <li><a href="#mit-korrelation" id="toc-mit-korrelation" class="nav-link" data-scroll-target="#mit-korrelation"><span class="toc-section-number">4.2.2</span>  Mit Korrelation</a></li>
+  <li><a href="#gruppenvergleich-mit-varianzanalyse" id="toc-gruppenvergleich-mit-varianzanalyse" class="nav-link" data-scroll-target="#gruppenvergleich-mit-varianzanalyse"><span class="toc-section-number">4.2.3</span>  Gruppenvergleich mit Varianzanalyse</a></li>
+  </ul></li>
+  <li><a href="#mittelwertvergleich-mit-regression" id="toc-mittelwertvergleich-mit-regression" class="nav-link" data-scroll-target="#mittelwertvergleich-mit-regression"><span class="toc-section-number">4.3</span>  Mittelwertvergleich mit Regression</a></li>
+  <li><a href="#interaktionseffekte" id="toc-interaktionseffekte" class="nav-link" data-scroll-target="#interaktionseffekte"><span class="toc-section-number">4.4</span>  Interaktionseffekte</a></li>
+  <li><a href="#eine-dummy-als-uv" id="toc-eine-dummy-als-uv" class="nav-link" data-scroll-target="#eine-dummy-als-uv"><span class="toc-section-number">4.5</span>  Eine Dummy als UV</a></li>
+  <li><a href="#dummy-und-covariate" id="toc-dummy-und-covariate" class="nav-link" data-scroll-target="#dummy-und-covariate"><span class="toc-section-number">4.6</span>  Dummy und Covariate</a></li>
+  <li><a href="#dummy-in-interaktion-mit-der-covariate" id="toc-dummy-in-interaktion-mit-der-covariate" class="nav-link" data-scroll-target="#dummy-in-interaktion-mit-der-covariate"><span class="toc-section-number">4.7</span>  Dummy in Interaktion mit der Covariate</a></li>
+  <li><a href="#eine-kategoriale-als-uv" id="toc-eine-kategoriale-als-uv" class="nav-link" data-scroll-target="#eine-kategoriale-als-uv"><span class="toc-section-number">4.8</span>  Eine Kategoriale als UV</a></li>
+  <li><a href="#beispiel-vertrauen-in-politiker-nach-journalistischen-arbeitsjahren" id="toc-beispiel-vertrauen-in-politiker-nach-journalistischen-arbeitsjahren" class="nav-link" data-scroll-target="#beispiel-vertrauen-in-politiker-nach-journalistischen-arbeitsjahren"><span class="toc-section-number">4.9</span>  Beispiel Vertrauen in Politiker nach journalistischen Arbeitsjahren</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Gruppenvergleiche (ANCOVA)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Veröffentlichungsdatum</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">1. September 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Nominale UVs sind dichotome Variablen (zwei Ausprägungen) oder kategoriale (mehr als zwei Ausprägungen). Wenn wir mit solchen nominalen Variablen Unterschiede erklären wollen (die auf Zusammenhänge bzw. Kausalität zurückgehen), bilden wir mit diesen Variablen Gruppen der Fälle, die wir dann vergleichen. Der Vergleich besteht in der Regel in der Prüfung der Signifikanz von Unterschieden. Das können t-Tests für Mittelwertunterschiede sein. Varianzanalysen für zwei oder mehr Gruppen. Oder auch Regressionen, wo die nominalen Variablen als UV bzw. UVs eingehen.</p>
+<p>Der Datensatz, der für dieses Beispiel herangezogen wird, ist von Andy Field. Er hatte einen Artikel darüber gelesen, dass Ingineure einen Stoff entwickeln, der wie unsichtbar macht, indem irgendwie der Hintergrund auf den Umhang projeziert wird oder so. Jedenfalls hat sich Andy Field dann überlegt, was die Leute mit so einem Unsichtbarkeitsumhang (Cloak) wohl für Schabernack (Mischief) anstellen würden, wenn sie von ihrer Umgegung nicht mehr beobachtet werden. Dafür hat Andy Field ein Experiment in der Zukunft imaginiert, bei dem 12 Personen kein Umhang gegeben wird und 12 ein Tarnmantel, der unsichtbar macht. Dann wird gemessen, wie viel Unsinn die Leute jeweils anstellen. Die durchschnittliche Anzahl von Schabernackstaten (Mischief) wird dafür zwischen der Experimental- (hat einen Cloak an) und der Kontrollgruppe (kein Cloak) verglichen.</p>
+<section id="visualisierung-und-deskriptives" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="visualisierung-und-deskriptives"><span class="header-section-number">4.1</span> Visualisierung und Deskriptives</h2>
+<p>Gruppenvergleiche können schon gut mit Boxplots gemacht werden. Dabei wird der Mittelwert in einer Box als Linie dargestellt und die das untere sowie das obere Quartil (25% bzw. 95% der Verteilung) als Ränder der Box.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="04_Gruppenvergleiche_files/figure-html/Invisibility-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+<p>Es können aber auch Histogramme erstellt werden, mit Mittelwerten für zwei Gruppen, wobei die Balken für die einzelnen Werte bzw. Wertegruppen überlagert sind.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="04_Gruppenvergleiche_files/figure-html/Mittelwertvergleich der Unsichtbarkeit-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+<p>Spätestens an dieser Stelle sollte man sich die Ausgangsvariablen mal angucken, um zu sehen, wie die verteilt ist und wo ihr Mittelwert liegt und wie sie um ihren Mittelwert streut und all das. Dafür ist es immer sinnvoll sich die Variablen als Häufigkeitsauszählung anzusehen.</p>
+<div class="cell">
+<pre><code>## Cloak of invisibility (Cloak) &lt;numeric&gt; 
+## # total N=24 valid N=24 mean=0.50 sd=0.51
+## 
+## Value |    Label |  N | Raw % | Valid % | Cum. %
+## ------------------------------------------------
+##     0 | No Cloak | 12 |    50 |      50 |     50
+##     1 |    Cloak | 12 |    50 |      50 |    100
+##  &lt;NA&gt; |     &lt;NA&gt; |  0 |     0 |    &lt;NA&gt; |   &lt;NA&gt;
+## 
+## Mischievous Acts (Mischief) &lt;numeric&gt; 
+## # total N=24 valid N=24 mean=4.38 sd=1.86
+## 
+## Value | N | Raw % | Valid % | Cum. %
+## ------------------------------------
+##     0 | 1 |  4.17 |    4.17 |   4.17
+##     1 | 1 |  4.17 |    4.17 |   8.33
+##     2 | 2 |  8.33 |    8.33 |  16.67
+##     3 | 2 |  8.33 |    8.33 |  25.00
+##     4 | 5 | 20.83 |   20.83 |  45.83
+##     5 | 7 | 29.17 |   29.17 |  75.00
+##     6 | 4 | 16.67 |   16.67 |  91.67
+##     7 | 1 |  4.17 |    4.17 |  95.83
+##     8 | 1 |  4.17 |    4.17 | 100.00
+##  &lt;NA&gt; | 0 |  0.00 |    &lt;NA&gt; |   &lt;NA&gt;</code></pre>
+</div>
+<p>Und man sollte sich die Mittelwerte der AV (hier Mischief) und die Gruppierungsvariable (auch UV und hier Cloak) ausgeben lassen.</p>
+<div class="cell">
+<pre><code>## # A tibble: 2 × 2
+##   Cloak        Mittelwerte
+##   &lt;dbl+lbl&gt;          &lt;dbl&gt;
+## 1 0 [No Cloak]        3.75
+## 2 1 [Cloak]           5</code></pre>
+</div>
+</section>
+<section id="mittelwertvergleich-für-zwei-gruppen" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="mittelwertvergleich-für-zwei-gruppen"><span class="header-section-number">4.2</span> Mittelwertvergleich für zwei Gruppen</h2>
+<section id="mit-dem-t-test" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="mit-dem-t-test"><span class="header-section-number">4.2.1</span> mit dem t-Test</h3>
+<p>Mit dem t-Test kann geprüft werden, ob sich die Mittelwerte der beiden Gruppen unterscheiden. Es wird ein t-Test für unabhängige Stichproben gemacht. Dabei wird die Differenz der beiden Mittelwerte berechnet und gegen die H0 getestet, dass sie 0 sein könnte, also in der GG kein Unterschied zwischen der Gruppe Cloak = 1 und der Gruppe Cloak = 0.</p>
+<div class="cell">
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  Mischief by Cloak
+## t = -1.7135, df = 21.541, p-value = 0.101
+## alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+## 95 percent confidence interval:
+##  -2.764798  0.264798
+## sample estimates:
+## mean in group 0 mean in group 1 
+##            3.75            5.00</code></pre>
+</div>
+<p>Der Output sagt uns, dass die Mittelwerte von Mischief aufgeteilt nach Cloak angeschaut werden. Der t-Wert unter Annahme der Nullhypothese H0 ist -1.7135 und der zugehörige p-Wert ist 0.101. Im Text steht noch, dass die Alternativhypothese lautet: Der wahre Mittelwertunterschied zwischen der 0-Gruppe und der 1-Gruppe ist nicht gleich 0. Darunter steht das 95-prozentige Konfidenzintervall der Mittelwertdifferenz. In der untersten Zeile werden die beiden Mittelwerte der beiden Gruppen nochmals ausgegeben.</p>
+</section>
+<section id="mit-korrelation" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="mit-korrelation"><span class="header-section-number">4.2.2</span> Mit Korrelation</h3>
+<p>Wenn die Gruppenvariable eine Dummyvariable ist (also dichotom und nur aus 0 und 1 bestehend), dann kann auch eine Korrelation gerechnet werden, wobei der t-Wert dann derselbe ist, wie beim t-Test von Mittelwertvergleichen für unabhängige Stichproben.</p>
+<div class="cell">
+<pre><code>## 
+##  Pearson's product-moment correlation
+## 
+## data:  Invisibility$Mischief and Invisibility$Cloak
+## t = 1.7135, df = 22, p-value = 0.1007
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  -0.06994687  0.65575942
+## sample estimates:
+##       cor 
+## 0.3431318</code></pre>
+</div>
+<p>Vergleichen Sie mal den t-Wert und den p-Wert der Korrelation mit dem des t-Test für Mittelwertunterschiede. Die sind (bis auf Rundungsunterschiede) identisch.</p>
+<p>Es gibt die einfache Varianzanalyse. Dabei wird geprüft, ob die Gruppierungsvariable signifikant Varianz der AV aufklärt. Der p-Wert ist derselbe, wie oben beim t-Test und der Korrelation, weil es dieselben Daten und Variablen sind.</p>
+</section>
+<section id="gruppenvergleich-mit-varianzanalyse" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="gruppenvergleich-mit-varianzanalyse"><span class="header-section-number">4.2.3</span> Gruppenvergleich mit Varianzanalyse</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Mache eine Varianzanalyse (Analysis of Varian (aov bzw. ANOVA)) mit einer UV (one.way)</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>one.way <span class="ot">&lt;-</span> <span class="fu">aov</span>(Mischief <span class="sc">~</span> Cloak, <span class="at">data =</span> Invisibility)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Gib die Zusammenfassung der aov raus</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(one.way)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="do">##             Df Sum Sq Mean Sq F value Pr(&gt;F)</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Cloak        1   9.38   9.375   2.936  0.101</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Residuals   22  70.25   3.193</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Berechne mal das R^2 durch die Quadratsumme (Sum Sq), die die Gruppierung (hier nach Cloak) aufklärt, durch die Gesamtquadratsumme (Sum Sq der Cloak + der der Residuals). Dann runde auf 4 Nachkommastellen.</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>R2 <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fl">9.38</span><span class="sc">/</span>(<span class="fl">9.38</span> <span class="sc">+</span> <span class="fl">70.25</span>),<span class="dv">4</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Binde das R^2 in die Ausgabe ein, einfach für später</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">"R2 = Sum_Sq_Cloak / (Sum_Sq_Cloak + Risiduals_SumSq): "</span>, R2,<span class="st">" (12%)"</span>)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "R2 = Sum_Sq_Cloak / (Sum_Sq_Cloak + Risiduals_SumSq): 0.1178 (12%)"</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Die Varainzanalyse prüft, ob die Mittelwerte in einer AV für jede der UV-Gruppen identisch ist. Was in der Tabelle steht, sind lauter Hilfswerte für den einen relevantenn Wert: dem p-Wert (hier “Pr(&gt;F)). Der p-Wert ist wieder derselbe wie oben bei der Korrelation und dem Mittelwertvergleich.</p>
+</section>
+</section>
+<section id="mittelwertvergleich-mit-regression" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="mittelwertvergleich-mit-regression"><span class="header-section-number">4.3</span> Mittelwertvergleich mit Regression</h2>
+<p>Am besten kann mit einer Regression ein Mittelwertvergleich durchgeführt werden. Das <span class="math inline">\(R^2\)</span> entspricht dem Quadrat der Korrelation. Der F-Wert zum <span class="math inline">\(R^2\)</span> ist gleich dem F-Wert aus der Varianzanalyse. Der b-Wert (hier von «Cloak of invisibility») in der Regression entspricht dem Mittelwertunterschied zwischen den beiden Gruppen. Der «Intercept» entspricht dem Mittelwert der 0-Gruppe (keine Cloak). Mit der Regression kann also alles abgedeckt werden, was mit den anderen Auwertungsmethoden auch erledigt wird. Die Regression kann aber mehr!</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<table style="border-collapse:collapse; border:none;">
+<tbody><tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+&nbsp;
+</th>
+<th colspan="5" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+Mischievous Acts
+</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+Predictors
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+Estimates
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+std. Beta
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+CI
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+standardized CI
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+p
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+(Intercept)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+3.75
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.00
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+2.68&nbsp;–&nbsp;4.82
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.41&nbsp;–&nbsp;0.41
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+Cloak of invisibility
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.25
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.34
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.26&nbsp;–&nbsp;2.76
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.07&nbsp;–&nbsp;0.76
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.101
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+Observations
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="5">
+24
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+R<sup>2</sup> / R<sup>2</sup> adjusted
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="5">
+0.118 / 0.078
+</td>
+</tr>
+
+</tbody></table>
+<p>Regression mit einer Dummmy als UV</p>
+</div>
+</div>
+</section>
+<section id="interaktionseffekte" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="interaktionseffekte"><span class="header-section-number">4.4</span> Interaktionseffekte</h2>
+<p>Werden wir mal erwachsen und schauen uns ein anderes Beispiel an, das auf eine Medienwirkgungsfrage zurück geht. Gehen wir also jetzt der Frage nach, ob gewalthaltige Videospiele antisozial machen. Dazu hat das britische Ofcom (Office of Communication) 2008 eine Studie herausgegeben <span class="citation" data-cites="Ofcom2008">[@Ofcom2008]</span>. Für die Studie wurden 442 Jugendliche befragt. Im folgenden Chunkg wird der dazugehörige Datensatz heruntergeladen, umgewandelt und im Datenobjekt «Video_Games» gespeichert. Den analysieren wir im Folgenden. Die Variablen sind «Aggression» als Messung aggressiver Verhaltensweisen, «CaUnTs» als callous unemotional traits (affektiv-soziale defizite) und «Vid_Games» in Stunden Nutzung von Videospielen.</p>
+<div class="cell">
+<pre><code>## # A tibble: 442 × 4
+##      ID Aggression Vid_Games CaUnTs
+##   &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;
+## 1    69         13        16      0
+## 2    55         38        12      0
+## 3     7         30        32      0
+## 4    96         23        10      1
+## 5   130         25        11      1
+## 6   124         46        29      1
+## # … with 436 more rows</code></pre>
+</div>
+<p>Schauen wir uns das mal genauer an:</p>
+<div class="cell">
+<pre><code>## Warning in FUN(X[[i]], ...): NAs durch Umwandlung erzeugt
+## `geom_smooth()` using formula = 'y ~ x'</code></pre>
+<div class="cell-output-display">
+<p><img src="04_Gruppenvergleiche_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+<p>Wie man sieht gibt es die zwei Gruppen. Wenn die Tage pro Woche mit Videospielen steigt, dann steigt die Aggression kaum an. Das ist für beide Gruppen so, ber für die 2-er-Gruppe (mittleres Antisoziales Verhalten) liegen die Werte im Mittel höher. Das haben wir jetzt gesehen, aber geschätzt und getestet haben wir es noch nicht. Das geht aber gut mit der Regression.</p>
+</section>
+<section id="eine-dummy-als-uv" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="eine-dummy-als-uv"><span class="header-section-number">4.5</span> Eine Dummy als UV</h2>
+<p>Wenn wir eine Dummyvariable als UV haben, dann haben wir es eigentlich mit einem Unterschiedstest zu tun, also einem Mittelwertvergleich. Vergleichen werden dabei die Mittelwerte der UV für zwei Gruppen. Die Gruppen wiederum werden durch in der Dummyvariable festgelegt: Die eine Gruppe (G0) hat die 0 und die andere Gruppe (G1) die 1. Es wird also die Differenz in den Y-Werten (Y_Diff) durch die Dummyvariable erklärt.</p>
+<span class="math display">\[\begin{align}
+\overline{Y}_{Diff}&amp;=\overline{Y}_{G1}-\overline{Y}_{G0}&amp;\\
+      Y_i&amp;=b_1 + b_2X_{i2}\\
+      Y_i&amp;=b_1 &amp;\text{ wenn } X_{i2}=0\\
+      Y_i&amp;=b_1  + b_2 &amp;\text{ wenn } X_{i2}=1\\
+  \text{Also ist:}\overline{Y}_{Diff}&amp;=b_2\\
+  t&amp;=\frac{\overline{Y}_{G1}-\overline{Y}_{G0}}{se_{\overline{Y}_{Diff}}}=\frac{b_2}{se_b}
+\end{align}\]</span>
+<p><img src="images/HJTeil1.png" class="img-fluid" style="width:100.0%"></p>
+<p>Hier ist nur «Anti_Soz_mittel» als UV im Modell.</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<table style="border-collapse:collapse; border:none;">
+<tbody><tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+&nbsp;
+</th>
+<th colspan="5" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+Agression
+</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+Predictors
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+b
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+std. b
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+CI
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+standardized CI
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+p
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+(Intercept)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+30.76
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.00
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+28.71&nbsp;–&nbsp;32.81
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.09&nbsp;–&nbsp;0.09
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+Callous Unemotional<br>Traits
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+10.33
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.40
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+7.91&nbsp;–&nbsp;12.75
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.30&nbsp;–&nbsp;0.49
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+Observations
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="5">
+381
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+R<sup>2</sup> / R<sup>2</sup> adjusted
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="5">
+0.157 / 0.155
+</td>
+</tr>
+
+</tbody></table>
+<p>Regression mit einer Dummy als UV</p>
+</div>
+</div>
+<p>Interpretation der Regression: Der (Intercept) hat im b eine 30.76 und zeigt daher in diesem Modell an, wie gross der Mittelwert für die Referenzgruppe ist (0 für Anti_Soz_mittel «nicht mittel»). Das b für die «Callous Unemotional Traits» liegt bei 10.33. Das bedeutet, dass der Mittelwert der Gruppe Anti_Soz_mittel = 1 um 10.33 grösser ist als der Mittelwert der 0-Gruppe, also 41.09. Dieser Unterschied entspricht einem Zusammenhang von .4 als Korrelation, was an dem standardisierten b abgelesen werden kann, weil die standardisierten Regressionskoeffizienten (oft auch als BETA bezeichnet) sehr dicht an den Korrelationskoeffizienten sind. Das Konfidenzintervall für den Mittelwertunterschied liegt zwischen 7.91 und 12.75. Da 0 nicht mit im Intervall liegt, sehen wir schon, dass der Mittelwertunterschied signifikant ist. Wir sehen aber nicht nur, dass der Mittelwertunterschied signifikant von 0 verschieden ist, sondern auch, dass er signifikant von z.B. 5 verschieden ist. Wenn jetzt zum Beispiel andere Forscherinnen das Phänomen vorher schon untersucht gehabt hätten und die Mittelwertunterschied zwischen 1.93 und 4.25 gefunden hätten, dann könnten wir mit der Analyse hier sagen, dass sich die beiden Konfidenzintervalle nicht überschneiden, also unser Ergebnis signifikant von dem der anderen Forscher ist. Das geht schon in die Richtung Metaanalyse. Wenn wir nochmal in die Tabelle schauen, dann sehen wir hinten auch, dass die p-Werte unter .05 liegen, was eine Signifikanz auf dem 95%-igem Signifikanzniveau anzeigt. Das wussten wir über die CI aber auch schon vorher und da wussten wir sogar mehr!</p>
+</section>
+<section id="dummy-und-covariate" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="dummy-und-covariate"><span class="header-section-number">4.6</span> Dummy und Covariate</h2>
+<p>Jetzt wird das Modell um eine Covariate ergänzt. Mit <code>olsrr::ols_vif_tol(Modell3)</code> werden die Toleranz und der VIF berechnet.</p>
+<div class="cell">
+<pre><code>##       Variables Tolerance     VIF
+## 1     Vid_Games 0.9998605 1.00014
+## 2 Anti_Soz_hoch 0.9998605 1.00014</code></pre>
+<div class="cell-output-display">
+
+<table style="border-collapse:collapse; border:none;">
+<tbody><tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="5" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Agression</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">b</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. b</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">standardized CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">33.13</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">29.54&nbsp;–&nbsp;36.73</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.09&nbsp;–&nbsp;0.09</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Video Games(Hours per<br>week)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.23</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.13</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.07&nbsp;–&nbsp;0.39</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.04&nbsp;–&nbsp;0.21</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.004</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Callous Unemotional<br>Traits</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">13.65</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.37</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">10.51&nbsp;–&nbsp;16.79</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.29&nbsp;–&nbsp;0.46</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="5">442</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="5">0.157 / 0.153</td>
+</tr>
+
+</tbody></table>
+
+</div>
+</div>
+<p>Die Toleranzwerte sind sehr hoch und daher völlig ok. Der Varianzinflationsfaktor ist fast genau 1. Es gibt also eigentlich keine Inflation der Fehlerstreuung der b’s (und allem was darauf aufbaut, wie die standardisierten Regressionskoeffizienten, Konfidenzintervalle, t-Wert zum t-Test und also auch die p-Werte). Also ist hier alles gut.</p>
+</section>
+<section id="dummy-in-interaktion-mit-der-covariate" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="dummy-in-interaktion-mit-der-covariate"><span class="header-section-number">4.7</span> Dummy in Interaktion mit der Covariate</h2>
+<p>Es kann natürlich sein, dass eine Gruppe mal einen anderen Zusammenhang hat, also einen anderen Anstieg der Regressionsgeraden. Jetzt nehmen wir die Gruppe mit hohem Antisozialem Verhalten mit rein und gucken für die, ob das häufige Spielen von Videospielen einen Einfluss auf ihr aggressives Verhalten hat.</p>
+<div class="cell">
+<pre><code>## `geom_smooth()` using formula = 'y ~ x'</code></pre>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="04_Gruppenvergleiche_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="576"></p>
+<p></p><figcaption class="figure-caption">Zusammenhang Videospiele zu Aggression für Menschen mit hohem vs.&nbsp;geringerem antisozialen Verhalten</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In der Grafik ist gut zu erkennen, dass die Videospiele auf die Personen mit hohem antisozialen Verhalten eine deutlich stärkere Wirkung hat. Der Anstieg der Regressionsgerade ist für die Gruppe mit Anti_Soz_hoch deutlich steiler. Ihr Mittelwert liegt im Schnittpunkt der Mittelwert (in der Mitte der Wolke) auch höher als bei der Gruppe ohne hohes antisoziales Verhalten.</p>
+<p>Das lässt sich in einer Regression bauen, indem die Dummy so wie sie ist in das Modell aufgenommen wird und dann noch als Interaktion mit der Kovariaten.</p>
+<div class="cell">
+<pre><code>##                 Variables Tolerance      VIF
+## 1               Vid_Games 0.8318770 1.202101
+## 2           Anti_Soz_hoch 0.1049793 9.525692
+## 3 Vid_Games:Anti_Soz_hoch 0.1024746 9.758512</code></pre>
+<div class="cell-output-display">
+
+<table style="border-collapse:collapse; border:none;">
+<tbody><tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="6" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Agression</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">b</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. b</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">standardized CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col7">std. p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">35.95</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">32.10&nbsp;–&nbsp;39.80</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.09&nbsp;–&nbsp;0.08</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">0.968</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Video Games(Hours per<br>week)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.10</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.11</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.07&nbsp;–&nbsp;0.27</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.03&nbsp;–&nbsp;0.20</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.238</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"><strong>0.008</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Callous Unemotional<br>Traits</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-3.28</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.37</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-12.84&nbsp;–&nbsp;6.29</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.29&nbsp;–&nbsp;0.46</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.501</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Vid_Games:Anti_Soz_hoch</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.77</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.15</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.36&nbsp;–&nbsp;1.18</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.07&nbsp;–&nbsp;0.23</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="6">442</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="6">0.183 / 0.177</td>
+</tr>
+
+</tbody></table>
+
+</div>
+</div>
+<p>Dabei bauen wir im Grunde die Variablen doppelt in das Modell ein. Das hat zur Folge, dass vor allem die Dummys mit dem Interaktionsterm sehr hoch Multikollinear sind. Da hilft es, wenn man alle Variablen im Modell mit <code>scale()</code>z-transformiert, also zentriert und so skaliert, dass die Standardabweichungen bei allen Variablen 1 sind.</p>
+<div class="cell">
+<pre><code>##                 Variables Tolerance      VIF
+## 1               Vid_Games 0.8318770 1.202101
+## 2           Anti_Soz_hoch 0.9993801 1.000620
+## 3 Vid_Games:Anti_Soz_hoch 0.8314800 1.202675</code></pre>
+<div class="cell-output-display">
+
+<table style="border-collapse:collapse; border:none;">
+<tbody><tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="6" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Aggression</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">b</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. b</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">standardized CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col7">std. p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.15</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.24&nbsp;–&nbsp;-0.06</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.09&nbsp;–&nbsp;0.08</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.001</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">0.968</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Vid Games</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.06</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.11</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.04&nbsp;–&nbsp;0.15</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.03&nbsp;–&nbsp;0.20</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.238</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"><strong>0.008</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Callous Unemotional<br>Traits</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.07</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.37</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.83&nbsp;–&nbsp;1.32</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.29&nbsp;–&nbsp;0.46</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Vid_Games:Anti_Soz_hoch</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.42</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.15</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.20&nbsp;–&nbsp;0.65</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.07&nbsp;–&nbsp;0.23</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="6">442</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="6">0.183 / 0.177</td>
+</tr>
+
+</tbody></table>
+
+</div>
+</div>
+</section>
+<section id="eine-kategoriale-als-uv" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="eine-kategoriale-als-uv"><span class="header-section-number">4.8</span> Eine Kategoriale als UV</h2>
+<p>Es kann natürlich auch sein, dass man eine Variable hat, die kategorial ist, also mehr als zwei Ausprägungen hat. Dann erstellt man zu jeder Ausprägung eine Dummyvariable und baut zwei davon in das Modell ein. Dann ist die Ausprägung der übrigen Variable die Referenzkategorie. Den Schnittpunkt mit den Mittelwerten der übrigen Kovariaten liegt für die Referenzkategorie beim <span class="math inline">\(b_1\)</span>. Der Anstieg der Referenzkategorie ist der des b’s für die Kovariate alleine.</p>
+<div class="cell">
+<pre><code>##                   Variables Tolerance      VIF
+## 1                 Vid_Games 0.9907942 1.009291
+## 2             Anti_Soz_hoch 0.7390622 1.353066
+## 3           Anti_Soz_mittel 0.7373241 1.356256
+## 4   Vid_Games:Anti_Soz_hoch 0.6855523 1.458678
+## 5 Vid_Games:Anti_Soz_mittel 0.6887144 1.451981</code></pre>
+<div class="cell-output-display">
+
+<table style="border-collapse:collapse; border:none;">
+<tbody><tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="5" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Aggression</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">b</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. b</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">standardized CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.08&nbsp;–&nbsp;0.08</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.08&nbsp;–&nbsp;0.08</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.958</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Vid Games</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.10</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.10</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.02&nbsp;–&nbsp;0.18</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.02&nbsp;–&nbsp;0.18</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.015</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Anti Soz hoch</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.57</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.57</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.48&nbsp;–&nbsp;0.66</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.48&nbsp;–&nbsp;0.66</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Anti Soz mittel</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.40</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.40</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.31&nbsp;–&nbsp;0.49</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.31&nbsp;–&nbsp;0.49</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Vid Games × Anti Soz hoch</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.16</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.16</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.07&nbsp;–&nbsp;0.25</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.07&nbsp;–&nbsp;0.25</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Vid Games × Anti Soz<br>mittel</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.09&nbsp;–&nbsp;0.10</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.09&nbsp;–&nbsp;0.10</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.865</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="5">442</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="5">0.299 / 0.291</td>
+</tr>
+
+</tbody></table>
+
+</div>
+</div>
+</section>
+<section id="beispiel-vertrauen-in-politiker-nach-journalistischen-arbeitsjahren" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="beispiel-vertrauen-in-politiker-nach-journalistischen-arbeitsjahren"><span class="header-section-number">4.9</span> Beispiel Vertrauen in Politiker nach journalistischen Arbeitsjahren</h2>
+<p>In diesem Beispiel wird untersucht, wie sich die Dauer der Arbeitsjahre von Journalisten auf ihr Vertrauen in Politiker auswirkt. Den Datensatz holen wir aus <code>tidycomm::WoJ</code>.</p>
+<div class="cell">
+
+</div>
+<p>In dem Scatterplot sieht man gut, dass das Vertrauen in Deutschland und der Schweiz sinkt, wobei es in der Schweiz auf demselben Niveau beginnt, dann aber schneller abnimmt mit den Jahren an Erfahrungen. In Österreich ist das Vertrauen am Anfang schlechter und steigt dann mit der Zeit.</p>
+<div class="cell">
+<pre><code>## `geom_smooth()` using formula = 'y ~ x'
+## Warning: Removed 3 rows containing non-finite values (`stat_smooth()`).
+## Warning: Removed 3 rows containing missing values (`geom_point()`).</code></pre>
+<div class="cell-output-display">
+<p><img src="04_Gruppenvergleiche_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+<p>Hier das Ganze als Regressionsrechnung. Deutschland ist die Referenzkategorie und dann wird geschaut, wie die Schweiz und Österreich davon abweichen.</p>
+<div class="cell">
+<pre><code>##            Variables Tolerance      VIF
+## 1    work_experience 0.9258454 1.080094
+## 2                 CH 0.6292380 1.589224
+## 3                 AT 0.6558027 1.524849
+## 4 work_experience:CH 0.7298261 1.370189
+## 5 work_experience:AT 0.7190955 1.390636</code></pre>
+<div class="cell-output-display">
+
+<table style="border-collapse:collapse; border:none;">
+<tbody><tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="6" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">trust politicians</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">b</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. b</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">standardized CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col7">std. p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.09&nbsp;–&nbsp;0.07</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.09&nbsp;–&nbsp;0.07</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.799</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">0.786</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">work experience</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.06</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.06</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.14&nbsp;–&nbsp;0.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.14&nbsp;–&nbsp;0.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.165</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">0.161</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">CH</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.04</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.04</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.14&nbsp;–&nbsp;0.06</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.14&nbsp;–&nbsp;0.06</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.420</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">0.420</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">AT</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.16</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.16</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.26&nbsp;–&nbsp;-0.07</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.26&nbsp;–&nbsp;-0.07</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.001</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"><strong>0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">work experience × CH</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.03</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.03</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.13&nbsp;–&nbsp;0.06</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.13&nbsp;–&nbsp;0.06</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.492</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">0.492</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">work experience × AT</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.06</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.05</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.04&nbsp;–&nbsp;0.15</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.04&nbsp;–&nbsp;0.15</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.259</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">0.259</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="6">610</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="6">0.030 / 0.022</td>
+</tr>
+
+</tbody></table>
+
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Kopiert");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Kopiert");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./03_Regression_in_R.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Regression in R</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./05_Dimensionsreduktion.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Faktorenanalyse</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

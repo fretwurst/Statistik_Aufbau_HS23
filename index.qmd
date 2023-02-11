@@ -1,0 +1,80 @@
+
+# Einleitung {.unnumbered}
+
+```{r}
+#| echo: false
+#| include: false
+
+source("_common.R")
+```
+
+Sicher freuen Sie sich schon auf "Statistik: Aufbau", und ich glaube, Sie haben allen
+Grund dazu. Manche freuen sich weniger -- was ja auch normal und ok ist. Wieder andere,
+denken lieber daran, wie das Leben so sein wird, wenn Sie "Statistik: Aufbau" hinter sich
+haben. Ihnen allen will ich zur Seite stehen, damit Sie aus dem Modul das für sich Beste
+rausholen. Diejenigen, die in der Statistik ein mächtiges Tool entdecken, will ich ein
+tiefergehendes Verständnis ermöglichen. Denen, die die Statistik einfach gut absolvieren
+wollen, soll das Wichtigste vermittelt werden und die mit Graus auf das Modul schauen,
+soll das Grauen genommen und etwas Greifbares und Handhabbares angeboten werden, das sich
+-- mit zumutbaren Investitionen -- lösen lässt. Hier in der Einleitung schreibe ich Ihnen,
+was ich über den Sinn, die Mächtigkeit und die möglichen Ursachen für das Unbehagen
+denke.\
+\noindent Liebe Grüsse\
+Benjamin Fretwurst
+
+## Was bringt uns Statistik
+
+Statistik ermöglicht es, eine Unmenge an Beobachtungen in Beziehung zueinander zu setzen.
+Die Art dieser Beziehungen wird aus der Alltagswahrnehmung abgeleitet und durch
+Formulierung wissenschaftlicher Hypothesen konkretisiert.
+
+Wenn wir zum Beispiel davon sprechen, dass die Leute einfach nur das wichtig finden, was
+Ihnen die Medien vorgeben, dann wird damit ein Zusammenhang formuliert. Etwas konkreter
+würde ein KW-ler sagen: Die Menschen lernen aus der Thematisierung in den Medien, was
+wichtige Themen sind. Und weil das eine Theorie ist, bekommt sie auch noch einen Namen:
+"Agenda-Setting" (AS).
+
+Gegen den AS könnte man einwenden: "Das gilt nicht immer. Die Leute kriegen schon mit,
+wenn die Preise steigen -- dazu brauchen sie nicht die Medien." Der AS gilt also nicht für
+alle Themen, sondern nur für solche, die die Leute nicht am eigenen Leib erfahren können.
+Es wird also in 'obtrusive' und 'nonobtrusive Issues' unterschieden. Jetzt haben wir einen
+Zusammenhang formuliert, der zusätzlich Randbedingungen enthält. Abgesehen von der Theorie
+könnte man die Forschungsfrage stellen, ob AS in gleichem Masse für Gebildetere und
+weniger Gebildete gilt. In der Alltagsbeobachtung wird es jetzt schon kompliziert, da wir
+diese Randbedingungen schwerlich alle gleichzeitig gegeneinander halten können. Selbst
+wenn wir den Bildungsstand mitbeobachten können, ist das nicht mit der vollen
+Differenziertheit möglich. Die wissenschaftliche Datenerhebung dient der Aufzeichnung
+vieler unabhängiger Beobachtungen. Multivariate Statistik ermöglicht es uns, diese
+Beobachtungen so zueinander in Beziehung zu setzen, dass wir am Ende einfache Kennwerte
+bekommen, die für Zusammenhänge stehen.
+
+------------------------------------------------------------------------------------------
+
+**Was beschreibt die Funktion von Statistik am besten?**
+
+```{r}
+#| echo: false
+
+q_Intro_1 <- c("Studierende in Angst und Schrecken versetzen.",
+   "Sichert die Stabilität von Gebäuden.",
+   answer = "Eine Kulturtechnik zur gedanklichen Verarbeitung von Beziehungen zwischen Messungen."
+)
+```
+
+`r if(knitr::is_html_output()){longmcq(q_Intro_1)} else {"Versuchen Sie es mit Ihren eigenen Worten."}`
+
+------------------------------------------------------------------------------------------
+
+## Überblick Analysemethoden
+
+[![Systematik gesamt](images/Analyseschema-total2.png){fig-align="center" width=100%}](images/Analyseschema-total2.pdf)
+
+## Zur Verwendung dieser Seite
+
+------------------------------------------------------------------------------------------
+
+Zitation: Fretwurst, B. (2022). *Statistik und Datenanalyse: Aufbau. Begleittext zum Modul
+am IKMZ im HS22.* https://www.ikmz.uzh.ch/static/methoden/Statistik-Aufbau/. Abrufdatum:
+\[aktuelles Datum\].
+
+------------------------------------------------------------------------------------------
