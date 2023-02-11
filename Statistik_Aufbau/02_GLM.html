@@ -347,7 +347,7 @@ Y_i&amp;=b_1 + b_2X_{i2} +e_i
 \end{align}\]</span>
 <p>Am Ende kommt als Lösung für den nach OLS besten Repräsentanten einer Variablen heraus: <span class="math inline">\(\frac{\sum_i{x_i}}{n} = a\)</span> @ref(eq:Umstellen2). Der linke Teil ist genau die Definition von <span class="math inline">\(\overline{x}\)</span>, also dem Mittelwert. Damit haben wir mit einer Ableitungen der OLS herausgefunden, dass der Mittelwert die kleinste Summe der quadrierten Abstände jedes Wertes zu einem Wert a hat, also der gesuchte beste Repräsentant für eine Variable der Wert <span class="math inline">\(a=\overline{x}\)</span> ist @ref(eq:Mittelwert-Optimum). Dasselbe könnten wir für die Formel <span class="math inline">\(Y_i = b_1 + b_2X_i + e_i\)</span> machen. Wenn wir (mit ein paar Annahmen) das für jedes <span class="math inline">\(b_1\)</span> bis <span class="math inline">\(b_3\)</span> machen würden, dann hätten wir die b’s mit OLS bestimmt. Da das ungleich komplizierter ist als für den Mittelwert, schlage ich vor, wir lassen das an dieser Stelle.</p>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -356,17 +356,20 @@ IYI (nur für Formelliebende): Ableitung der OLS-Funktion
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
+<p>Ausgangspunkt für die Ableitung der OLS-Funktion ist die Idee, den vom Modell nicht erklärten Rest, also die Residuen (<span class="math inline">\(e_i\)</span>) zu minimieren. Die Residuen sind wie folgt definiert:</p>
 <p><span id="eq-2.4"><span class="math display">\[
 e_i=Y_i-\hat{Y}_i=Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}
 \tag{2.1}\]</span></span></p>
+<p>Die Residuen werden minimmiert, wenn die Summe der quadrierten Residuen (auch Error) minimiert werden, also die Summe <span class="math inline">\(sum_{i=1}^n e_i^2\)</span> möglichst klein ist. Für die Summe der quadrierten Fehler (Sum of Squared Errors: SSE) können wir schreiben:</p>
 <p><span id="eq-2.5"><span class="math display">\[
 \sum_{i=1}^n e_i^2=\sum_{i=1}^n\left(Y_i-\hat{Y}_i\right)^2=\sum_{i=1}^n\left(Y_i-b_1-b_2 X_2-b_3 X_{i 3}\right)^2
 \tag{2.2}\]</span></span></p>
-<p><span id="eq-2.6"><span class="math display">\[
+<p>Wenn wir die Summe der quadrierten Fehler (SSE) minimieren wollen, leiten wir die SSE nach den gesuchten b ab (das <span class="math inline">\(\partial\)</span> steht für differenzieren, also ableiten; das <span class="math inline">\(\partial b\)</span> unter dem Bruchstrich bedeutet, dass nach b abgeleitet wird und nicht etwa, dass irgendwie durch b geteilt wird): <span id="eq-2.6"><span class="math display">\[
 \frac{\partial S S E}{\partial b}=\frac{\partial\left(\sum_{i=1}^n e_i^2\right)}{\partial b}=\frac{\partial\left(e_1^2\right)}{\partial b}+\frac{\partial\left(e_2^2\right)}{\partial b}+\cdots+\frac{\partial\left(e_i^2\right)}{\partial b}=\sum_{i=1}^n \frac{\partial\left(e_i^2\right)}{\partial b}
 \tag{2.3}\]</span></span></p>
+<p>Nach den Ableitungsregeln kann man die Ableitung einer Summe zerlegen in die Ableitung der einzelnen Summanden. Das steht in <a href="#eq-2.6">Gleichung&nbsp;<span>2.3</span></a>. Nach den ableitungsregeln kann man daraus Folgendes machen (schauen Sie nur darauf, wonach jeweils abgeleitet wird. Alle anderen Teile fallen weg. In <a href="#eq-2.4">Gleichung&nbsp;<span>2.1</span></a> wird zB nach <span class="math inline">\(b_1\)</span> abgeleitet, und die Ableitung einer Konstanten (<span class="math inline">\(b_1\)</span>) ist 1 und mit dem Minuszeichen davor, bleibt eben -1 übrig. In <a href="#eq-2.6">Gleichung&nbsp;<span>2.3</span></a> wird nach <span class="math inline">\(b_2\)</span> abgeleitet. Darum bleibt aus der Formel <span class="math inline">\(b_2X_{i 3}\)</span> übrig, was nach Ableitungsregeln <span class="math inline">\(X_{i 2}\)</span> entspricht und wieder mit einem Minuszeichen aus der Formel versehen ist.):</p>
 <p><span id="eq-2.7"><span class="math display">\[
 \frac{\partial\left(e_i^2\right)}{\partial b}=\frac{\partial\left(e_i^2\right)}{\partial e_i} \frac{\partial e_i}{\partial b}=2 e_i \frac{\partial e_i}{\partial b}
 \tag{2.4}\]</span></span></p>
@@ -385,30 +388,31 @@ e_i=Y_i-\hat{Y}_i=Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}
 \frac{\partial e_i}{\partial b_3}=\frac{\partial\left(Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}\right)}{\partial b_3}=-X_{i 3} .
 \end{gathered}
 \tag{2.7}\]</span></span></p>
-<p>jetzt alle Formeln von <a href="#eq-2.8">Gleichung&nbsp;<span>2.5</span></a> bis <a href="#eq-2.10">Gleichung&nbsp;<span>2.7</span></a> zusammen und die einzelnen Ableitungen gleich 0 gesetzt, um die Funktionen zu minimieren: <span class="math display">\[
+<p>Jetzt müssen alle Formeln von <a href="#eq-2.8">Gleichung&nbsp;<span>2.5</span></a> bis <a href="#eq-2.10">Gleichung&nbsp;<span>2.7</span></a> zusammengefügt und die einzelnen Ableitungen gleich 0 gesetzt werden, um die Gesamtfunktion zu minimieren: <span class="math display">\[
 \begin{aligned}
 \frac{\partial S S E}{\partial b_1} &amp; =2 \sum_{i=1}^n e_i \frac{\partial e_i}{\partial b_1}=2 \sum_{i=1}^n\left(Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}\right)(-1) \\
 &amp; =-2 \sum_i Y_i+2 \sum_i b_1+2 b_2 \sum_i X_{i 2}+2 b_3 \sum_i X_{i 3}
 \end{aligned}
 \]</span></p>
 <p>dafür können wir schreiben: <span id="eq-2.11"><span class="math display">\[
-\begin{gathered}
--\sum_i Y_i+n b_1+b_2 \sum_i X_{i 2}+b_3 \sum_i X_{13}=0 \\
-\frac{\partial S S E}{\partial b_2}=2 \sum_{i=1}^n e_i \frac{\partial e_i}{\partial b_2}=2 \sum_{i=1}^n\left(Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}\right)\left(-X_{i 2}\right) \\
-\end{gathered}
+-\sum_i Y_i+n b_1+b_2 \sum_i X_{i 2}+b_3 \sum_i X_{13}=0
 \tag{2.8}\]</span></span></p>
-<p>oder <span id="eq-2.12"><span class="math display">\[
-\begin{gathered}
--\sum_i Y_i X_{i 2}+b_1 \sum_i X_{i 2}+b_2 \sum_i X_{i 2}^2+b_3 \sum_i X_{i 3} X_{i 2}=0 \\
-\frac{\partial S S E}{\partial b_3}=2 \sum_{i=1}^n e_i \frac{\partial e_i}{\partial b_3}=2 \sum_{i=1}^n\left(Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}\right)\left(-X_{i 3}\right)
-\end{gathered}
+<p>Jetzt wollen wir die SSE noch für bzw. nach <span class="math inline">\(b_2\)</span> ableiten: <span class="math display">\[
+\frac{\partial S S E}{\partial b_2}=2 \sum_{i=1}^n e_i \frac{\partial e_i}{\partial b_2}=2 \sum_{i=1}^n\left(Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}\right)\left(-X_{i 2}\right)
+\]</span></p>
+<p>oder nach der Zerlegung der Summe in die einzelnen Summanden, die jeweils mit <span class="math inline">\(-X_{i 2}\)</span> multipliziert wird und sich darum immer das Vorzeichen umkehrt.</p>
+<p><span id="eq-2.12"><span class="math display">\[
+-\sum_i Y_i X_{i 2}+b_1 \sum_i X_{i 2}+b_2 \sum_i X_{i 2}^2+b_3 \sum_i X_{i 3} X_{i 2}=0
 \tag{2.9}\]</span></span></p>
-<p>oder <span id="eq-2.13"><span class="math display">\[-
+<p>Nun fehlt nur noch die Ableitung der SSE nach <span class="math inline">\(b_2\)</span>: <span class="math display">\[
+\frac{\partial S S E}{\partial b_3}=2 \sum_{i=1}^n e_i \frac{\partial e_i}{\partial b_3}=2 \sum_{i=1}^n\left(Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}\right)\left(-X_{i 3}\right)
+\]</span></p>
+<p>und wie bei <span class="math inline">\(b_2\)</span>: <span id="eq-2.13"><span class="math display">\[-
 \begin{gathered}
 -\sum_i Y_i X_{i 3}+b_1 \sum_i X_{i 3}+b_2 \sum_i X_{i 2} X_{i 3}+b_3 \sum_i X_{i 3}^2=0 .
 \end{gathered}
 \tag{2.10}\]</span></span></p>
-<p>Jetzt teilen wir jeweils die <a href="#eq-2.11">Gleichung&nbsp;<span>2.8</span></a> bis <a href="#eq-2.13">Gleichung&nbsp;<span>2.10</span></a> durch die Fallzahl, also <span class="math inline">\(T\)</span>, woraus sich ergibt:</p>
+<p>Jetzt teilen wir jeweils die <a href="#eq-2.11">Gleichung&nbsp;<span>2.8</span></a> bis <a href="#eq-2.13">Gleichung&nbsp;<span>2.10</span></a> durch die Fallzahl, also <span class="math inline">\(n\)</span>, woraus sich ergibt (etwas konventionaller geschrieben und erstmal übersichtlicher):</p>
 <p><span class="math display">\[
 \begin{aligned}
 b_1+a_1 b_2+a_2 b_3 &amp; =c_1, \\
@@ -416,7 +420,7 @@ a_1 b_1+a_3 b_2+a_4 b_3 &amp; =c_2, \\
 a_2 b_1+a_4 b_2+a_3 b_3 &amp; =c_3,
 \end{aligned}
 \]</span></p>
-<p>wobei</p>
+<p>wobei sich hinter den a’s und c’s folgende Elemente verbergen, die am Ende eigentlich immer recht einfach (<span class="math inline">\(\bar{X}_2\)</span> und so) ausfallen:</p>
 <p><span id="eq-2.13b"><span class="math display">\[
 \begin{gathered}
 a_1=\frac{1}{n} \sum X_{i 2}=\bar{X}_2, \quad a_2=\frac{1}{n} \sum X_{i 3}=\bar{X}_3, \quad a_3=\frac{1}{n} \sum X_{i 2}^2, \\
@@ -425,7 +429,7 @@ c_1=\frac{1}{n} \sum Y_i=\bar{Y}, \quad c_2=\frac{1}{n} \sum Y_i X_{i 2}, \quad 
 \end{gathered}
 \tag{2.11}\]</span></span></p>
 <p>Durch Einsetzten erhalten wir also: <span id="eq-2.14"><span class="math display">\[
-\bar{Y}=b_1+b_2 \bar{X}_2+b_3 \bar{X}_3 \quad \text { oder } \quad b_1=\bar{Y}-b_2 \bar{X}_2-b_3 \bar{X}_3
+\bar{Y}=b_1+b_2 \bar{X}_2+b_3 \bar{X}_3 \quad \text { umgestellt } \quad b_1=\bar{Y}-b_2 \bar{X}_2-b_3 \bar{X}_3
 \tag{2.12}\]</span></span></p>
 <p>und <a href="#eq-2.12">Gleichung&nbsp;<span>2.9</span></a> sowie <a href="#eq-2.13">Gleichung&nbsp;<span>2.10</span></a> sind</p>
 <p><span id="eq-2.12_2.13b"><span class="math display">\[
@@ -434,32 +438,32 @@ c_1=\frac{1}{n} \sum Y_i=\bar{Y}, \quad c_2=\frac{1}{n} \sum Y_i X_{i 2}, \quad 
 &amp; \bar{X}_3 b_1+\left(\frac{1}{n} \sum X_{i 2} X_{i 3}\right) b_2+\left(\frac{1}{n} \sum X_{i 3}^2\right) b_3=\frac{1}{n} \sum Y_i X_{i 3} .
 \end{aligned}
 \tag{2.13}\]</span></span></p>
-<p>Wenn man jetzt das <span class="math inline">\(b_1\)</span> aus <a href="#eq-2.14">Gleichung&nbsp;<span>2.12</span></a> einsetzt, ergibt sich <span class="math display">\[
+<p>Wenn man jetzt das <span class="math inline">\(b_1\)</span> aus <a href="#eq-2.14">Gleichung&nbsp;<span>2.12</span></a> einsetzt, ergibt sich <span id="eq-2.13n1"><span class="math display">\[
 \begin{aligned}
 &amp; b_2\left(\frac{1}{n} \sum X_{i 2}^2-\bar{X}_2^2\right)+b_3\left(\frac{1}{n} \sum X_{i 2} X_{i 3}-\bar{X}_2 \bar{X}_3\right)=\left(\frac{1}{n} \sum Y_i X_{i 2}-\bar{Y} \bar{X}_2\right) \\
 &amp; b_2\left(\frac{1}{n} \sum X_{i 2} X_{i 3}-\bar{X}_2 \bar{X}_3\right)+b_3\left(\frac{1}{n} \sum X_{i 3}^2-\bar{X}_3^2\right)=\left(\frac{1}{n} \sum Y_i X_{i 3}-\bar{Y} \bar{X}_3\right)
 \end{aligned}
-\]</span></p>
-<p>By definition of the variance of the variable <span class="math inline">\(X\left[V_X=(1 / n) \sum X_i^2-\bar{X}^2\right]\)</span> and the covariance of two variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\left[C_{X Y}=(1 / n) \sum X_1 Y_i-\bar{X} \bar{Y}\right]\)</span>, these two equations are <span class="math display">\[
+\tag{2.14}\]</span></span></p>
+<p>Die Varianzen der Variable X ist <span class="math inline">\(\left[V_X=(1 / n) \sum X_i^2-\bar{X}^2\right]\)</span> und die Kovarianz von <span class="math inline">\(X\)</span> und <span class="math inline">\(Y\)</span> ist <span class="math inline">\(\left[C_{X Y}=(1 / n) \sum X_1 Y_i-\bar{X} \bar{Y}\right]\)</span>, also kann man für die <a href="#eq-2.13n1">Gleichung&nbsp;<span>2.14</span></a> etwas übersichtlicher schreiben: <span class="math display">\[
 b_2 V_{X_2}+b_3 C_{X_2 X_3}=C_{Y X_2}, \quad b_2 C_{X_2 X_3}+b_3 V_{X_3}=C_{Y X_3}
-\]</span> For notational convenience, from this point on we shall suppress the <span class="math inline">\(X\)</span> subscript. Thus, <span class="math inline">\(V_2\)</span> is the variance of <span class="math inline">\(X_2, C_{23}\)</span> is the covariance of <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span>,</p>
+\]</span></p>
+<p>Das ist damit auch das Ergebnis der ganzen Ableitung: Die b’s lassen sich aus den Varianzen und Kovarianzen der Variablen bestimmen!</p>
+<p>Um eine noch übersichtlichere Schreibweise zu bekommen, lassen wir jetzt noch die Subscripte der ganzen X weg. Also schreiben wir ddie Varianzt von <span class="math inline">\(X_2\)</span> nicht mehr als <span class="math inline">\(V_{X_2}\)</span>, sondern einfach als <span class="math inline">\(V_2\)</span> und die Kovarianz zwischen <span class="math inline">\(X_2\)</span> und <span class="math inline">\(X_3\)</span> statt <span class="math inline">\(C_{X_2 X_3}\)</span> als <span class="math inline">\(C_{2 3}\)</span>. Dann vereinfacht sich das Ganze für <span class="math inline">\(b_2\)</span> zu:</p>
 <p><span id="eq-2.15"><span class="math display">\[
 \begin{aligned}
-b_3=\left(V_2 C_{Y 3}-C_{23} C_{Y 2}\right) /\left(V_2 V_3-C_{23}^2\right) .
+b_2=\left(V_3 C_{Y 2}-C_{23} C_{Y 3}\right) /\left(V_2 V_3-C_{23}^2\right) .
 \end{aligned}
-\tag{2.14}\]</span></span></p>
+\tag{2.15}\]</span></span></p>
+<p>und für <span class="math inline">\(b_3\)</span>:</p>
 <p><span id="eq-2.16"><span class="math display">\[
 \begin{aligned}
 &amp; b_3=\left(V_2 C_{Y 3}-C_{23} C_{Y 2}\right) /\left(V_2 V_3-C_{23}^2\right) .
 \end{aligned}
-\tag{2.15}\]</span></span></p>
-<p>Für die <a href="#eq-2.15">Gleichung&nbsp;<span>2.14</span></a> kann man auch statt der Covarianzen und Varianzen schreiben</p>
-<p><span class="math display">\[
-b_2=\frac{r_{Y 2}-r_{23} r_{Y 3}}{\left(1-r_{23}^2\right)} \frac{S_Y}{S_2} .
-\]</span></p>
-<p>The second necessary condition, and a relatively important one, is that <span class="math inline">\(D=V_2 V_3-C_{23}^2\)</span> must not equal zero. If <span class="math inline">\(D\)</span> does equal zero, then the required divisions cannot be executed, and we have no estimates. The simplest way to see how <span class="math inline">\(D\)</span> might equal 0 is to divide <span class="math inline">\(D\)</span> by <span class="math inline">\(V_2 V_3\)</span> as in Eq. (2.15’). As long as <span class="math inline">\(V_2 \neq 0\)</span> and <span class="math inline">\(V_3 \neq 0, D=0\)</span> if and only if <span class="math inline">\(1-r_{23}^2=0\)</span>, or if <span class="math inline">\(\left|r_{23}\right|=1\)</span>. <span class="math inline">\(\left|r_{23}\right|=1\)</span> only if <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> are perfectly correlated, that is, only if <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> are linearly related to each other as in <span class="math inline">\(X_2=d_1+d_2 X_3\)</span>. For example, if <span class="math inline">\(X_2\)</span> is income in dollars and <span class="math inline">\(X_3\)</span> is income in thousands of dollars <span class="math inline">\(\left(X_2=1000 X_3\right)\)</span> or if <span class="math inline">\(X_2\)</span> is a variable that is one for all males and <span class="math inline">\(X_3\)</span> is a similar variable for all females <span class="math inline">\(\left(X_2=1-X_3\right), D\)</span> would equal zero, and we could not estimate such a model. Thus, not only must there be some variance in <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span>, but they must also exhibit some independent variation <span class="math inline">\(\left(\left|r_{23}\right| \neq 1\right)\)</span> in order for us to estimate our model. <span class="math inline">\({ }^8\)</span> This condition corresponds to the heuristic notion that <span class="math inline">\(b_2\)</span> and <span class="math inline">\(b_3\)</span> are computed on the basis of the independent variation that <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> exhibit. Equations (2.14)-(2.16) give us one way of estimating the coefficients in our behavioral relationship. There are, of course, many other possible estimators or ways of using sample data to estimate the <span class="math inline">\(\beta\)</span> ’s. For example, we could calculate the deviations of each variable about its mean, giving a set of <span class="math inline">\(T\)</span> observations <span class="math inline">\(X_{i 2}-\bar{X}_2, X_{i 3}-\bar{X}_3\)</span>, and <span class="math inline">\(Y_i-\bar{Y}\)</span>. From these we could estimate <span class="math inline">\(\beta_2\)</span> by taking the average of the ratios <span class="math inline">\(\left(Y_i-\bar{Y}\right) /\left(X_{i 2}-\bar{X}_2\right)\)</span>, giving the estimate <span class="math display">\[
-b_2^{\prime}=\frac{1}{n} \sum \frac{Y_i-\bar{Y}}{X_{i 2}-\bar{X}_2} \quad \text { and } \quad b_3^{\prime}=\frac{1}{n} \sum \frac{Y_i-\bar{Y}}{X_{i 3}-\bar{X}_3} \text {. }
-\]</span> <span class="math inline">\(b_1^{\prime}\)</span> can be calculated in a fashion similar to Eq. (2.14), <span class="math inline">\(b_1^{\prime}=\bar{Y}-b_2^{\prime} \bar{X}_2-b_3^{\prime} \bar{X}_3\)</span>, which puts the plane through the point of means.</p>
+\tag{2.16}\]</span></span></p>
+<p>Und weil die Korrelelation <span class="math inline">\(r_{Y 2} = C_{Y 2} / S_2S_Y\)</span> ist und die Varianz <span class="math inline">\(V = S^2\)</span>, kann man für die <a href="#eq-2.15">Gleichung&nbsp;<span>2.15</span></a> kann man, statt der Covarianzen und Varianzen, Korrelationen schreiben:</p>
+<p><span id="eq-2.15s"><span class="math display">\[
+b_2 = \frac{\left(V_3 C_{Y 2}-C_{23} C_{Y 3}\right)}{\left(V_2 V_3-C_{23}^2\right)}=\frac{r_{Y 2}-r_{23} r_{Y 3}}{\left(1-r_{23}^2\right)} \frac{S_Y}{S_2} .
+\tag{2.17}\]</span></span> (Wer Lust hat, zeigt, dass das die <a href="#eq-2.15s">Gleichung&nbsp;<span>2.17</span></a> stimmt.)</p>
 </div>
 </div>
 </div>
