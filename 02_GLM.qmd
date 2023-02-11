@@ -264,22 +264,28 @@ Wert $a=\overline{x}$ ist \@ref(eq:Mittelwert-Optimum). Dasselbe könnten wir f�
 Annahmen) das für jedes $b_1$ bis $b_3$ machen würden, dann hätten wir die b's mit OLS bestimmt. Da das ungleich komplizierter ist als für den
 Mittelwert, schlage ich vor, wir lassen das an dieser Stelle.
 
-:::{.callout-note collapse="false"}
+:::{.callout-note collapse="true"}
 
 ## IYI (nur für Formelliebende): Ableitung der OLS-Funktion
+
+Ausgangspunkt für die Ableitung der OLS-Funktion ist die Idee, den vom Modell nicht erklärten Rest, also die Residuen ($e_i$) zu minimieren. Die Residuen sind wie folgt definiert:
 
 $$
 e_i=Y_i-\hat{Y}_i=Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}
 $$ {#eq-2.4}
 
+Die Residuen werden minimmiert, wenn die Summe der quadrierten Residuen (auch Error) minimiert werden, also die Summe $sum_{i=1}^n e_i^2$ möglichst klein ist. Für die Summe der quadrierten Fehler (Sum of Squared Errors: SSE) können wir schreiben:
+
 $$
 \sum_{i=1}^n e_i^2=\sum_{i=1}^n\left(Y_i-\hat{Y}_i\right)^2=\sum_{i=1}^n\left(Y_i-b_1-b_2 X_2-b_3 X_{i 3}\right)^2
 $$ {#eq-2.5}
 
-
+Wenn wir die Summe der quadrierten Fehler (SSE) minimieren wollen, leiten wir die SSE nach den gesuchten b ab (das $\partial$ steht für differenzieren, also ableiten; das $\partial b$ unter dem Bruchstrich bedeutet, dass nach b abgeleitet wird und nicht etwa, dass irgendwie durch b geteilt wird): 
 $$
 \frac{\partial S S E}{\partial b}=\frac{\partial\left(\sum_{i=1}^n e_i^2\right)}{\partial b}=\frac{\partial\left(e_1^2\right)}{\partial b}+\frac{\partial\left(e_2^2\right)}{\partial b}+\cdots+\frac{\partial\left(e_i^2\right)}{\partial b}=\sum_{i=1}^n \frac{\partial\left(e_i^2\right)}{\partial b}
 $$ {#eq-2.6}
+
+Nach den Ableitungsregeln kann man die Ableitung einer Summe zerlegen in die Ableitung der einzelnen Summanden. Das steht in @eq-2.6. Nach den ableitungsregeln kann man daraus Folgendes machen (schauen Sie nur darauf, wonach jeweils abgeleitet wird. Alle anderen Teile fallen weg. In @eq-2.4 wird zB nach $b_1$ abgeleitet, und die Ableitung einer Konstanten ($b_1$) ist 1 und mit dem Minuszeichen davor, bleibt eben -1 übrig. In @eq-2.6 wird nach $b_2$ abgeleitet. Darum bleibt aus der Formel $b_2X_{i 3}$ übrig, was nach Ableitungsregeln $X_{i 2}$ entspricht und wieder mit einem Minuszeichen aus der Formel versehen ist.): 
 
 $$
 \frac{\partial\left(e_i^2\right)}{\partial b}=\frac{\partial\left(e_i^2\right)}{\partial e_i} \frac{\partial e_i}{\partial b}=2 e_i \frac{\partial e_i}{\partial b}
@@ -304,7 +310,7 @@ $$
 \end{gathered}
 $$ {#eq-2.10}
 
-jetzt alle Formeln von @eq-2.8 bis @eq-2.10 zusammen und die einzelnen Ableitungen gleich 0 gesetzt, um die Funktionen zu minimieren:
+Jetzt müssen alle Formeln von @eq-2.8 bis @eq-2.10 zusammengefügt und die einzelnen Ableitungen gleich 0 gesetzt werden, um die Gesamtfunktion zu minimieren:
 $$
 \begin{aligned}
 \frac{\partial S S E}{\partial b_1} & =2 \sum_{i=1}^n e_i \frac{\partial e_i}{\partial b_1}=2 \sum_{i=1}^n\left(Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}\right)(-1) \\
@@ -314,28 +320,33 @@ $$
 
 dafür können wir schreiben: 
 $$
-\begin{gathered}
--\sum_i Y_i+n b_1+b_2 \sum_i X_{i 2}+b_3 \sum_i X_{13}=0 \\
-\frac{\partial S S E}{\partial b_2}=2 \sum_{i=1}^n e_i \frac{\partial e_i}{\partial b_2}=2 \sum_{i=1}^n\left(Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}\right)\left(-X_{i 2}\right) \\
-\end{gathered}
+-\sum_i Y_i+n b_1+b_2 \sum_i X_{i 2}+b_3 \sum_i X_{13}=0
 $$ {#eq-2.11}
 
-oder 
+Jetzt wollen wir die SSE noch für bzw. nach $b_2$ ableiten:
 $$
-\begin{gathered}
--\sum_i Y_i X_{i 2}+b_1 \sum_i X_{i 2}+b_2 \sum_i X_{i 2}^2+b_3 \sum_i X_{i 3} X_{i 2}=0 \\
-\frac{\partial S S E}{\partial b_3}=2 \sum_{i=1}^n e_i \frac{\partial e_i}{\partial b_3}=2 \sum_{i=1}^n\left(Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}\right)\left(-X_{i 3}\right) 
-\end{gathered}
+\frac{\partial S S E}{\partial b_2}=2 \sum_{i=1}^n e_i \frac{\partial e_i}{\partial b_2}=2 \sum_{i=1}^n\left(Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}\right)\left(-X_{i 2}\right) 
+$$
+
+oder nach der Zerlegung der Summe in die einzelnen Summanden, die jeweils mit $-X_{i 2}$ multipliziert wird und sich darum immer das Vorzeichen umkehrt. 
+
+$$
+-\sum_i Y_i X_{i 2}+b_1 \sum_i X_{i 2}+b_2 \sum_i X_{i 2}^2+b_3 \sum_i X_{i 3} X_{i 2}=0 
 $$ {#eq-2.12}
 
-oder 
+Nun fehlt nur noch die Ableitung der SSE nach $b_2$:
+$$
+\frac{\partial S S E}{\partial b_3}=2 \sum_{i=1}^n e_i \frac{\partial e_i}{\partial b_3}=2 \sum_{i=1}^n\left(Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}\right)\left(-X_{i 3}\right) 
+$$
+
+und wie bei $b_2$:
 $$-
 \begin{gathered}
 -\sum_i Y_i X_{i 3}+b_1 \sum_i X_{i 3}+b_2 \sum_i X_{i 2} X_{i 3}+b_3 \sum_i X_{i 3}^2=0 .
 \end{gathered}
 $$ {#eq-2.13}
 
-Jetzt teilen wir jeweils die @eq-2.11 bis @eq-2.13 durch die Fallzahl, also $T$, woraus sich ergibt:
+Jetzt teilen wir jeweils die @eq-2.11 bis @eq-2.13 durch die Fallzahl, also $n$, woraus sich ergibt (etwas konventionaller geschrieben und erstmal übersichtlicher):
 
 $$
 \begin{aligned}
@@ -345,7 +356,7 @@ a_2 b_1+a_4 b_2+a_3 b_3 & =c_3,
 \end{aligned}
 $$
 
-wobei 
+wobei sich hinter den a's und c's folgende Elemente verbergen, die am Ende eigentlich immer recht einfach ($\bar{X}_2$ und so) ausfallen: 
 
 $$
 \begin{gathered}
@@ -358,7 +369,7 @@ $$ {#eq-2.13b}
 
 Durch Einsetzten erhalten wir also:
 $$
-\bar{Y}=b_1+b_2 \bar{X}_2+b_3 \bar{X}_3 \quad \text { oder } \quad b_1=\bar{Y}-b_2 \bar{X}_2-b_3 \bar{X}_3
+\bar{Y}=b_1+b_2 \bar{X}_2+b_3 \bar{X}_3 \quad \text { umgestellt } \quad b_1=\bar{Y}-b_2 \bar{X}_2-b_3 \bar{X}_3
 $$ {#eq-2.14}
 
 und @eq-2.12 sowie @eq-2.13 sind
@@ -376,19 +387,24 @@ $$
 & b_2\left(\frac{1}{n} \sum X_{i 2}^2-\bar{X}_2^2\right)+b_3\left(\frac{1}{n} \sum X_{i 2} X_{i 3}-\bar{X}_2 \bar{X}_3\right)=\left(\frac{1}{n} \sum Y_i X_{i 2}-\bar{Y} \bar{X}_2\right) \\
 & b_2\left(\frac{1}{n} \sum X_{i 2} X_{i 3}-\bar{X}_2 \bar{X}_3\right)+b_3\left(\frac{1}{n} \sum X_{i 3}^2-\bar{X}_3^2\right)=\left(\frac{1}{n} \sum Y_i X_{i 3}-\bar{Y} \bar{X}_3\right)
 \end{aligned}
-$$ 
+$$ {#eq-2.13n1}
 
-By definition of the variance of the variable $X\left[V_X=(1 / n) \sum X_i^2-\bar{X}^2\right]$ and the covariance of two variables $X$ and $Y\left[C_{X Y}=(1 / n) \sum X_1 Y_i-\bar{X} \bar{Y}\right]$, these two equations are 
+Die Varianzen der Variable X ist $\left[V_X=(1 / n) \sum X_i^2-\bar{X}^2\right]$ und die Kovarianz von $X$ und $Y$ ist $\left[C_{X Y}=(1 / n) \sum X_1 Y_i-\bar{X} \bar{Y}\right]$, also kann man für die @eq-2.13n1 etwas übersichtlicher schreiben:
 $$
 b_2 V_{X_2}+b_3 C_{X_2 X_3}=C_{Y X_2}, \quad b_2 C_{X_2 X_3}+b_3 V_{X_3}=C_{Y X_3}
 $$
-For notational convenience, from this point on we shall suppress the $X$ subscript. Thus, $V_2$ is the variance of $X_2, C_{23}$ is the covariance of $X_2$ and $X_3$,
+
+Das ist damit auch das Ergebnis der ganzen Ableitung: Die b's lassen sich aus den Varianzen und Kovarianzen der Variablen bestimmen! 
+
+Um eine noch übersichtlichere Schreibweise zu bekommen, lassen wir jetzt noch die Subscripte der ganzen X weg. Also schreiben wir ddie Varianzt von $X_2$ nicht mehr als $V_{X_2}$, sondern einfach als $V_2$ und die Kovarianz zwischen $X_2$ und $X_3$ statt $C_{X_2 X_3}$ als $C_{2 3}$. Dann vereinfacht sich das Ganze für $b_2$ zu:
 
 $$
 \begin{aligned}
-b_3=\left(V_2 C_{Y 3}-C_{23} C_{Y 2}\right) /\left(V_2 V_3-C_{23}^2\right) .
+b_2=\left(V_3 C_{Y 2}-C_{23} C_{Y 3}\right) /\left(V_2 V_3-C_{23}^2\right) .
 \end{aligned}
 $$ {#eq-2.15}
+
+und für $b_3$:
 
 $$
 \begin{aligned}
@@ -396,18 +412,12 @@ $$
 \end{aligned}
 $$ {#eq-2.16}
 
-Für die @eq-2.15 kann man auch statt der Covarianzen und Varianzen schreiben
+Und weil die Korrelelation $r_{Y 2} = C_{Y 2} / S_2S_Y$ ist und die Varianz $V = S^2$, kann man für die @eq-2.15 kann man, statt der Covarianzen und Varianzen, Korrelationen schreiben:
 
 $$
-b_2=\frac{r_{Y 2}-r_{23} r_{Y 3}}{\left(1-r_{23}^2\right)} \frac{S_Y}{S_2} .
-$$
-
-The second necessary condition, and a relatively important one, is that $D=V_2 V_3-C_{23}^2$ must not equal zero. If $D$ does equal zero, then the required divisions cannot be executed, and we have no estimates. The simplest way to see how $D$ might equal 0 is to divide $D$ by $V_2 V_3$ as in Eq. (2.15'). As long as $V_2 \neq 0$ and $V_3 \neq 0, D=0$ if and only if $1-r_{23}^2=0$, or if $\left|r_{23}\right|=1$. $\left|r_{23}\right|=1$ only if $X_2$ and $X_3$ are perfectly correlated, that is, only if $X_2$ and $X_3$ are linearly related to each other as in $X_2=d_1+d_2 X_3$. For example, if $X_2$ is income in dollars and $X_3$ is income in thousands of dollars $\left(X_2=1000 X_3\right)$ or if $X_2$ is a variable that is one for all males and $X_3$ is a similar variable for all females $\left(X_2=1-X_3\right), D$ would equal zero, and we could not estimate such a model. Thus, not only must there be some variance in $X_2$ and $X_3$, but they must also exhibit some independent variation $\left(\left|r_{23}\right| \neq 1\right)$ in order for us to estimate our model. ${ }^8$ This condition corresponds to the heuristic notion that $b_2$ and $b_3$ are computed on the basis of the independent variation that $X_2$ and $X_3$ exhibit.
-Equations (2.14)-(2.16) give us one way of estimating the coefficients in our behavioral relationship. There are, of course, many other possible estimators or ways of using sample data to estimate the $\beta$ 's. For example, we could calculate the deviations of each variable about its mean, giving a set of $T$ observations $X_{i 2}-\bar{X}_2, X_{i 3}-\bar{X}_3$, and $Y_i-\bar{Y}$. From these we could estimate $\beta_2$ by taking the average of the ratios $\left(Y_i-\bar{Y}\right) /\left(X_{i 2}-\bar{X}_2\right)$, giving the estimate
-$$
-b_2^{\prime}=\frac{1}{n} \sum \frac{Y_i-\bar{Y}}{X_{i 2}-\bar{X}_2} \quad \text { and } \quad b_3^{\prime}=\frac{1}{n} \sum \frac{Y_i-\bar{Y}}{X_{i 3}-\bar{X}_3} \text {. }
-$$
-$b_1^{\prime}$ can be calculated in a fashion similar to Eq. (2.14), $b_1^{\prime}=\bar{Y}-b_2^{\prime} \bar{X}_2-b_3^{\prime} \bar{X}_3$, which puts the plane through the point of means.
+b_2 = \frac{\left(V_3 C_{Y 2}-C_{23} C_{Y 3}\right)}{\left(V_2 V_3-C_{23}^2\right)}=\frac{r_{Y 2}-r_{23} r_{Y 3}}{\left(1-r_{23}^2\right)} \frac{S_Y}{S_2} .
+$$ {#eq-2.15s}
+(Wer Lust hat, zeigt, dass das die @eq-2.15s stimmt.)
 :::
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------
