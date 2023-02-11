@@ -347,7 +347,7 @@ Y_i&amp;=b_1 + b_2X_{i2} +e_i
 \end{align}\]</span>
 <p>Am Ende kommt als Lösung für den nach OLS besten Repräsentanten einer Variablen heraus: <span class="math inline">\(\frac{\sum_i{x_i}}{n} = a\)</span> @ref(eq:Umstellen2). Der linke Teil ist genau die Definition von <span class="math inline">\(\overline{x}\)</span>, also dem Mittelwert. Damit haben wir mit einer Ableitungen der OLS herausgefunden, dass der Mittelwert die kleinste Summe der quadrierten Abstände jedes Wertes zu einem Wert a hat, also der gesuchte beste Repräsentant für eine Variable der Wert <span class="math inline">\(a=\overline{x}\)</span> ist @ref(eq:Mittelwert-Optimum). Dasselbe könnten wir für die Formel <span class="math inline">\(Y_i = b_1 + b_2X_i + e_i\)</span> machen. Wenn wir (mit ein paar Annahmen) das für jedes <span class="math inline">\(b_1\)</span> bis <span class="math inline">\(b_3\)</span> machen würden, dann hätten wir die b’s mit OLS bestimmt. Da das ungleich komplizierter ist als für den Mittelwert, schlage ich vor, wir lassen das an dieser Stelle.</p>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -356,56 +356,56 @@ IYI (nur für Formelliebende): Ableitung der OLS-Funktion
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p><span id="eq-2.4"><span class="math display">\[
-e_t=Y_t-\hat{Y}_t=Y_t-b_1-b_2 X_{t 2}-b_3 X_{t 3}
+e_i=Y_i-\hat{Y}_i=Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}
 \tag{2.1}\]</span></span></p>
 <p><span id="eq-2.5"><span class="math display">\[
-\sum_{t=1}^T e_t^2=\sum_{t=1}^T\left(Y_t-\hat{Y}_t\right)^2=\sum_{t=1}^T\left(Y_t-b_1-b_2 X_2-b_3 X_{t 3}\right)^2
+\sum_{i=1}^n e_i^2=\sum_{i=1}^n\left(Y_i-\hat{Y}_i\right)^2=\sum_{i=1}^n\left(Y_i-b_1-b_2 X_2-b_3 X_{i 3}\right)^2
 \tag{2.2}\]</span></span></p>
 <p><span id="eq-2.6"><span class="math display">\[
-\frac{\partial S S E}{\partial b}=\frac{\partial\left(\sum_{t=1}^T e_t^2\right)}{\partial b}=\frac{\partial\left(e_1^2\right)}{\partial b}+\frac{\partial\left(e_2^2\right)}{\partial b}+\cdots+\frac{\partial\left(e_T^2\right)}{\partial b}=\sum_{t=1}^T \frac{\partial\left(e_t^2\right)}{\partial b}
+\frac{\partial S S E}{\partial b}=\frac{\partial\left(\sum_{i=1}^n e_i^2\right)}{\partial b}=\frac{\partial\left(e_1^2\right)}{\partial b}+\frac{\partial\left(e_2^2\right)}{\partial b}+\cdots+\frac{\partial\left(e_i^2\right)}{\partial b}=\sum_{i=1}^n \frac{\partial\left(e_i^2\right)}{\partial b}
 \tag{2.3}\]</span></span></p>
 <p><span id="eq-2.7"><span class="math display">\[
-\frac{\partial\left(e_t^2\right)}{\partial b}=\frac{\partial\left(e_t^2\right)}{\partial e_t} \frac{\partial e_t}{\partial b}=2 e_t \frac{\partial e_t}{\partial b}
+\frac{\partial\left(e_i^2\right)}{\partial b}=\frac{\partial\left(e_i^2\right)}{\partial e_i} \frac{\partial e_i}{\partial b}=2 e_i \frac{\partial e_i}{\partial b}
 \tag{2.4}\]</span></span></p>
 <p>und nach Gleichung <a href="#eq-2.4">Gleichung&nbsp;<span>2.1</span></a>, <span id="eq-2.8"><span class="math display">\[
 \begin{gathered}
-\frac{\partial e_t}{\partial b_1}=\frac{\partial\left(Y_t-b_1-b_2 X_{t 2}-b_3 X_{t 3}\right)}{\partial b_1}=-1,
+\frac{\partial e_i}{\partial b_1}=\frac{\partial\left(Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}\right)}{\partial b_1}=-1,
 \end{gathered}
 \tag{2.5}\]</span></span></p>
 <p><span id="eq-2.9"><span class="math display">\[
 \begin{gathered}
-\frac{\partial e_t}{\partial b_2}=\frac{\partial\left(Y_t-b_1-b_2 X_{t 2}-b_3 X_{t 3}\right)}{\partial b_2}=-X_{t 2},
+\frac{\partial e_i}{\partial b_2}=\frac{\partial\left(Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}\right)}{\partial b_2}=-X_{i 2},
 \end{gathered}
 \tag{2.6}\]</span></span></p>
 <p><span id="eq-2.10"><span class="math display">\[
 \begin{gathered}
-\frac{\partial e_t}{\partial b_3}=\frac{\partial\left(Y_t-b_1-b_2 X_{t 2}-b_3 X_{t 3}\right)}{\partial b_3}=-X_{t 3} .
+\frac{\partial e_i}{\partial b_3}=\frac{\partial\left(Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}\right)}{\partial b_3}=-X_{i 3} .
 \end{gathered}
 \tag{2.7}\]</span></span></p>
 <p>jetzt alle Formeln von <a href="#eq-2.8">Gleichung&nbsp;<span>2.5</span></a> bis <a href="#eq-2.10">Gleichung&nbsp;<span>2.7</span></a> zusammen und die einzelnen Ableitungen gleich 0 gesetzt, um die Funktionen zu minimieren: <span class="math display">\[
 \begin{aligned}
-\frac{\partial S S E}{\partial b_1} &amp; =2 \sum_{t=1}^T e_t \frac{\partial e_t}{\partial b_1}=2 \sum_{t=1}^T\left(Y_t-b_1-b_2 X_{t 2}-b_3 X_{t 3}\right)(-1) \\
-&amp; =-2 \sum_t Y_t+2 \sum_t b_1+2 b_2 \sum_t X_{t 2}+2 b_3 \sum_t X_{t 3}
+\frac{\partial S S E}{\partial b_1} &amp; =2 \sum_{i=1}^n e_i \frac{\partial e_i}{\partial b_1}=2 \sum_{i=1}^n\left(Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}\right)(-1) \\
+&amp; =-2 \sum_i Y_i+2 \sum_i b_1+2 b_2 \sum_i X_{i 2}+2 b_3 \sum_i X_{i 3}
 \end{aligned}
 \]</span></p>
 <p>dafür können wir schreiben: <span id="eq-2.11"><span class="math display">\[
 \begin{gathered}
--\sum_t Y_t+T b_1+b_2 \sum_t X_{t 2}+b_3 \sum_t X_{13}=0 \\
-\frac{\partial S S E}{\partial b_2}=2 \sum_{t=1}^T e_t \frac{\partial e_t}{\partial b_2}=2 \sum_{t=1}^T\left(Y_t-b_1-b_2 X_{t 2}-b_3 X_{t 3}\right)\left(-X_{t 2}\right) \\
+-\sum_i Y_i+n b_1+b_2 \sum_i X_{i 2}+b_3 \sum_i X_{13}=0 \\
+\frac{\partial S S E}{\partial b_2}=2 \sum_{i=1}^n e_i \frac{\partial e_i}{\partial b_2}=2 \sum_{i=1}^n\left(Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}\right)\left(-X_{i 2}\right) \\
 \end{gathered}
 \tag{2.8}\]</span></span></p>
 <p>oder <span id="eq-2.12"><span class="math display">\[
 \begin{gathered}
--\sum_t Y_t X_{t 2}+b_1 \sum_t X_{t 2}+b_2 \sum_t X_{t 2}^2+b_3 \sum_t X_{t 3} X_{t 2}=0 \\
-\frac{\partial S S E}{\partial b_3}=2 \sum_{t=1}^T e_t \frac{\partial e_t}{\partial b_3}=2 \sum_{t=1}^T\left(Y_t-b_1-b_2 X_{t 2}-b_3 X_{t 3}\right)\left(-X_{t 3}\right)
+-\sum_i Y_i X_{i 2}+b_1 \sum_i X_{i 2}+b_2 \sum_i X_{i 2}^2+b_3 \sum_i X_{i 3} X_{i 2}=0 \\
+\frac{\partial S S E}{\partial b_3}=2 \sum_{i=1}^n e_i \frac{\partial e_i}{\partial b_3}=2 \sum_{i=1}^n\left(Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}\right)\left(-X_{i 3}\right)
 \end{gathered}
 \tag{2.9}\]</span></span></p>
 <p>oder <span id="eq-2.13"><span class="math display">\[-
 \begin{gathered}
--\sum_t Y_t X_{t 3}+b_1 \sum_t X_{t 3}+b_2 \sum_t X_{t 2} X_{t 3}+b_3 \sum_t X_{t 3}^2=0 .
+-\sum_i Y_i X_{i 3}+b_1 \sum_i X_{i 3}+b_2 \sum_i X_{i 2} X_{i 3}+b_3 \sum_i X_{i 3}^2=0 .
 \end{gathered}
 \tag{2.10}\]</span></span></p>
 <p>Jetzt teilen wir jeweils die <a href="#eq-2.11">Gleichung&nbsp;<span>2.8</span></a> bis <a href="#eq-2.13">Gleichung&nbsp;<span>2.10</span></a> durch die Fallzahl, also <span class="math inline">\(T\)</span>, woraus sich ergibt:</p>
@@ -419,9 +419,9 @@ a_2 b_1+a_4 b_2+a_3 b_3 &amp; =c_3,
 <p>wobei</p>
 <p><span id="eq-2.13b"><span class="math display">\[
 \begin{gathered}
-a_1=\frac{1}{T} \sum X_{t 2}=\bar{X}_2, \quad a_2=\frac{1}{T} \sum X_{t 3}=\bar{X}_3, \quad a_3=\frac{1}{T} \sum X_{t 2}^2, \\
-a_4=\frac{1}{T} \sum X_{t 2} X_{t 3}, \quad a_5=\frac{1}{T} \sum X_{t 3}^2, \\
-c_1=\frac{1}{T} \sum Y_t=\bar{Y}, \quad c_2=\frac{1}{T} \sum Y_t X_{t 2}, \quad c_3=\frac{1}{T} \sum Y_t X_{t 3} .
+a_1=\frac{1}{n} \sum X_{i 2}=\bar{X}_2, \quad a_2=\frac{1}{n} \sum X_{i 3}=\bar{X}_3, \quad a_3=\frac{1}{n} \sum X_{i 2}^2, \\
+a_4=\frac{1}{n} \sum X_{i 2} X_{i 3}, \quad a_5=\frac{1}{n} \sum X_{i 3}^2, \\
+c_1=\frac{1}{n} \sum Y_i=\bar{Y}, \quad c_2=\frac{1}{n} \sum Y_i X_{i 2}, \quad c_3=\frac{1}{n} \sum Y_i X_{i 3} .
 \end{gathered}
 \tag{2.11}\]</span></span></p>
 <p>Durch Einsetzten erhalten wir also: <span id="eq-2.14"><span class="math display">\[
@@ -430,17 +430,17 @@ c_1=\frac{1}{T} \sum Y_t=\bar{Y}, \quad c_2=\frac{1}{T} \sum Y_t X_{t 2}, \quad 
 <p>und <a href="#eq-2.12">Gleichung&nbsp;<span>2.9</span></a> sowie <a href="#eq-2.13">Gleichung&nbsp;<span>2.10</span></a> sind</p>
 <p><span id="eq-2.12_2.13b"><span class="math display">\[
 \begin{aligned}
-&amp; \bar{X}_2 b_1+\left(\frac{1}{T} \sum X_{t 2}^2\right) b_2+\left(\frac{1}{T} \sum X_{t 2} X_{t 3}\right) b_3=\frac{1}{T} \sum Y_t X_{t 2} \\
-&amp; \bar{X}_3 b_1+\left(\frac{1}{T} \sum X_{t 2} X_{t 3}\right) b_2+\left(\frac{1}{T} \sum X_{t 3}^2\right) b_3=\frac{1}{T} \sum Y_t X_{t 3} .
+&amp; \bar{X}_2 b_1+\left(\frac{1}{n} \sum X_{i 2}^2\right) b_2+\left(\frac{1}{n} \sum X_{i 2} X_{i 3}\right) b_3=\frac{1}{n} \sum Y_i X_{i 2} \\
+&amp; \bar{X}_3 b_1+\left(\frac{1}{n} \sum X_{i 2} X_{i 3}\right) b_2+\left(\frac{1}{n} \sum X_{i 3}^2\right) b_3=\frac{1}{n} \sum Y_i X_{i 3} .
 \end{aligned}
 \tag{2.13}\]</span></span></p>
 <p>Wenn man jetzt das <span class="math inline">\(b_1\)</span> aus <a href="#eq-2.14">Gleichung&nbsp;<span>2.12</span></a> einsetzt, ergibt sich <span class="math display">\[
 \begin{aligned}
-&amp; b_2\left(\frac{1}{T} \sum X_{t 2}^2-\bar{X}_2^2\right)+b_3\left(\frac{1}{T} \sum X_{t 2} X_{t 3}-\bar{X}_2 \bar{X}_3\right)=\left(\frac{1}{T} \sum Y_t X_{t 2}-\bar{Y} \bar{X}_2\right) \\
-&amp; b_2\left(\frac{1}{T} \sum X_{t 2} X_{t 3}-\bar{X}_2 \bar{X}_3\right)+b_3\left(\frac{1}{T} \sum X_{t 3}^2-\bar{X}_3^2\right)=\left(\frac{1}{T} \sum Y_t X_{t 3}-\bar{Y} \bar{X}_3\right)
+&amp; b_2\left(\frac{1}{n} \sum X_{i 2}^2-\bar{X}_2^2\right)+b_3\left(\frac{1}{n} \sum X_{i 2} X_{i 3}-\bar{X}_2 \bar{X}_3\right)=\left(\frac{1}{n} \sum Y_i X_{i 2}-\bar{Y} \bar{X}_2\right) \\
+&amp; b_2\left(\frac{1}{n} \sum X_{i 2} X_{i 3}-\bar{X}_2 \bar{X}_3\right)+b_3\left(\frac{1}{n} \sum X_{i 3}^2-\bar{X}_3^2\right)=\left(\frac{1}{n} \sum Y_i X_{i 3}-\bar{Y} \bar{X}_3\right)
 \end{aligned}
 \]</span></p>
-<p>By definition of the variance of the variable <span class="math inline">\(X\left[V_X=(1 / T) \sum X_t^2-\bar{X}^2\right]\)</span> and the covariance of two variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\left[C_{X Y}=(1 / T) \sum X_1 Y_t-\bar{X} \bar{Y}\right]\)</span>, these two equations are <span class="math display">\[
+<p>By definition of the variance of the variable <span class="math inline">\(X\left[V_X=(1 / n) \sum X_i^2-\bar{X}^2\right]\)</span> and the covariance of two variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\left[C_{X Y}=(1 / n) \sum X_1 Y_i-\bar{X} \bar{Y}\right]\)</span>, these two equations are <span class="math display">\[
 b_2 V_{X_2}+b_3 C_{X_2 X_3}=C_{Y X_2}, \quad b_2 C_{X_2 X_3}+b_3 V_{X_3}=C_{Y X_3}
 \]</span> For notational convenience, from this point on we shall suppress the <span class="math inline">\(X\)</span> subscript. Thus, <span class="math inline">\(V_2\)</span> is the variance of <span class="math inline">\(X_2, C_{23}\)</span> is the covariance of <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span>,</p>
 <p><span id="eq-2.15"><span class="math display">\[
@@ -457,8 +457,8 @@ b_3=\left(V_2 C_{Y 3}-C_{23} C_{Y 2}\right) /\left(V_2 V_3-C_{23}^2\right) .
 <p><span class="math display">\[
 b_2=\frac{r_{Y 2}-r_{23} r_{Y 3}}{\left(1-r_{23}^2\right)} \frac{S_Y}{S_2} .
 \]</span></p>
-<p>The second necessary condition, and a relatively important one, is that <span class="math inline">\(D=V_2 V_3-C_{23}^2\)</span> must not equal zero. If <span class="math inline">\(D\)</span> does equal zero, then the required divisions cannot be executed, and we have no estimates. The simplest way to see how <span class="math inline">\(D\)</span> might equal 0 is to divide <span class="math inline">\(D\)</span> by <span class="math inline">\(V_2 V_3\)</span> as in Eq. (2.15’). As long as <span class="math inline">\(V_2 \neq 0\)</span> and <span class="math inline">\(V_3 \neq 0, D=0\)</span> if and only if <span class="math inline">\(1-r_{23}^2=0\)</span>, or if <span class="math inline">\(\left|r_{23}\right|=1\)</span>. <span class="math inline">\(\left|r_{23}\right|=1\)</span> only if <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> are perfectly correlated, that is, only if <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> are linearly related to each other as in <span class="math inline">\(X_2=d_1+d_2 X_3\)</span>. For example, if <span class="math inline">\(X_2\)</span> is income in dollars and <span class="math inline">\(X_3\)</span> is income in thousands of dollars <span class="math inline">\(\left(X_2=1000 X_3\right)\)</span> or if <span class="math inline">\(X_2\)</span> is a variable that is one for all males and <span class="math inline">\(X_3\)</span> is a similar variable for all females <span class="math inline">\(\left(X_2=1-X_3\right), D\)</span> would equal zero, and we could not estimate such a model. Thus, not only must there be some variance in <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span>, but they must also exhibit some independent variation <span class="math inline">\(\left(\left|r_{23}\right| \neq 1\right)\)</span> in order for us to estimate our model. <span class="math inline">\({ }^8\)</span> This condition corresponds to the heuristic notion that <span class="math inline">\(b_2\)</span> and <span class="math inline">\(b_3\)</span> are computed on the basis of the independent variation that <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> exhibit. Equations (2.14)-(2.16) give us one way of estimating the coefficients in our behavioral relationship. There are, of course, many other possible estimators or ways of using sample data to estimate the <span class="math inline">\(\beta\)</span> ’s. For example, we could calculate the deviations of each variable about its mean, giving a set of <span class="math inline">\(T\)</span> observations <span class="math inline">\(X_{t 2}-\bar{X}_2, X_{t 3}-\bar{X}_3\)</span>, and <span class="math inline">\(Y_t-\bar{Y}\)</span>. From these we could estimate <span class="math inline">\(\beta_2\)</span> by taking the average of the ratios <span class="math inline">\(\left(Y_t-\bar{Y}\right) /\left(X_{t 2}-\bar{X}_2\right)\)</span>, giving the estimate <span class="math display">\[
-b_2^{\prime}=\frac{1}{T} \sum \frac{Y_t-\bar{Y}}{X_{t 2}-\bar{X}_2} \quad \text { and } \quad b_3^{\prime}=\frac{1}{T} \sum \frac{Y_t-\bar{Y}}{X_{t 3}-\bar{X}_3} \text {. }
+<p>The second necessary condition, and a relatively important one, is that <span class="math inline">\(D=V_2 V_3-C_{23}^2\)</span> must not equal zero. If <span class="math inline">\(D\)</span> does equal zero, then the required divisions cannot be executed, and we have no estimates. The simplest way to see how <span class="math inline">\(D\)</span> might equal 0 is to divide <span class="math inline">\(D\)</span> by <span class="math inline">\(V_2 V_3\)</span> as in Eq. (2.15’). As long as <span class="math inline">\(V_2 \neq 0\)</span> and <span class="math inline">\(V_3 \neq 0, D=0\)</span> if and only if <span class="math inline">\(1-r_{23}^2=0\)</span>, or if <span class="math inline">\(\left|r_{23}\right|=1\)</span>. <span class="math inline">\(\left|r_{23}\right|=1\)</span> only if <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> are perfectly correlated, that is, only if <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> are linearly related to each other as in <span class="math inline">\(X_2=d_1+d_2 X_3\)</span>. For example, if <span class="math inline">\(X_2\)</span> is income in dollars and <span class="math inline">\(X_3\)</span> is income in thousands of dollars <span class="math inline">\(\left(X_2=1000 X_3\right)\)</span> or if <span class="math inline">\(X_2\)</span> is a variable that is one for all males and <span class="math inline">\(X_3\)</span> is a similar variable for all females <span class="math inline">\(\left(X_2=1-X_3\right), D\)</span> would equal zero, and we could not estimate such a model. Thus, not only must there be some variance in <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span>, but they must also exhibit some independent variation <span class="math inline">\(\left(\left|r_{23}\right| \neq 1\right)\)</span> in order for us to estimate our model. <span class="math inline">\({ }^8\)</span> This condition corresponds to the heuristic notion that <span class="math inline">\(b_2\)</span> and <span class="math inline">\(b_3\)</span> are computed on the basis of the independent variation that <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> exhibit. Equations (2.14)-(2.16) give us one way of estimating the coefficients in our behavioral relationship. There are, of course, many other possible estimators or ways of using sample data to estimate the <span class="math inline">\(\beta\)</span> ’s. For example, we could calculate the deviations of each variable about its mean, giving a set of <span class="math inline">\(T\)</span> observations <span class="math inline">\(X_{i 2}-\bar{X}_2, X_{i 3}-\bar{X}_3\)</span>, and <span class="math inline">\(Y_i-\bar{Y}\)</span>. From these we could estimate <span class="math inline">\(\beta_2\)</span> by taking the average of the ratios <span class="math inline">\(\left(Y_i-\bar{Y}\right) /\left(X_{i 2}-\bar{X}_2\right)\)</span>, giving the estimate <span class="math display">\[
+b_2^{\prime}=\frac{1}{n} \sum \frac{Y_i-\bar{Y}}{X_{i 2}-\bar{X}_2} \quad \text { and } \quad b_3^{\prime}=\frac{1}{n} \sum \frac{Y_i-\bar{Y}}{X_{i 3}-\bar{X}_3} \text {. }
 \]</span> <span class="math inline">\(b_1^{\prime}\)</span> can be calculated in a fashion similar to Eq. (2.14), <span class="math inline">\(b_1^{\prime}=\bar{Y}-b_2^{\prime} \bar{X}_2-b_3^{\prime} \bar{X}_3\)</span>, which puts the plane through the point of means.</p>
 </div>
 </div>
@@ -501,7 +501,7 @@ b_2 = \frac{r_{y2}-r_{23}r_{y3}}{(1-r_{23}^2)}\frac{s_y}{s_2} \label{eq:FormelFu
 <p>Also: <span class="math inline">\(R^2 = \frac{SS_M}{SS_T}\)</span></p>
 <p>Bei dieser Formel @ref(eq:Varianzaufklaerung) können wir durch n teilen, also über und unter dem Bruch <span class="math inline">\(1/n\)</span> ergänzen und hätten:</p>
 <span class="math display">\[\begin{align}
-R^2 = \frac{SS_M/n}{SS_T/n} \label{eq:Varianzaufklaerung}
+R^2 = \frac{SS_M/n}{SS_/T} \label{eq:Varianzaufklaerung}
 \end{align}\]</span>
 <p>Was in Worten ausgedrückt bedeutet:</p>
 <span class="math display">\[\begin{align}
@@ -531,25 +531,25 @@ IYI: Ableitung für <span class="math inline">\(R^2\)</span>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><span class="math display">\[
-s^2=\frac{1}{T-3} \sum\left(e_t-\bar{e}\right)^2=\frac{1}{T-3} \sum e_i^2 .
-\]</span> ar <span class="math inline">\(\bar{e}=0\)</span>.) The denominator <span class="math inline">\(T-3\)</span> reflects the fac and <span class="math inline">\(b_3\)</span> ) have been estimated; in the general cs tions minus the number of parameters estims alue of <span class="math inline">\(\sum e_t^2, s^2\)</span> can be shown to be an unbias</p>
-<p><span class="math inline">\(s_{b_2}^2=\frac{s^2}{T} \frac{1 / V_2}{1-r_{23}^2} \quad\)</span> and <span class="math inline">\(\quad s_{b_3}^2=\frac{s^2}{T} \frac{1 / V_3}{1-r_{23}^2}\)</span> where <span class="math inline">\(s_{b_2}^2\)</span> and <span class="math inline">\(s_{b_3}^2\)</span> denote our estimates of the coefficients’ variance. Since <span class="math inline">\(E\left(s^2\right)=\sigma^2\)</span>, and the <span class="math inline">\(X^{\prime}\)</span> ‹s are fixed, this gives an unbiased estimate of the coefficients› variance. The estimated standard errors of the coefficients, symbolized as <span class="math inline">\(s_{b_2}\)</span> and <span class="math inline">\(s_{b_3}\)</span>, are simply the square root of these expressions. The information about the error variance-as estimated from the sum of squared residuals-supplies us with a description of the probability function that generated the errors in the true model. However, there are two transformations of <span class="math inline">\(s^2\)</span> that produce more easily interpreted statistics.</p>
-<p>The first transformation is simply the square root of <span class="math inline">\(s^2\)</span>. This statistic <span class="math inline">\(s\)</span> is important enough to deserve its own name: the standard error of estimate. ’In the first place, <span class="math inline">\(s\)</span> is measured in the same units as <span class="math inline">\(Y\)</span> (whereas <span class="math inline">\(s^2\)</span> is in the units of <span class="math inline">\(Y\)</span> squared). The standard error of estimate is also useful because it gives some feel for the size of the dispersion when compared to tables for the normal distribution. For a normal distribution, we expect about <span class="math inline">\(95 \%\)</span> of all values to lie within plus or minus two standard deviations of the mean. Thus, if the <span class="math inline">\(U_t\)</span> are normally distributed (as we often assume), we can expect <span class="math inline">\(95 \%\)</span> of all actual values of <span class="math inline">\(Y_t\)</span> in our sample to be within plus or minus two standard errors of estimate away from the estimated line. <span class="math inline">\({ }^8\)</span> The estimate <span class="math inline">\(s\)</span> thus allows an easier interpretation of the magnitude of the error terms.</p>
+s^2=\frac{1}{n-3} \sum\left(e_i-\bar{e}\right)^2=\frac{1}{n-3} \sum e_i^2 .
+\]</span> ar <span class="math inline">\(\bar{e}=0\)</span>.) The denominator <span class="math inline">\(n-3\)</span> reflects the fac and <span class="math inline">\(b_3\)</span> ) have been estimated; in the general cs tions minus the number of parameters estims alue of <span class="math inline">\(\sum e_i^2, s^2\)</span> can be shown to be an unbias</p>
+<p><span class="math inline">\(s_{b_2}^2=\frac{s^2}{n} \frac{1 / V_2}{1-r_{23}^2} \quad\)</span> and <span class="math inline">\(\quad s_{b_3}^2=\frac{s^2}{n} \frac{1 / V_3}{1-r_{23}^2}\)</span> where <span class="math inline">\(s_{b_2}^2\)</span> and <span class="math inline">\(s_{b_3}^2\)</span> denote our estimates of the coefficients’ variance. Since <span class="math inline">\(E\left(s^2\right)=\sigma^2\)</span>, and the <span class="math inline">\(X^{\prime}\)</span> ‹s are fixed, this gives an unbiased estimate of the coefficients› variance. The estimated standard errors of the coefficients, symbolized as <span class="math inline">\(s_{b_2}\)</span> and <span class="math inline">\(s_{b_3}\)</span>, are simply the square root of these expressions. The information about the error variance-as estimated from the sum of squared residuals-supplies us with a description of the probability function that generated the errors in the true model. However, there are two transformations of <span class="math inline">\(s^2\)</span> that produce more easily interpreted statistics.</p>
+<p>The first transformation is simply the square root of <span class="math inline">\(s^2\)</span>. This statistic <span class="math inline">\(s\)</span> is important enough to deserve its own name: the standard error of estimate. ’In the first place, <span class="math inline">\(s\)</span> is measured in the same units as <span class="math inline">\(Y\)</span> (whereas <span class="math inline">\(s^2\)</span> is in the units of <span class="math inline">\(Y\)</span> squared). The standard error of estimate is also useful because it gives some feel for the size of the dispersion when compared to tables for the normal distribution. For a normal distribution, we expect about <span class="math inline">\(95 \%\)</span> of all values to lie within plus or minus two standard deviations of the mean. Thus, if the <span class="math inline">\(U_i\)</span> are normally distributed (as we often assume), we can expect <span class="math inline">\(95 \%\)</span> of all actual values of <span class="math inline">\(Y_i\)</span> in our sample to be within plus or minus two standard errors of estimate away from the estimated line. <span class="math inline">\({ }^8\)</span> The estimate <span class="math inline">\(s\)</span> thus allows an easier interpretation of the magnitude of the error terms.</p>
 <p>The second transformation of the error variance makes a comparison with the total amount of variance in behavior <span class="math inline">\(\operatorname{var}(Y)\)</span> existing in the sample. One may wish to compare how well an estimated model does when matched with a «naïve» guess at the behavior in question.</p>
-<p>With no information about the underlying behavioral relationships, one guess of the value of any <span class="math inline">\(Y_t\)</span> is the mean value of all the observed <span class="math inline">\(Y^{\prime}\)</span> s. The variance of <span class="math inline">\(Y\)</span> is then the sum of squared deviations around this guess divided by the number of observations on the behavior. The sum of squared residuals <span class="math inline">\(\left(\sum e_t^2\right)\)</span> is a measure of how far our «sophisticated» guesses, represented by <span class="math inline">\(\hat{Y}_t=b_1+b_2 X_{t 2}+b_3 X_{t 3}\)</span>, diverge from the actual values of <span class="math inline">\(Y_t\)</span>. Thus, comparing the residual variance <span class="math inline">\(\left(\sum e_t^2 / T\right)\)</span> to the variance of <span class="math inline">\(Y\)</span> gives some indication of the overall performance of our model relative to the simpler «model.» If we look at <span class="math inline">\(\Sigma e_t^2 / \Sigma\left(Y_t-\bar{Y}\right)^2\)</span>, we see that this can range from zero when <span class="math inline">\(\Sigma e_t^2=0\)</span> to</p>
+<p>With no information about the underlying behavioral relationships, one guess of the value of any <span class="math inline">\(Y_i\)</span> is the mean value of all the observed <span class="math inline">\(Y^{\prime}\)</span> s. The variance of <span class="math inline">\(Y\)</span> is then the sum of squared deviations around this guess divided by the number of observations on the behavior. The sum of squared residuals <span class="math inline">\(\left(\sum e_i^2\right)\)</span> is a measure of how far our «sophisticated» guesses, represented by <span class="math inline">\(\hat{Y}_i=b_1+b_2 X_{i 2}+b_3 X_{i 3}\)</span>, diverge from the actual values of <span class="math inline">\(Y_i\)</span>. Thus, comparing the residual variance <span class="math inline">\(\left(\sum e_i^2 / n\right)\)</span> to the variance of <span class="math inline">\(Y\)</span> gives some indication of the overall performance of our model relative to the simpler «model.» If we look at <span class="math inline">\(\Sigma e_i^2 / \Sigma\left(Y_i-\bar{Y}\right)^2\)</span>, we see that this can range from zero when <span class="math inline">\(\Sigma e_i^2=0\)</span> to</p>
 <p>a maximum value of one. (Why, according to the least squares procedure, can this ratio never exceed one?) By convention, we create a new statistic, defined as, <span class="math display">\[
-R^2=1-\left[\sum e_t^2 / \sum\left(Y_t-\bar{Y}\right)^2\right] .
-\]</span> This statistic, referred to simply as <span class="math inline">\(R\)</span>-squared (or as the coefficient of determination) has the following properties: (1) when all points fall on the estimated plane so that <span class="math inline">\(Y_t \equiv \hat{Y}_t, R^2\)</span> equals one (its maximum); (2) when the mean does as well at predicting <span class="math inline">\(Y_t\)</span> as the estimated equation, <span class="math inline">\(R^2\)</span> equals zero (its minimum); (3) between these two extremes, <span class="math inline">\(R^2\)</span> gives an ordinal measure of how well the model predicts the sample values of <span class="math inline">\(Y\)</span>.</p>
-<p>Another way to look at <span class="math inline">\(R^2\)</span> is found by transforming <span class="math inline">\(\Sigma\left(Y_t-\bar{Y}\right)^2\)</span> as follows: <span class="math display">\[
+R^2=1-\left[\sum e_i^2 / \sum\left(Y_i-\bar{Y}\right)^2\right] .
+\]</span> This statistic, referred to simply as <span class="math inline">\(R\)</span>-squared (or as the coefficient of determination) has the following properties: (1) when all points fall on the estimated plane so that <span class="math inline">\(Y_i \equiv \hat{Y}_i, R^2\)</span> equals one (its maximum); (2) when the mean does as well at predicting <span class="math inline">\(Y_i\)</span> as the estimated equation, <span class="math inline">\(R^2\)</span> equals zero (its minimum); (3) between these two extremes, <span class="math inline">\(R^2\)</span> gives an ordinal measure of how well the model predicts the sample values of <span class="math inline">\(Y\)</span>.</p>
+<p>Another way to look at <span class="math inline">\(R^2\)</span> is found by transforming <span class="math inline">\(\Sigma\left(Y_i-\bar{Y}\right)^2\)</span> as follows: <span class="math display">\[
 \begin{aligned}
-\sum\left(Y_t-\bar{Y}\right)^2 &amp; =\sum\left[\left(Y_t-\hat{Y}_t\right)+\left(\hat{Y}_t-\bar{Y}\right)\right]^2 \\
-&amp; =\sum\left(Y_t-\hat{Y}_t\right)^2+\sum\left(\hat{Y}_t-\bar{Y}\right)^2+2 \sum\left(Y_t-\hat{Y}_t\right)\left(\hat{Y}_t-\bar{Y}\right) .
+\sum\left(Y_i-\bar{Y}\right)^2 &amp; =\sum\left[\left(Y_i-\hat{Y}_i\right)+\left(\hat{Y}_i-\bar{Y}\right)\right]^2 \\
+&amp; =\sum\left(Y_i-\hat{Y}_i\right)^2+\sum\left(\hat{Y}_i-\bar{Y}\right)^2+2 \sum\left(Y_i-\hat{Y}_i\right)\left(\hat{Y}_i-\bar{Y}\right) .
 \end{aligned}
-\]</span> Since <span class="math inline">\(Y_t-\hat{Y}_t=e_t\)</span> and <span class="math inline">\(\hat{Y}_t-\bar{Y}=b_2\left(X_{t 2}-\bar{X}_2\right)+b_3\left(X_{t 3}-\bar{X}_3\right)\)</span>, the last summation is simply equal to <span class="math inline">\(2 b_2 \Sigma\left(X_{t 2}-\bar{X}_2\right) e_t+2 b_3 \Sigma\left(X_{t 3}-\bar{X}_3\right) e_t\)</span>. However, by the arithmetic properties of least squares demonstrated above, this is identically zero. Thus <span class="math display">\[
-\sum\left(Y_t-\bar{Y}\right)^2=\sum\left(Y_t-\hat{Y}\right)^2+\sum\left(\hat{Y}_t-\bar{Y}\right)^2=\sum e_t^2+\sum\left(\hat{Y}_t-\bar{Y}\right)^2
-\]</span> This says that the variance of <span class="math inline">\(Y\)</span> can be divided into two components. The first <span class="math inline">\(\left(\Sigma e_t^2\right)\)</span> is the «unexplained» portion or the residual portion of the model. The second, called the «explained» portion, indicates how much better the estimated model does than using a fixed estimate of the mean would do. By rearranging (3.12), we see that <span class="math display">\[
-R^2=\sum\left(\hat{Y}_t-\bar{Y}\right)^2 / \sum\left(Y_t-\bar{Y}\right)^2
-\]</span> Thus, <span class="math inline">\(R^2\)</span> can be interpreted as the proportion of the variation in the sample <span class="math inline">\(Y_t\)</span> explained by the regression equation.</p>
+\]</span> Since <span class="math inline">\(Y_i-\hat{Y}_i=e_i\)</span> and <span class="math inline">\(\hat{Y}_i-\bar{Y}=b_2\left(X_{i 2}-\bar{X}_2\right)+b_3\left(X_{i 3}-\bar{X}_3\right)\)</span>, the last summation is simply equal to <span class="math inline">\(2 b_2 \Sigma\left(X_{i 2}-\bar{X}_2\right) e_i+2 b_3 \Sigma\left(X_{i 3}-\bar{X}_3\right) e_i\)</span>. However, by the arithmetic properties of least squares demonstrated above, this is identically zero. Thus <span class="math display">\[
+\sum\left(Y_i-\bar{Y}\right)^2=\sum\left(Y_i-\hat{Y}\right)^2+\sum\left(\hat{Y}_i-\bar{Y}\right)^2=\sum e_i^2+\sum\left(\hat{Y}_i-\bar{Y}\right)^2
+\]</span> This says that the variance of <span class="math inline">\(Y\)</span> can be divided into two components. The first <span class="math inline">\(\left(\Sigma e_i^2\right)\)</span> is the «unexplained» portion or the residual portion of the model. The second, called the «explained» portion, indicates how much better the estimated model does than using a fixed estimate of the mean would do. By rearranging (3.12), we see that <span class="math display">\[
+R^2=\sum\left(\hat{Y}_i-\bar{Y}\right)^2 / \sum\left(Y_i-\bar{Y}\right)^2
+\]</span> Thus, <span class="math inline">\(R^2\)</span> can be interpreted as the proportion of the variation in the sample <span class="math inline">\(Y_i\)</span> explained by the regression equation.</p>
 <p>Finally, if one correlates the actual and predicted values of <span class="math inline">\(Y\)</span>, one arrives at the correlation coefficient <span class="math inline">\(R\)</span>. Squaring this yields the same value of <span class="math inline">\(R^2\)</span> as found in (3.12) and (3.14).</p>
 </div>
 </div>
@@ -667,26 +667,26 @@ IYI: Fixe X in Formeln abgeleitet
 <p><span class="math display">\[
 \begin{aligned}
 b_2 &amp; =\frac{V_3 C_{2 Y}-C_{23} C_{3 Y}}{D} \\
-&amp; =\frac{(1 / T) \sum_{t=1}^T\left\{\left[V_3\left(X_{t 2}-\bar{X}_2\right)-C_{23}\left(X_{t 3}-\bar{X}_3\right)\right]\left(Y_t-\bar{Y}\right)\right\}}{D}
+&amp; =\frac{(1 / n) \sum_{i=1}^n\left\{\left[V_3\left(X_{i 2}-\bar{X}_2\right)-C_{23}\left(X_{i 3}-\bar{X}_3\right)\right]\left(Y_i-\bar{Y}\right)\right\}}{D}
 \end{aligned}
-\]</span> where <span class="math inline">\(D=V_2 V_3-C_{23}^2\)</span>. From the true model for <span class="math inline">\(Y\)</span> and from averaging the <span class="math inline">\(Y_t\)</span> over the sample, we know that <span class="math display">\[
+\]</span> where <span class="math inline">\(D=V_2 V_3-C_{23}^2\)</span>. From the true model for <span class="math inline">\(Y\)</span> and from averaging the <span class="math inline">\(Y_i\)</span> over the sample, we know that <span class="math display">\[
 \begin{aligned}
-Y_t-\bar{Y} &amp; =\beta_1+\beta_2 X_{t 2}+\beta_3 X_{t 3}+U_t-\left(\beta_1+\beta_2 \bar{X}_2+\beta_3 \bar{X}_3+\bar{U}\right) \\
-&amp; =\beta_2\left(X_{t 2}-\bar{X}_2\right)+\beta_3\left(X_{t 3}-\bar{X}_3\right)+\left(U_t-\bar{U}\right)
+Y_i-\bar{Y} &amp; =\beta_1+\beta_2 X_{i 2}+\beta_3 X_{i 3}+U_i-\left(\beta_1+\beta_2 \bar{X}_2+\beta_3 \bar{X}_3+\bar{U}\right) \\
+&amp; =\beta_2\left(X_{i 2}-\bar{X}_2\right)+\beta_3\left(X_{i 3}-\bar{X}_3\right)+\left(U_i-\bar{U}\right)
 \end{aligned}
 \]</span> where <span class="math inline">\(\bar{U}\)</span> is the mean of all error terms implicit in the sample. By substitution, we have <span class="math display">\[
 \begin{aligned}
-&amp; b_2=\frac{1}{T D}\left\{\sum_{t=1}^T\left[V_3\left(X_{t 2}-\bar{X}_2\right)-C_{23}\left(X_{t 3}-\bar{X}_3\right)\right]\right. \\
-&amp;\left.\times\left[\beta_2\left(X_{t 2}-\bar{X}_2\right)+\beta_3\left(X_{t 3}-\bar{X}_3\right)+\left(U_t-\bar{U}\right)\right]\right\} \\
-&amp;=\frac{1}{D}\left\{\frac{\beta_2}{T} V_3 \sum\left(X_{t 2}-\bar{X}_2\right)^2-\frac{\beta_2}{T} C_{23} \sum\left(X_{t 3}-\bar{X}_3\right)\left(X_{t 2}-\bar{X}_2\right)\right. \\
-&amp;+\frac{\beta_3}{T} V_3 \sum\left(X_{t 2}-\bar{X}_2\right)\left(X_{t 3}-\bar{X}_3\right)-\frac{\beta_3}{T} C_{23} \sum\left(X_{t 3}-\bar{X}_3\right)^2 \\
-&amp;\left.+\frac{1}{T} \sum\left[V_3\left(X_{t 2}-\bar{X}_2\right)-C_{23}\left(X_{t 3}-\bar{X}_3\right)\right]\left(U_t-\bar{U}\right)\right\}
+&amp; b_2=\frac{1}{N D}\left\{\sum_{i=1}^n\left[V_3\left(X_{i 2}-\bar{X}_2\right)-C_{23}\left(X_{i 3}-\bar{X}_3\right)\right]\right. \\
+&amp;\left.\times\left[\beta_2\left(X_{i 2}-\bar{X}_2\right)+\beta_3\left(X_{i 3}-\bar{X}_3\right)+\left(U_i-\bar{U}\right)\right]\right\} \\
+&amp;=\frac{1}{D}\left\{\frac{\beta_2}{N} V_3 \sum\left(X_{i 2}-\bar{X}_2\right)^2-\frac{\beta_2}{N} C_{23} \sum\left(X_{i 3}-\bar{X}_3\right)\left(X_{i 2}-\bar{X}_2\right)\right. \\
+&amp;+\frac{\beta_3}{N} V_3 \sum\left(X_{i 2}-\bar{X}_2\right)\left(X_{i 3}-\bar{X}_3\right)-\frac{\beta_3}{N} C_{23} \sum\left(X_{i 3}-\bar{X}_3\right)^2 \\
+&amp;\left.+\frac{1}{N} \sum\left[V_3\left(X_{i 2}-\bar{X}_2\right)-C_{23}\left(X_{i 3}-\bar{X}_3\right)\right]\left(U_i-\bar{U}\right)\right\}
 \end{aligned}
-\]</span> The first summation can be written as <span class="math inline">\(\beta_2 V_3(1 / T) \Sigma\left(X_{t 2}-\bar{X}_2\right)^2=\beta_2 V_3 V_2\)</span>.</p>
+\]</span> The first summation can be written as <span class="math inline">\(\beta_2 V_3(1 / N) \Sigma\left(X_{i 2}-\bar{X}_2\right)^2=\beta_2 V_3 V_2\)</span>.</p>
 <p><span class="math display">\[
 \begin{aligned}
-&amp; E\left(C_{2 U}\right)=\frac{1}{T} \sum\left(X_{t 2}-\bar{X}_2\right) E\left(U_t-\bar{U}\right)=\frac{1}{T} \sum\left(X_{t 2}-\bar{X}_2\right)\left(\bar{U}_t-\mu\right)=C_{2 \bar{U}_t} \\
-&amp; E\left(C_{3 U}\right)=\frac{1}{T} \sum\left(X_{t 3}-\bar{X}_3\right) E\left(U_t-\bar{U}\right)=\frac{1}{T} \sum\left(X_{t 3}-\bar{X}_3\right)\left(\bar{U}_t-\mu\right)=C_3 \bar{U}_t,
+&amp; E\left(C_{2 U}\right)=\frac{1}{N} \sum\left(X_{i 2}-\bar{X}_2\right) E\left(U_i-\bar{U}\right)=\frac{1}{N} \sum\left(X_{i 2}-\bar{X}_2\right)\left(\bar{U}_i-\mu\right)=C_{2 \bar{U}_i} \\
+&amp; E\left(C_{3 U}\right)=\frac{1}{N} \sum\left(X_{i 3}-\bar{X}_3\right) E\left(U_i-\bar{U}\right)=\frac{1}{N} \sum\left(X_{i 3}-\bar{X}_3\right)\left(\bar{U}_i-\mu\right)=C_3 \bar{U}_i,
 \end{aligned}
 \]</span></p>
 <p><span class="math display">\[
@@ -715,8 +715,8 @@ b_3=\beta_3+\frac{V_2 C_{3 U}-C_{23} C_{2 U}}{D} \text {. }
 \end{aligned}
 \]</span> Our estimates will be unbiased if <span class="math inline">\(E\left(C_{2 U}\right)=0=E\left(C_{3 U}\right)\)</span>. The development concentrates upon these terms, where <span class="math display">\[
 \begin{aligned}
-&amp; E\left(C_{2 U}\right)=E\left[\frac{1}{T} \sum_t\left(X_{t 2}-\bar{X}_2\right)\left(U_t-\bar{U}\right)\right] \\
-&amp; E\left(C_{3 U}\right)=E\left[\frac{1}{T} \sum_t\left(X_{t 3}-\bar{X}_3\right)\left(U_t-\bar{U}\right)\right]
+&amp; E\left(C_{2 U}\right)=E\left[\frac{1}{n} \sum_i\left(X_{i 2}-\bar{X}_2\right)\left(U_i-\bar{U}\right)\right] \\
+&amp; E\left(C_{3 U}\right)=E\left[\frac{1}{n} \sum_i\left(X_{i 3}-\bar{X}_3\right)\left(U_i-\bar{U}\right)\right]
 \end{aligned}
 \]</span></p>
 </div>
@@ -731,7 +731,7 @@ b_3=\beta_3+\frac{V_2 C_{3 U}-C_{23} C_{2 U}}{D} \text {. }
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-IYI: Ableitung für <strong><span class="math inline">\(E(U_t-\overline{U}) = 0.\)</span></strong>
+IYI: Ableitung für <strong><span class="math inline">\(E(U_i-\overline{U}) = 0.\)</span></strong>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -745,14 +745,14 @@ b_1 &amp; =\bar{Y}-b_2 \bar{X}_2-b_3 \bar{X}_3=\beta_1+\beta_2 \bar{X}_2+\beta_3
 \]</span></p>
 <p><span class="math display">\[
 E\left(b_1\right)=E\left(\beta_1\right)+E\left(\beta_2-b_2\right) \bar{X}_2+E\left(\beta_3-b_3\right) \bar{X}_3+E(\bar{U}) .
-\]</span> This expression will equal <span class="math inline">\(\beta_1\)</span> if two conditions hold. If <span class="math inline">\(U_t\)</span> is distributed independently of <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span>, then our estimates <span class="math inline">\(b_2\)</span> and <span class="math inline">\(b_3\)</span> are unbiased so that <span class="math inline">\(E\left(\beta_2-b_2\right)=E\left(\beta_3-b_3\right)=0\)</span>. Secondly, the expected value of <span class="math inline">\(\bar{U}\)</span> must equal zero, <span class="math inline">\(E(\bar{U})=0\)</span>. If both conditions hold, <span class="math inline">\(E\left(b_1\right)=\beta_1\)</span>. Thus, for all estimated coefficients to be unbiased, we modify assumption A.3 to be <span class="math inline">\(E\left(U_t\right)=0\)</span>. Note that this is a stronger assumption than is needed for unbiasedness of the slope coefficients. <span class="math inline">\(^3\)</span> Arithmetic Properties Unfortunately, we cannot test either of these assumptions, <span class="math inline">\(E(\bar{U})=0\)</span> and <span class="math inline">\(\sum\left(X_{t k}-\bar{X}_k\right)\left(U_t-\bar{U}\right)=0\)</span>, with the observed data. Intuitively, one would test these assumptions by examining the mean of the residuals from the estimated equations and the correlation between these residuals and <span class="math inline">\(X\)</span>. Our intuition, however, is wrong in this case. The mean of the residuals is <span class="math display">\[
-\frac{1}{T} \sum_{t=1}^T\left(Y_t-\hat{Y}_t\right)=\frac{1}{T} \sum\left(Y_t-b_1-b_2 X_{t 2}-b_3 X_{3 t}\right)
-\]</span> However, this is simply <span class="math inline">\(-1 / T\)</span> times Eq. (2.11) which by construction equals zero. Thus the mean of the estimated residuals must be zero, whether or not the mean of the true errors is zero.</p>
+\]</span> This expression will equal <span class="math inline">\(\beta_1\)</span> if two conditions hold. If <span class="math inline">\(U_i\)</span> is distributed independently of <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span>, then our estimates <span class="math inline">\(b_2\)</span> and <span class="math inline">\(b_3\)</span> are unbiased so that <span class="math inline">\(E\left(\beta_2-b_2\right)=E\left(\beta_3-b_3\right)=0\)</span>. Secondly, the expected value of <span class="math inline">\(\bar{U}\)</span> must equal zero, <span class="math inline">\(E(\bar{U})=0\)</span>. If both conditions hold, <span class="math inline">\(E\left(b_1\right)=\beta_1\)</span>. Thus, for all estimated coefficients to be unbiased, we modify assumption A.3 to be <span class="math inline">\(E\left(U_i\right)=0\)</span>. Note that this is a stronger assumption than is needed for unbiasedness of the slope coefficients. <span class="math inline">\(^3\)</span> Arithmetic Properties Unfortunately, we cannot test either of these assumptions, <span class="math inline">\(E(\bar{U})=0\)</span> and <span class="math inline">\(\sum\left(X_{i k}-\bar{X}_k\right)\left(U_i-\bar{U}\right)=0\)</span>, with the observed data. Intuitively, one would test these assumptions by examining the mean of the residuals from the estimated equations and the correlation between these residuals and <span class="math inline">\(X\)</span>. Our intuition, however, is wrong in this case. The mean of the residuals is <span class="math display">\[
+\frac{1}{n} \sum_{i=1}^n\left(Y_i-\hat{Y}_i\right)=\frac{1}{n} \sum\left(Y_i-b_1-b_2 X_{i 2}-b_3 X_{3 t}\right)
+\]</span> However, this is simply <span class="math inline">\(-1 / n\)</span> times Eq. (2.11) which by construction equals zero. Thus the mean of the estimated residuals must be zero, whether or not the mean of the true errors is zero.</p>
 <p>Since <span class="math inline">\(\bar{e}=0\)</span>, the numerator of the correlation between the residuals and <span class="math inline">\(X_2\)</span> is <span class="math display">\[
 \begin{aligned}
-\frac{1}{T} \sum e_t\left(X_{t 2}-\bar{X}_2\right) &amp; =\frac{1}{T} \sum\left(Y_t-\hat{Y}_t\right)\left(X_{t 2}-\bar{X}_2\right) \\
-&amp; =\frac{1}{T} \sum\left(Y_t-\hat{Y}_t\right) X_{t 2}-\frac{1}{T} \sum\left(Y_t-\hat{Y}_t\right) \bar{X}_2 \\
-&amp; =\frac{1}{T} \sum\left(Y_t-b_1-b_2 X_{t 2}-b_3 X_{t 3}\right)\left(X_{t 2}\right)-\frac{1}{T} \bar{X}_2 \sum e_t
+\frac{1}{n} \sum e_i\left(X_{i 2}-\bar{X}_2\right) &amp; =\frac{1}{n} \sum\left(Y_i-\hat{Y}_i\right)\left(X_{i 2}-\bar{X}_2\right) \\
+&amp; =\frac{1}{n} \sum\left(Y_i-\hat{Y}_i\right) X_{i 2}-\frac{1}{n} \sum\left(Y_i-\hat{Y}_i\right) \bar{X}_2 \\
+&amp; =\frac{1}{n} \sum\left(Y_i-b_1-b_2 X_{i 2}-b_3 X_{i 3}\right)\left(X_{i 2}\right)-\frac{1}{n} \bar{X}_2 \sum e_i
 \end{aligned}
 \]</span></p>
 </div>
@@ -770,6 +770,45 @@ E\left(b_1\right)=E\left(\beta_1\right)+E\left(\beta_2-b_2\right) \bar{X}_2+E\le
 \end{align}\]</span>
 <p>Wie geht man nun mit dieser Tyrannei um, dass man alle Einflüsse kennen sollte, die schlicht unbekannt sind. Nur Chuck Norris weiss, wann ein Modell voll spezifiziert ist. Wir können nie wissen, wann wir am Ende der Wissenschaft angekommen sind, weil wir alles vollständig und für immer gültig spezifiziert haben. Es geht bei dieser Überlegung der Spezifikation mehr darum, dass wir die Spezifikation der bestehenden Modelle verbessern. Das kann heissen, dass wir falsche Alltagsvorstellungen korrigieren, indem wir den Kindern irgendwann sagen, dass das bivariate Regressionsmodell mit den Störchen und den Kindern, nicht voll spezifiziert ist und Sex, Verhütung und viele mehr einen gewissen Einfluss hat auf die Geburtenrate. Wir klären aber nicht nur in der Alltagswelt auf, sondern verbessern auch unsere Modelle stetig, indem wir uns fragen, welche Einflussgrössen bei der Erklärung eines Phänomens noch eine Rolle spielen könnten.</p>
 <p>Die statistisch, mathematische Anforderung an die Modellspezifikation bedeutet also, dass wir unsere Theorie gut und gründlich entwickeln müssen. Bei einer schlechten Theorie und entsprechend zu wenig erfasster oder einbezogener Modells sind unsere Ergebnisse verzerrt und damit falsch oder mindestens nicht state of the art. Darum muss man immer erst schauen, was der Forschungsstand ist. Der kann repliziert und damit kontrolliert werden, und wenn wir das Modell weiter spezifizieren und neue Ergebnisse erlangen, dann haben wir die Theorie erweitert und einen wissenschaftlichen Mehrwert geschaffen. Es werden auch noch Generationen nach uns und Ihnen kommen, die unsere Theorien überarbeiten und dabei feststellen, dass wir unserer Modelle unterspezifiziert hatten. Das ist dann der wissenschaftliche und zivilisatorische Fortschritt. Wissenschaft wird also nicht irgendwann fertig sein und wichtig bleiben.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+IYI: Ableitung Modellspezifikation
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>the true model <span class="math inline">\(Y_i=\beta_1+\beta_2 X_{i 2}+\beta_3 X_{i 3}+\beta_4 X_{i 4}+U_i\)</span>. When such a misspecification occurs, the influence attributed to the included variables is actually a combined influence of the included and excluded variables. For example, if all <span class="math inline">\(X\)</span> variables exert a positive influence on <span class="math inline">\(Y_i\)</span> and these variables are themselves positively correlated, the estimated coefficients for the included variables will be overstated and imply that each included variable is more important than it actually is. The mathematics of this case is straightforward. Assume that the true model is <span class="math display">\[
+Y_i=\beta_1+\beta_2 X_{i 2}+\beta_3 X_{i 3}+\beta_4 X_{i 4}+U_i,
+\]</span> and that instead we estimate <span class="math display">\[
+Y_i=\beta_1+\beta_2 X_{i 2}+\beta_3 X_{i 3}+U_i^* \quad \text { where } \quad U_i^*=\beta_4 X_{i 4}+U_i
+\]</span> The least squares estimators from Chapter 2 are <span class="math display">\[
+\begin{aligned}
+&amp; b_2=\frac{V_3 C_{2 Y}-C_{23} C_{3 Y}}{V_2 V_3-C_{23}^2}=\beta_2+\frac{V_3 C_{2 U^*}-C_{23} C_{3 U^*}}{V_2 V_3-C_{23}^2}, \\
+&amp; b_3=\frac{V_2 C_{3 Y}-C_{23} C_{2 Y}}{V_2 V_3-C_{23}^2}=\beta_3+\frac{V_2 C_{3 U^*}-C_{23} C_{2 U^*}}{V_2 V_3-C_{23}^2} .
+\end{aligned}
+\]</span> Substituting <span class="math inline">\(U_i^*=\beta_4 X_{i 4}+U_i\)</span> into the covariance expressions involving <span class="math inline">\(U^*\)</span> gives <span class="math display">\[
+\begin{aligned}
+C_{2 U^*} &amp; =\frac{1}{n} \sum\left(X_{i 2}-\bar{X}_2\right)\left(U_i^*-\bar{U}^*\right)=\frac{1}{n} \sum\left(X_{i 2}-\bar{X}_2\right)\left(\beta_4 X_{i 4}+U_i-\beta_4 \bar{X}_4-\bar{U}\right) \\
+&amp; =\frac{1}{n} \beta_4 \sum\left(X_{i 2}-\bar{X}_2\right)\left(X_{i 4}-\bar{X}_4\right)+\frac{1}{n} \sum\left(X_{i 2}-\bar{X}_2\right)\left(U_i-\bar{U}\right) \\
+&amp; =\beta_4 C_{24}+C_{2 U} \\
+C_{3 U^*} &amp; =\beta_4 C_{34}+C_{3 U}
+\end{aligned}
+\]</span> Taking the expected value of <span class="math inline">\(b_2\)</span> and <span class="math inline">\(b_3\)</span>, assuming fixed <span class="math inline">\(X\)</span> and <span class="math inline">\(E\left(U_i\right)=0\)</span>, we obtain <span class="math display">\[
+\begin{aligned}
+&amp; E\left(b_2\right)=\beta_2+\beta_4\left(\frac{V_3 C_{24}-C_{23} C_{34}}{V_2 V_3-C_{23}^2}\right)+E\left[\frac{V_3 C_{2 U}-C_{23} C_{3 U}}{V_2 V_3-C_{23}^2}\right]=\beta_2+\beta_4 b_{42} \\
+&amp; E\left(b_3\right)=\beta_3+\beta_4\left(\frac{V_2 C_{34}-C_{23} C_{24}}{V_2 V_3-C_{23}^2}\right)+E\left[\frac{V_2 C_{3 U}-C_{23} C_{2 U}}{V_2 V_3-C_{23}^2}\right]=\beta_3+\beta_4 b_{43}
+\end{aligned}
+\]</span> where <span class="math display">\[
+b_{42}=\frac{\left(r_{42}-r_{32} r_{43}\right)}{1-r_{32}^2} \sqrt{\frac{V_4}{V_2}} \quad \text { and } \quad b_{43}=\frac{\left(r_{43}-r_{32} r_{42}\right)}{1-r_{32}^2} \sqrt{\frac{V_4}{V_3}} \text {. }
+\]</span></p>
+</div>
+</div>
+</div>
 </section>
 <section id="keine-perfekte-oder-heftige-multikollinearität-v5." class="level4" data-number="2.3.2.3">
 <h4 data-number="2.3.2.3" class="anchored" data-anchor-id="keine-perfekte-oder-heftige-multikollinearität-v5."><span class="header-section-number">2.3.2.3</span> Keine perfekte oder heftige Multikollinearität (V5.)</h4>
@@ -794,7 +833,7 @@ E\left(b_1\right)=E\left(\beta_1\right)+E\left(\beta_2-b_2\right) \bar{X}_2+E\le
 <section id="homoskedastizität-v6." class="level3" data-number="2.3.3">
 <h3 data-number="2.3.3" class="anchored" data-anchor-id="homoskedastizität-v6."><span class="header-section-number">2.3.3</span> Homoskedastizität (V6.)</h3>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -803,7 +842,7 @@ IYI: Effizienz als Varianz von <span class="math inline">\(b_2\)</span> und <spa
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Assuming that <span class="math inline">\(b_2\)</span> is unbiased (or that assumption A.3 holds), the variance of our estimator <span class="math inline">\(b_2\)</span> can be found from a rearrangement of Eq. (3.1): <span class="math display">\[
 \begin{gathered}
@@ -814,48 +853,48 @@ b_2-\beta_2=\frac{V_3 C_{2 U}-C_{23} C_{3 U}}{D} \\
 \end{gathered}
 \]</span> (Note, by assumption A.2, the <span class="math inline">\(X\)</span> values are fixed.) We need to investigate the three expected value terms in detail: <span class="math display">\[
 \begin{aligned}
-&amp; E\left(C_{2 U}^2\right)=E\left\{\frac{1}{T^2}\left[\sum\left(X_{t 2}-\bar{X}_2\right)\left(U_t-\bar{U}\right)\right]^2\right\} \\
-&amp;=\frac{1}{T^2} E {\left[\left(X_{12}-\bar{X}_2\right)\left(U_1-\bar{U}\right)+\left(X_{22}-\bar{X}_2\right)\left(U_2-\bar{U}\right)\right.} \\
-&amp;\left.+\cdots+\left(X_{T 2}-\bar{X}_2\right)\left(U_T-\bar{U}\right)\right]^2
+&amp; E\left(C_{2 U}^2\right)=E\left\{\frac{1}{n^2}\left[\sum\left(X_{i 2}-\bar{X}_2\right)\left(U_i-\bar{U}\right)\right]^2\right\} \\
+&amp;=\frac{1}{n^2} E {\left[\left(X_{12}-\bar{X}_2\right)\left(U_1-\bar{U}\right)+\left(X_{22}-\bar{X}_2\right)\left(U_2-\bar{U}\right)\right.} \\
+&amp;\left.+\cdots+\left(X_{n 2}-\bar{X}_2\right)\left(U_T-\bar{U}\right)\right]^2
 \end{aligned}
 \]</span> (from expanding the summation) <span class="math display">\[
 \begin{aligned}
-&amp;=\frac{1}{T^2} E\left[\sum_{t=1}^T\left(X_{t 2}-\bar{X}_2\right)^2\left(U_t-\bar{U}\right)^2\right. \\
-&amp;\left.+2 \sum_{t=1}^{T-1} \sum_{s=t+1}^T\left(X_{t 2}-\bar{X}_2\right)\left(X_{s 2}-\bar{X}_2\right)\left(U_t-\bar{U}\right)\left(U_s-\bar{U}\right)\right]
+&amp;=\frac{1}{n^2} E\left[\sum_{i=1}^n\left(X_{i 2}-\bar{X}_2\right)^2\left(U_i-\bar{U}\right)^2\right. \\
+&amp;\left.+2 \sum_{i=1}^{n-1} \sum_{s=t+1}^n\left(X_{i 2}-\bar{X}_2\right)\left(X_{s 2}-\bar{X}_2\right)\left(U_i-\bar{U}\right)\left(U_s-\bar{U}\right)\right]
 \end{aligned}
 \]</span></p>
 <p><span class="math display">\[
 \begin{aligned}
-&amp;=\frac{1}{T^2}[ \sum_{t=1}^T\left(X_{t 2}-\bar{X}_2\right)^2 E\left(U_t-\bar{U}\right)^2 \\
-&amp;\left.+2 \sum_{t=1}^T \sum_{s=t+1}^T\left(X_{t 2}-\bar{X}_2\right)\left(X_{s 2}-\bar{X}_2\right) E\left(U_t-\bar{U}\right)\left(U_s-\bar{U}\right)\right] \\
+&amp;=\frac{1}{n^2}[ \sum_{i=1}^n\left(X_{i 2}-\bar{X}_2\right)^2 E\left(U_i-\bar{U}\right)^2 \\
+&amp;\left.+2 \sum_{i=1}^n \sum_{s=t+1}^n\left(X_{i 2}-\bar{X}_2\right)\left(X_{s 2}-\bar{X}_2\right) E\left(U_i-\bar{U}\right)\left(U_s-\bar{U}\right)\right] \\
 &amp; \text { (from fixed } X \text { 's) } \\
-&amp;= \frac{1}{T^2}\left[\sum\left(X_{t 2}-\bar{X}_2\right)^2 \sigma_t^2+2 \sum \sum\left(X_{t 2}-\bar{X}_2\right)\left(X_{s 2}-\bar{X}_2\right) \sigma_{t s}\right], \text { (3.6) }
+&amp;= \frac{1}{n^2}\left[\sum\left(X_{i 2}-\bar{X}_2\right)^2 \sigma_i^2+2 \sum \sum\left(X_{i 2}-\bar{X}_2\right)\left(X_{s 2}-\bar{X}_2\right) \sigma_{i s}\right], \text { (3.6) }
 \end{aligned}
-\]</span> where <span class="math inline">\(\sigma_t^2=E\left(U_t-\bar{U}\right)^2\)</span> and <span class="math inline">\(\sigma_{t s}=E\left(U_t-\bar{U}\right)\left(U_s-\bar{U}\right)\)</span>. Similar expressions for <span class="math inline">\(E\left(C_{2 U} C_{3 U}\right)\)</span> and <span class="math inline">\(E\left(C_{3 U}^2\right)\)</span> are <span class="math display">\[
+\]</span> where <span class="math inline">\(\sigma_i^2=E\left(U_i-\bar{U}\right)^2\)</span> and <span class="math inline">\(\sigma_{i s}=E\left(U_i-\bar{U}\right)\left(U_s-\bar{U}\right)\)</span>. Similar expressions for <span class="math inline">\(E\left(C_{2 U} C_{3 U}\right)\)</span> and <span class="math inline">\(E\left(C_{3 U}^2\right)\)</span> are <span class="math display">\[
 \begin{aligned}
-&amp; E\left(C_{3 U}^2\right)=\frac{1}{T^2}\left[\sum\left(X_{t 3}-\bar{X}_3\right)^2 \sigma_t^2+2 \sum \sum\left(X_{t 3}-\bar{X}_3\right)\left(X_{s 3}-\bar{X}_3\right) \sigma_{t s}\right], \\
-&amp; E\left(C_{2 U} C_{3 U}\right)=\frac{1}{T^2}\left[\sum\left(X_{t 2}-\bar{X}_2\right)\left(X_{t 3}-\bar{X}_3\right) \sigma_t^2\right. \\
-&amp; \left.+2 \sum \sum\left(X_{t 2}-\bar{X}_2\right)\left(X_{s 3}-\bar{X}_3\right) \sigma_{t s}\right] \text {. } \\
+&amp; E\left(C_{3 U}^2\right)=\frac{1}{n^2}\left[\sum\left(X_{i 3}-\bar{X}_3\right)^2 \sigma_i^2+2 \sum \sum\left(X_{i 3}-\bar{X}_3\right)\left(X_{s 3}-\bar{X}_3\right) \sigma_{i s}\right], \\
+&amp; E\left(C_{2 U} C_{3 U}\right)=\frac{1}{n^2}\left[\sum\left(X_{i 2}-\bar{X}_2\right)\left(X_{i 3}-\bar{X}_3\right) \sigma_i^2\right. \\
+&amp; \left.+2 \sum \sum\left(X_{i 2}-\bar{X}_2\right)\left(X_{s 3}-\bar{X}_3\right) \sigma_{i s}\right] \text {. } \\
 &amp;
 \end{aligned}
 \]</span> These expressions are quite complicated, but they can be simplified with two more assumptions about the distribution of the errors. These assumptions, however, are not employed just to simplify the algebra. They are also important for developing the properties of the OLS estimator relative to other estimators. If all error terms have the same variance (we have already assumed they have the same mean), then A.4a <span class="math display">\[
-E\left(U_t-\bar{U}\right)^2=\sigma_t^2=\sigma^2 \quad \text { for all } t .
+E\left(U_i-\bar{U}\right)^2=\sigma_i^2=\sigma^2 \quad \text { for all } t .
 \]</span> Further, if all the error terms are drawn independently of each other so that all the possible error terms associated with one observation are independent of, and thus uncorrelated with, the error terms at other observations, then A.4b <span class="math display">\[
-E\left(U_t-\bar{U}\right)\left(U_s-\bar{U}\right)=\sigma_{t s}=0 \quad \text { for } \quad t \neq s .
+E\left(U_i-\bar{U}\right)\left(U_s-\bar{U}\right)=\sigma_{i s}=0 \quad \text { for } \quad t \neq s .
 \]</span> With these two assumptions, or restrictions on the error terms, the above simplify to <span class="math display">\[
 \begin{aligned}
-&amp; E\left(C_{2 U}^2\right)=\frac{1}{T^2} \sum\left(X_t-X_2\right)^2 \sigma^2=\frac{\sigma^2 V_2}{T}, \\
-&amp; E\left(C_{3 U}^2\right)=\frac{\sigma^2 V_3}{T},
+&amp; E\left(C_{2 U}^2\right)=\frac{1}{n^2} \sum\left(X_i-X_2\right)^2 \sigma^2=\frac{\sigma^2 V_2}{n}, \\
+&amp; E\left(C_{3 U}^2\right)=\frac{\sigma^2 V_3}{n},
 \end{aligned}
 \]</span></p>
 <p>When these are substituted into Eq. (3.5), we get <span class="math display">\[
 \begin{aligned}
-\operatorname{var}\left(b_2\right) &amp; =\frac{\sigma^2}{T D^2}\left[V_3^2 V_2-2 V_3 C_{23}^2+C_{23}^2 V_3\right]=\frac{\sigma^2 V_3}{T D^2}\left[V_3 V_2-C_{23}^2\right] \\
-&amp; =\frac{\sigma^2 V_3}{T D}=\frac{1}{T} \sigma^2\left[\frac{V_3}{V_2 V_3-C_{23}^2}\right]=\frac{\sigma^2}{T}\left[\frac{1 / V_2}{1-r_{23}^2}\right] .
+\operatorname{var}\left(b_2\right) &amp; =\frac{\sigma^2}{n D^2}\left[V_3^2 V_2-2 V_3 C_{23}^2+C_{23}^2 V_3\right]=\frac{\sigma^2 V_3}{n D^2}\left[V_3 V_2-C_{23}^2\right] \\
+&amp; =\frac{\sigma^2 V_3}{n D}=\frac{1}{n} \sigma^2\left[\frac{V_3}{V_2 V_3-C_{23}^2}\right]=\frac{\sigma^2}{n}\left[\frac{1 / V_2}{1-r_{23}^2}\right] .
 \end{aligned}
 \]</span> The similar expression for <span class="math inline">\(\operatorname{var}\left(b_3\right)\)</span> is <span class="math display">\[
-\operatorname{var}\left(b_3\right)=\frac{1}{T} \sigma^2\left[\frac{V_2}{V_2 V_3-C_{23}^2}\right]=\frac{\sigma^2}{T}\left[\frac{1 / V_3}{1-r_{23}^2}\right] .
-\]</span> [A useful exercise for the student is to show for the bivariate case that <span class="math inline">\(\left.\operatorname{var}\left(b_2\right)=\sigma^2 / \Sigma\left(X_t-\bar{X}\right)^2=\sigma^2 / T \operatorname{var}(X).\right]\)</span></p>
+\operatorname{var}\left(b_3\right)=\frac{1}{n} \sigma^2\left[\frac{V_2}{V_2 V_3-C_{23}^2}\right]=\frac{\sigma^2}{n}\left[\frac{1 / V_3}{1-r_{23}^2}\right] .
+\]</span> [A useful exercise for the student is to show for the bivariate case that <span class="math inline">\(\left.\operatorname{var}\left(b_2\right)=\sigma^2 / \Sigma\left(X_i-\bar{X}\right)^2=\sigma^2 / n \operatorname{var}(X).\right]\)</span></p>
 </div>
 </div>
 </div>
@@ -893,7 +932,7 @@ E\left(U_t-\bar{U}\right)\left(U_s-\bar{U}\right)=\sigma_{t s}=0 \quad \text { f
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -902,14 +941,14 @@ IYI: Herleitung, wann OLS «Best» ist
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>The proof that <span class="math inline">\(b_2\)</span> is best is only sketched here. A complete proof is shown in Appendix 5.1. The proposition to be demonstrated is that, among all linear and unbiased estimators of <span class="math inline">\(\beta_2\)</span> and <span class="math inline">\(\beta_3\)</span>, the least squares estimators <span class="math inline">\(b_2\)</span> and <span class="math inline">\(b_3\)</span> have the minimum variance when assumptions A.1-A.4 hold. We first define an arbitrary linear estimator <span class="math inline">\(b_2^{\#}\)</span>. Linear refers to the fact that the estimator is a linear function of the <span class="math inline">\(Y_t, b_2^{\#}=\Sigma C_{t 2}^{\#}\left(Y_t-\bar{Y}\right)\)</span>, where <span class="math inline">\(C_{t 2}^{\#}\)</span> is any set of weights. (The weights are <span class="math display">\[
-C_{t 2}=\frac{1}{T} \frac{V_3\left(X_{t 2}-\bar{X}_2\right)-C_{23}\left(X_{t 3}-\bar{X}_3\right)}{D}
-\]</span> for the least squares estimator of <span class="math inline">\(\beta_2\)</span>.) With complete generality, we can write <span class="math inline">\(C_{t 2}^{\#}\)</span> as the least squares weight plus an arbitrary number <span class="math inline">\(g_{t 2}, C_{t 2}^{\#}=C_{t 2}+g_{t 2}\)</span>. The restriction of unbiasedness implies that <span class="math inline">\(E\left[\Sigma C_{t 2}^{\#}\left(Y_t-\bar{Y}\right)\right]=\beta_2\)</span>. However, for OLS we showed that <span class="math inline">\(E\left[\Sigma C_{t 2}\left(Y_t-\bar{Y}\right)\right]=\beta_2\)</span>. This implies that <span class="math inline">\(E\left[\Sigma g_{t 2}\left(Y_t-\right.\right.\)</span> <span class="math inline">\(\bar{Y})]=0\)</span> since <span class="math inline">\(E\left[\Sigma C_{t 2}^{\#}\left(Y_t-\bar{Y}\right)\right]=E\left[\Sigma C_{t 2}\left(Y_t-\bar{Y}\right)+\Sigma g_{t 2}\left(Y_t-\bar{Y}\right)\right]\)</span>. Using this restriction and assumption A.4, the variance of <span class="math inline">\(b_2^{\#}\)</span> is <span class="math display">\[
-\operatorname{var}\left(b_2^{\#}\right)=\operatorname{var}\left(b_2\right)+\sigma^2 \sum_{t=1}^T g_{t 2}^2,
-\]</span> where <span class="math inline">\(\operatorname{var}\left(b_2\right)\)</span> is the variance of the least squares estimator. Since <span class="math inline">\(g_{t 2}^2 \geqslant 0\)</span>, <span class="math inline">\(\operatorname{var}\left(b_2^{\#}\right)\)</span> cannot be less than the variance of the least squares estimator <span class="math inline">\(b_2\)</span>. Further, it can equal <span class="math inline">\(\operatorname{var}\left(b_2\right)\)</span> only if each perturbation <span class="math inline">\(\left(g_{t 2}\right)\)</span> from the least squares weight is identically zero. (Similar developments can be done for <span class="math inline">\(b_1\)</span> and <span class="math inline">\(b_3\)</span>.)</p>
-<p>An important aspect of this development, however, is that we have accepted and used the assumptions about the error distribution and fixed <span class="math inline">\(X\)</span> ’s. That is, this proof holds when <span class="math inline">\(E\left(U_t-\bar{U}\right)=0, E\left(U_t-\bar{U}\right)^2=\sigma^2\)</span>, and <span class="math inline">\(E\left(U_t-\right.\)</span> <span class="math inline">\(\bar{U})\left(U_s-\bar{U}\right)=0\)</span> for all <span class="math inline">\(t\)</span> and <span class="math inline">\(s \neq t\)</span>.</p>
+<p>The proof that <span class="math inline">\(b_2\)</span> is best is only sketched here. A complete proof is shown in Appendix 5.1. The proposition to be demonstrated is that, among all linear and unbiased estimators of <span class="math inline">\(\beta_2\)</span> and <span class="math inline">\(\beta_3\)</span>, the least squares estimators <span class="math inline">\(b_2\)</span> and <span class="math inline">\(b_3\)</span> have the minimum variance when assumptions A.1-A.4 hold. We first define an arbitrary linear estimator <span class="math inline">\(b_2^{\#}\)</span>. Linear refers to the fact that the estimator is a linear function of the <span class="math inline">\(Y_i, b_2^{\#}=\Sigma C_{i 2}^{\#}\left(Y_i-\bar{Y}\right)\)</span>, where <span class="math inline">\(C_{i 2}^{\#}\)</span> is any set of weights. (The weights are <span class="math display">\[
+C_{i 2}=\frac{1}{n} \frac{V_3\left(X_{i 2}-\bar{X}_2\right)-C_{23}\left(X_{i 3}-\bar{X}_3\right)}{D}
+\]</span> for the least squares estimator of <span class="math inline">\(\beta_2\)</span>.) With complete generality, we can write <span class="math inline">\(C_{i 2}^{\#}\)</span> as the least squares weight plus an arbitrary number <span class="math inline">\(g_{i 2}, C_{i 2}^{\#}=C_{i 2}+g_{i 2}\)</span>. The restriction of unbiasedness implies that <span class="math inline">\(E\left[\Sigma C_{i 2}^{\#}\left(Y_i-\bar{Y}\right)\right]=\beta_2\)</span>. However, for OLS we showed that <span class="math inline">\(E\left[\Sigma C_{i 2}\left(Y_i-\bar{Y}\right)\right]=\beta_2\)</span>. This implies that <span class="math inline">\(E\left[\Sigma g_{i 2}\left(Y_i-\right.\right.\)</span> <span class="math inline">\(\bar{Y})]=0\)</span> since <span class="math inline">\(E\left[\Sigma C_{i 2}^{\#}\left(Y_i-\bar{Y}\right)\right]=E\left[\Sigma C_{i 2}\left(Y_i-\bar{Y}\right)+\Sigma g_{i 2}\left(Y_i-\bar{Y}\right)\right]\)</span>. Using this restriction and assumption A.4, the variance of <span class="math inline">\(b_2^{\#}\)</span> is <span class="math display">\[
+\operatorname{var}\left(b_2^{\#}\right)=\operatorname{var}\left(b_2\right)+\sigma^2 \sum_{i=1}^n g_{i 2}^2,
+\]</span> where <span class="math inline">\(\operatorname{var}\left(b_2\right)\)</span> is the variance of the least squares estimator. Since <span class="math inline">\(g_{i 2}^2 \geqslant 0\)</span>, <span class="math inline">\(\operatorname{var}\left(b_2^{\#}\right)\)</span> cannot be less than the variance of the least squares estimator <span class="math inline">\(b_2\)</span>. Further, it can equal <span class="math inline">\(\operatorname{var}\left(b_2\right)\)</span> only if each perturbation <span class="math inline">\(\left(g_{i 2}\right)\)</span> from the least squares weight is identically zero. (Similar developments can be done for <span class="math inline">\(b_1\)</span> and <span class="math inline">\(b_3\)</span>.)</p>
+<p>An important aspect of this development, however, is that we have accepted and used the assumptions about the error distribution and fixed <span class="math inline">\(X\)</span> ’s. That is, this proof holds when <span class="math inline">\(E\left(U_i-\bar{U}\right)=0, E\left(U_i-\bar{U}\right)^2=\sigma^2\)</span>, and <span class="math inline">\(E\left(U_i-\right.\)</span> <span class="math inline">\(\bar{U})\left(U_s-\bar{U}\right)=0\)</span> for all <span class="math inline">\(i\)</span> and <span class="math inline">\(s \neq i\)</span>.</p>
 </div>
 </div>
 </div>
@@ -943,33 +982,33 @@ C_{t 2}=\frac{1}{T} \frac{V_3\left(X_{t 2}-\bar{X}_2\right)-C_{23}\left(X_{t 3}-
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-IYI: Ableitung für <span class="math inline">\(U_t \sim N\left(0, \sigma^2\right)\)</span> .
+IYI: Ableitung für <span class="math inline">\(U_i \sim N\left(0, \sigma^2\right)\)</span> .
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(U_t \sim N\left(0, \sigma^2\right)\)</span>, and independent of <span class="math inline">\(U_s\)</span>, then the <span class="math inline">\(b\)</span> ’s, which are linear functions of <span class="math inline">\(U_t\)</span>, are normally distributed with a variance given in Eq. (3.5a), that is, <span class="math inline">\(b_2 \sim N\left(\beta_2, \sigma^2 / T V_2\left(1-r_{23}^2\right)\right)\)</span>. This implies that <span class="math display">\[
+<p>If <span class="math inline">\(U_i \sim N\left(0, \sigma^2\right)\)</span>, and independent of <span class="math inline">\(U_s\)</span>, then the <span class="math inline">\(b\)</span> ’s, which are linear functions of <span class="math inline">\(U_i\)</span>, are normally distributed with a variance given in Eq. (3.5a), that is, <span class="math inline">\(b_2 \sim N\left(\beta_2, \sigma^2 / n V_2\left(1-r_{23}^2\right)\right)\)</span>. This implies that <span class="math display">\[
 Z_2=\left(b_2-\beta_2\right) / \sigma_{b_2} \quad \text { and } \quad Z_3=\left(b_3-\beta_3\right) / \sigma_{b_3}
-\]</span> are distributed according to the standard normal distribution <span class="math inline">\(N(0,1)\)</span>. (This distribution is discussed in Appendix I.) Since the Z’s are <span class="math inline">\(N(0,1)\)</span>, standard tables of cumulative normal distributions would yield the probability of <span class="math inline">\(Z\)</span> being greater than any given value, or in turn would give the probability of the estimated value being more than any given distance from the true value of <span class="math inline">\(\beta\)</span>, i.e., <span class="math inline">\(b-\beta\)</span>. However, (3.16) depends upon <span class="math inline">\(\sigma\)</span>, which is unknown. <span class="math inline">\(s^2\)</span> is an unbiased estimator of <span class="math inline">\(\sigma^2\)</span> and is substituted for <span class="math inline">\(\sigma\)</span> in our expression for <span class="math inline">\(\sigma_b\)</span>. However, any inferences employing <span class="math inline">\(s^2\)</span> will not be as precise as they would be if we knew <span class="math inline">\(\sigma^2\)</span> and did not have to rely upon the random variable <span class="math inline">\(s^2\)</span>. In order to allow for this additional imprecision, we do not use probabilities from the normal distribution. Instead, we shall rely upon the <span class="math inline">\(t\)</span>-distribution. The definition of the <span class="math inline">\(t\)</span>-distribution is as follows: if <span class="math inline">\(Z\)</span> is a standard normal variable, i.e., <span class="math inline">\(Z\)</span> is <span class="math inline">\(N(0,1)\)</span>, and if <span class="math inline">\(W^2\)</span> is an independently distributed chisquared with <span class="math inline">\(T-3\)</span> degrees of freedom, then <span class="math inline">\(Z / \sqrt{W^2 /(T-3)}\)</span> is distributed according to the <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(T-3\)</span> degrees of freedom. We have demonstrated that <span class="math inline">\((b-\beta) / \sigma_b\)</span> is <span class="math inline">\(N(0,1)\)</span>. It can further be shown that (Hoel, 1962, pp.&nbsp;262-268) <span class="math display">\[
-W^2=\sum e_t^2 / \sigma^2 \quad \text { is } \quad \chi_{T-3}^2 .
+\]</span> are distributed according to the standard normal distribution <span class="math inline">\(N(0,1)\)</span>. (This distribution is discussed in Appendix I.) Since the Z’s are <span class="math inline">\(N(0,1)\)</span>, standard tables of cumulative normal distributions would yield the probability of <span class="math inline">\(Z\)</span> being greater than any given value, or in turn would give the probability of the estimated value being more than any given distance from the true value of <span class="math inline">\(\beta\)</span>, i.e., <span class="math inline">\(b-\beta\)</span>. However, (3.16) depends upon <span class="math inline">\(\sigma\)</span>, which is unknown. <span class="math inline">\(s^2\)</span> is an unbiased estimator of <span class="math inline">\(\sigma^2\)</span> and is substituted for <span class="math inline">\(\sigma\)</span> in our expression for <span class="math inline">\(\sigma_b\)</span>. However, any inferences employing <span class="math inline">\(s^2\)</span> will not be as precise as they would be if we knew <span class="math inline">\(\sigma^2\)</span> and did not have to rely upon the random variable <span class="math inline">\(s^2\)</span>. In order to allow for this additional imprecision, we do not use probabilities from the normal distribution. Instead, we shall rely upon the <span class="math inline">\(t\)</span>-distribution. The definition of the <span class="math inline">\(t\)</span>-distribution is as follows: if <span class="math inline">\(Z\)</span> is a standard normal variable, i.e., <span class="math inline">\(Z\)</span> is <span class="math inline">\(N(0,1)\)</span>, and if <span class="math inline">\(W^2\)</span> is an independently distributed chisquared with <span class="math inline">\(n-3\)</span> degrees of freedom, then <span class="math inline">\(Z / \sqrt{W^2 /(n-3)}\)</span> is distributed according to the <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n-3\)</span> degrees of freedom. We have demonstrated that <span class="math inline">\((b-\beta) / \sigma_b\)</span> is <span class="math inline">\(N(0,1)\)</span>. It can further be shown that (Hoel, 1962, pp.&nbsp;262-268) <span class="math display">\[
+W^2=\sum e_i^2 / \sigma^2 \quad \text { is } \quad \chi_{n-3}^2 .
 \]</span> For <span class="math inline">\(b_2\)</span> we get <span class="math display">\[
 \begin{aligned}
-t_{b_2} &amp; =\frac{Z}{\sqrt{W^2 /(T-3)}}=\frac{\left(b_2-\beta_2\right) / \sigma_{b_2}}{\sqrt{\sum e_t^2 / \sigma^2(T-3)}} \\
-&amp; =\frac{\left(b_2-\beta_2\right)}{(\sigma / T)\left[1 / V_2\left(1-r_{23}^2\right)\right]} \frac{1}{\sqrt{\sum e_t^2} / \sigma \sqrt{T-3}}=\frac{b_2-\beta_2}{(s / T)\left(\left(1 / V_2\right) /\left(1-r_{23}^2\right)\right)} \\
+t_{b_2} &amp; =\frac{Z}{\sqrt{W^2 /(n-3)}}=\frac{\left(b_2-\beta_2\right) / \sigma_{b_2}}{\sqrt{\sum e_i^2 / \sigma^2(n-3)}} \\
+&amp; =\frac{\left(b_2-\beta_2\right)}{(\sigma / n)\left[1 / V_2\left(1-r_{23}^2\right)\right]} \frac{1}{\sqrt{\sum e_i^2} / \sigma \sqrt{n-3}}=\frac{b_2-\beta_2}{(s / n)\left(\left(1 / V_2\right) /\left(1-r_{23}^2\right)\right)} \\
 &amp; =\frac{b_2-\beta_2}{s_{b_2}},
 \end{aligned}
-\]</span> where <span class="math inline">\(s^2=\sum e_t^2 /(T-3)\)</span>. This variable <span class="math inline">\(t_{b_2}\)</span> is distributed as Student’s <span class="math inline">\(t\)</span> with <span class="math inline">\(T-3\)</span> degrees of freedom.</p>
+\]</span> where <span class="math inline">\(s^2=\sum e_i^2 /(n-3)\)</span>. This variable <span class="math inline">\(t_{b_2}\)</span> is distributed as Student’s <span class="math inline">\(t\)</span> with <span class="math inline">\(n-3\)</span> degrees of freedom.</p>
 <p><span class="math display">\[
-t_b=|b| / s_b&gt;t_{\text {crit }(\alpha / 2, T-3)},
-\]</span> <span class="math inline">\(t_{\text {crit }(\alpha / 2, T-3)}\)</span> is the critical value for <span class="math inline">\(T-3\)</span> degrees of freedon ificance level of <span class="math inline">\(\alpha\)</span>. The significance level <span class="math inline">\(\alpha\)</span> is the size of a type I probability of rejecting the null hypothesis when it is in fact ole terms, the further <span class="math inline">\(b\)</span> is from zero (i.e., the higher <span class="math inline">\(t_b\)</span> ), the less lik <span class="math inline">\(\beta\)</span> is really zero. The general form of the hypothesis test for <span class="math inline">\(H_0\)</span> : <span class="math display">\[
+t_b=|b| / s_b&gt;t_{\text {crit }(\alpha / 2, n-3)},
+\]</span> <span class="math inline">\(t_{\text {crit }(\alpha / 2, n-3)}\)</span> is the critical value for <span class="math inline">\(n-3\)</span> degrees of freedon ificance level of <span class="math inline">\(\alpha\)</span>. The significance level <span class="math inline">\(\alpha\)</span> is the size of a type I probability of rejecting the null hypothesis when it is in fact ole terms, the further <span class="math inline">\(b\)</span> is from zero (i.e., the higher <span class="math inline">\(t_b\)</span> ), the less lik <span class="math inline">\(\beta\)</span> is really zero. The general form of the hypothesis test for <span class="math inline">\(H_0\)</span> : <span class="math display">\[
 t_b=\left|b-\beta^*\right| / s_b .
-\]</span> <span class="math inline">\(&gt;t_{\text {crit }(\alpha / 2, T-3)}\)</span>, the null hypothesis is rejected. In other words</p>
+\]</span> <span class="math inline">\(&gt;t_{\text {crit }(\alpha / 2, n-3)}\)</span>, the null hypothesis is rejected. In other words</p>
 </div>
 </div>
 </div>
@@ -978,7 +1017,7 @@ t_b=\left|b-\beta^*\right| / s_b .
 <h4 data-number="2.3.4.2" class="anchored" data-anchor-id="unabhängigkeit-der-fehler-v8."><span class="header-section-number">2.3.4.2</span> Unabhängigkeit der Fehler (V8.)</h4>
 <p>Die Unabhängigkeit der Fehler ist eigentlich nur dann ein echtes Problem, wenn die Fehler in eine Reihenfolge gebracht werden können. Das wiederum passiert eher nur bei Zeitreihen, also wenn die Werte einer Erhebung zeitlich angeordnet sind. Dafür gibt es dann allerdings die recht komplexen Zeitreihenanalysen, die eher Statistik IV im Master darstellen. Wir können uns in der R-Übung mal den Durbin-Watson-Test anschauen (zum Spass die Formel @ref(eq:DWT), wo man schon sieht, dass nicht der Index i für Fälle, sondern t durchläuft für <strong>t</strong>ime), der prüft, ob die Fehler autokorreliert sind, also hoch mit der um eine Zeiteinheit versetzten Version ihrer selbst korrelieren. Was Sie mitnehmen sollten ist, dass sie bei Erhebungen über die Zeit (Longitudinalstudien), noch prüfen müssen, ob bzw. inwieweit die Fehler miteinander korrelieren.</p>
 <span class="math display">\[\begin{align}
-  d =&amp; \frac{\sum_{t=2}^T(e_t-e_{t-1})^2}{\sum_{t=1}^T e^2_t} \label{eq:DWT}
+  d =&amp; \frac{\sum_{i=2}^n(e_i-e_{i-1})^2}{\sum_{i=1}^n e^2_i} \label{eq:DWT}
 \end{align}\]</span>
 
 
