@@ -1,10 +1,11 @@
-/.DS_Store
+**/.DS_Store
 /.Rhistory
 /.Rproj.user
 /.quarto/
-
+.DS_Store
 /.luarc.json
 search.json
 .gitignore
 Statistik_Aufbau/sftp.json
 .vscode/
+01_Wiederholung_files/.DS_Store
